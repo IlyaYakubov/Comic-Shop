@@ -1,7 +1,12 @@
+package mechanism;
+
 /**
- * class Comic
+ * Структура комикса
  */
 public class Comic {
+
+    // разделитель данных в файле, для точного определения необходимых данных
+    private static final String DELIMITER = ";";
 
     private String name;
     private String author;
@@ -31,5 +36,18 @@ public class Comic {
         this.costPrice = costPrice;
         this.sellingPrice = sellingPrice;
         this.isContinuation = isContinuation;
+    }
+
+    /**
+     * @return данные одного комикса
+     */
+    public StringBuilder getAllData() {
+        StringBuilder data = new StringBuilder();
+        data
+                .append(name).append(DELIMITER).append(author).append(DELIMITER).append(publishing).append(DELIMITER)
+                .append(numberOfPages).append(DELIMITER).append(genre).append(DELIMITER)
+                .append(yearOfPublishing).append(DELIMITER).append(costPrice).append(DELIMITER)
+                .append(sellingPrice).append(DELIMITER).append(isContinuation).append(DELIMITER).append("\n");
+        return data;
     }
 }

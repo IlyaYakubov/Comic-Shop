@@ -7,6 +7,5 @@ public class Main {
         Menu menu = new Menu();
         menu.greetingMessage();
         menu.show();
-        menu.goodBayMessage();
     }
 }

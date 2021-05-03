@@ -1,5 +1,8 @@
 package mechanism;
 
+import mechanism.basedata.BaseData;
+import mechanism.basedata.BaseDataException;
+import ui.IFunctions;
 import ui.utils.Util;
 
 import java.io.IOException;
@@ -9,13 +12,17 @@ import static mechanism.KeyboardHelper.CONSOLE_READER;
 /**
  * Магазин или склад или хранилище комиксов. Содержит основные функции
  */
-public class Store {
+public class Store implements IFunctions {
+
+    private BaseData baseData = new BaseData();
 
     /**
      * Метод позволяет добавлять комикс в магазин
+     *
      * @throws IOException сигнал о том, что произошло какое-то исключение ввода-вывода
      */
-    public void add() throws IOException {
+    @Override
+    public void addElement() throws IOException {
         showMessage("Введите название комикса: ");
         String name = CONSOLE_READER.readLine();
         showMessage("Введите ФИО художника/автора: ");
@@ -70,8 +77,19 @@ public class Store {
         Comic comic = new Comic(name, author, publishing, numberOfPages, genre,
                 yearOfPublishing, costPrice, sellingPrice, isContinuation);
 
-        BaseData baseData = new BaseData();
         baseData.saveInFileSystem(comic);
+    }
+
+    @Override
+    public void deleteElement() {
+        showMessage("Введите название комикса, который требуется удалить");
+        try {
+            String name = CONSOLE_READER.readLine();
+            baseData.deleteElement(name);
+            showMessage("Комикс удален");
+        } catch (IOException | BaseDataException e) {
+            e.printStackTrace();
+        }
     }
 
     private void showMessage(String message) {

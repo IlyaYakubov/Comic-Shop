@@ -21,5 +21,6 @@ public class Util {
      */
     public static void printMessage(StringBuilder message) {
         System.out.println(message);
+        message.delete(0, message.length() - 1);
     }
 }

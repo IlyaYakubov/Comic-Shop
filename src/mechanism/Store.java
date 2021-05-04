@@ -3,6 +3,7 @@ package mechanism;
 import mechanism.basedata.BaseData;
 import mechanism.basedata.BaseDataException;
 import ui.IFunctions;
+import ui.Menu;
 import ui.utils.Util;
 
 import java.io.IOException;
@@ -80,6 +81,9 @@ public class Store implements IFunctions {
         baseData.saveInFileSystem(comic);
     }
 
+    /**
+     * Позволяет удалить комикс
+     */
     @Override
     public void deleteElement() {
         showMessage("Введите название комикса, который требуется удалить");
@@ -92,6 +96,37 @@ public class Store implements IFunctions {
         }
     }
 
+    /**
+     * Позволяет отредактировать параметры комикса
+     */
+    @Override
+    public void editElement() {
+        showMessage("Введите название комикса, который требуется редактировать");
+        try {
+            String element = CONSOLE_READER.readLine();
+            Menu menu = new Menu();
+            menu.showEditMenu(element);
+            showMessage("---------- Готово ----------");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Позволяет отредактировать параметры комикса в базе данных (файле)
+     */
+    public void editElementInBaseData(String name, int element) {
+        try {
+            baseData.editElement(name, element);
+        } catch (BaseDataException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Сообщение пользователю
+     * @param message сообщение - строка
+     */
     private void showMessage(String message) {
         Util.printMessage(message);
     }

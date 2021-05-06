@@ -1,8 +1,6 @@
 package mechanism;
 
 import ui.IFunctions;
-import ui.Menu;
-import ui.utils.Util;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -15,16 +13,6 @@ public class Store implements IFunctions {
 
     private static final String FILE_NAME = "BaseData.txt";
     private static final File FILE_WITH_COMICS;
-
-    private static final int SERIAL_NUMBER_NAME = 1;
-    private static final int SERIAL_NUMBER_AUTHOR = 2;
-    private static final int SERIAL_NUMBER_PUBLISHING = 3;
-    private static final int SERIAL_NUMBER_NUMBER_OF_PAGES = 4;
-    private static final int SERIAL_NUMBER_GENRE = 5;
-    private static final int SERIAL_NUMBER_YEAR = 6;
-    private static final int SERIAL_NUMBER_COST_PRICE = 7;
-    private static final int SERIAL_NUMBER_SALE_PRICE = 8;
-    private static final int SERIAL_NUMBER_IS_CONTINUATION = 9;
 
     static {
         FILE_WITH_COMICS = new File(FILE_NAME);

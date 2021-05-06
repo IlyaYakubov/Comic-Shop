@@ -1,5 +1,7 @@
 package ui;
 
+import mechanism.Comic;
+
 import java.io.IOException;
 
 /**
@@ -7,9 +9,9 @@ import java.io.IOException;
  */
 public interface IFunctions {
 
-    void addElement() throws IOException;
+    void addComic(Comic comic) throws IOException;
 
-    void deleteElement();
+    void deleteComic(String nameOfComic);
 
-    void editElement();
+    void editComic(String nameOfComic, int elementOfComic, String newElement);
 }

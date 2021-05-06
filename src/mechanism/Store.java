@@ -1,21 +1,41 @@
 package mechanism;
 
-import mechanism.basedata.BaseData;
-import mechanism.basedata.BaseDataException;
 import ui.IFunctions;
 import ui.Menu;
 import ui.utils.Util;
 
-import java.io.IOException;
-
-import static mechanism.KeyboardHelper.CONSOLE_READER;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Магазин или склад или хранилище комиксов. Содержит основные функции
  */
 public class Store implements IFunctions {
 
-    private BaseData baseData = new BaseData();
+    private static final String FILE_NAME = "BaseData.txt";
+    private static final File FILE_WITH_COMICS;
+
+    private static final int SERIAL_NUMBER_NAME = 1;
+    private static final int SERIAL_NUMBER_AUTHOR = 2;
+    private static final int SERIAL_NUMBER_PUBLISHING = 3;
+    private static final int SERIAL_NUMBER_NUMBER_OF_PAGES = 4;
+    private static final int SERIAL_NUMBER_GENRE = 5;
+    private static final int SERIAL_NUMBER_YEAR = 6;
+    private static final int SERIAL_NUMBER_COST_PRICE = 7;
+    private static final int SERIAL_NUMBER_SALE_PRICE = 8;
+    private static final int SERIAL_NUMBER_IS_CONTINUATION = 9;
+
+    static {
+        FILE_WITH_COMICS = new File(FILE_NAME);
+        if (!FILE_WITH_COMICS.exists()) {
+            try {
+                FILE_WITH_COMICS.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
     /**
      * Метод позволяет добавлять комикс в магазин
@@ -23,111 +43,82 @@ public class Store implements IFunctions {
      * @throws IOException сигнал о том, что произошло какое-то исключение ввода-вывода
      */
     @Override
-    public void addElement() throws IOException {
-        showMessage("Введите название комикса: ");
-        String name = CONSOLE_READER.readLine();
-        showMessage("Введите ФИО художника/автора: ");
-        String author = CONSOLE_READER.readLine();
-        showMessage("Введите название издательства комикса: ");
-        String publishing = CONSOLE_READER.readLine();
-        showMessage("Введите количество страниц: ");
-        int numberOfPages;
-        while (true) {
-            try {
-                numberOfPages = Integer.parseInt(CONSOLE_READER.readLine());
-                break;
-            } catch (NumberFormatException e) {
-                showMessage("Вы ввели не число");
-            }
-        }
-        showMessage("Введите жанр: ");
-        String genre = CONSOLE_READER.readLine();
-        showMessage("Введите год издания: ");
-        int yearOfPublishing;
-        while (true) {
-            try {
-                yearOfPublishing = Integer.parseInt(CONSOLE_READER.readLine());
-                break;
-            } catch (NumberFormatException e) {
-                showMessage("Вы ввели не число");
-            }
-        }
-        showMessage("Введите себестоимость: ");
-        double costPrice;
-        while (true) {
-            try {
-                costPrice = Double.parseDouble(CONSOLE_READER.readLine());
-                break;
-            } catch (NumberFormatException e) {
-                showMessage("Вы ввели не число");
-            }
-        }
-        showMessage("Введите цену для продажи: ");
-        double sellingPrice;
-        while (true) {
-            try {
-                sellingPrice = Double.parseDouble(CONSOLE_READER.readLine());
-                break;
-            } catch (NumberFormatException e) {
-                showMessage("Вы ввели не число");
-            }
-        }
-        showMessage("Является ли комикс продолжением другого комикса или серии (true / false) ? ");
-        boolean isContinuation = Boolean.parseBoolean(CONSOLE_READER.readLine());
-
-        Comic comic = new Comic(name, author, publishing, numberOfPages, genre,
-                yearOfPublishing, costPrice, sellingPrice, isContinuation);
-
-        baseData.saveInFileSystem(comic);
-    }
-
-    /**
-     * Позволяет удалить комикс
-     */
-    @Override
-    public void deleteElement() {
-        showMessage("Введите название комикса, который требуется удалить");
-        try {
-            String name = CONSOLE_READER.readLine();
-            baseData.deleteElement(name);
-            showMessage("Комикс удален");
-        } catch (IOException | BaseDataException e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
-     * Позволяет отредактировать параметры комикса
-     */
-    @Override
-    public void editElement() {
-        showMessage("Введите название комикса, который требуется редактировать");
-        try {
-            String element = CONSOLE_READER.readLine();
-            Menu menu = new Menu();
-            menu.showEditMenu(element);
-            showMessage("---------- Готово ----------");
+    public void addComic(Comic comic) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_COMICS, true))) {
+            writer.write(comic.getAllData().toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Позволяет отредактировать параметры комикса в базе данных (файле)
+     * Метод позволяет удалить комикс из магазина
      */
-    public void editElementInBaseData(String name, int element) {
-        try {
-            baseData.editElement(name, element);
-        } catch (BaseDataException e) {
+    @Override
+    public void deleteComic(String nameOfComic) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_WITH_COMICS))) {
+            String line;
+            List<String> list = new ArrayList<>();
+            while ((line = reader.readLine()) != null) {
+                String[] arrayOfValues = line.split(";");
+                if (arrayOfValues[0].equals(nameOfComic)) {
+                    continue;
+                }
+                list.add(line);
+            }
+
+            writeComicsElements(list);
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Сообщение пользователю
-     * @param message сообщение - строка
+     * Метод позволяет отредактировать элементы комикса в магазине
      */
-    private void showMessage(String message) {
-        Util.printMessage(message);
+    @Override
+    public void editComic(String nameOfComic, int elementOfComic, String newElement) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_WITH_COMICS))) {
+            String elements;
+            List<String> listOfElements = new ArrayList<>();
+            while ((elements = reader.readLine()) != null) {
+                String[] arrayOfElementsOfComic = elements.split(";");
+                boolean wasEditing = false;
+                // для поиска комикса, который будет отредактирован
+                if (arrayOfElementsOfComic[0].equals(nameOfComic)) {
+                    for (int i = 0; i < arrayOfElementsOfComic.length; i++) {
+                        String element = arrayOfElementsOfComic[i];
+                        if (i == elementOfComic - 1) {
+                            elements += newElement + ";";
+                            wasEditing = true;
+                        } else {
+                            elements += element + ";";
+                        }
+                    }
+                }
+                if (wasEditing) {
+                    String[] arrayOfElements = elements.split(";");
+                    elements = "";
+                    for (int i = 9; i < arrayOfElements.length; i++) {
+                        elements += arrayOfElements[i] + ";";
+                    }
+                }
+                listOfElements.add(elements);
+            }
+
+            writeComicsElements(listOfElements);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void writeComicsElements(List<String> listOfElements) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_COMICS, false))) {
+            for (String element : listOfElements) {
+                writer.write(element + "\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

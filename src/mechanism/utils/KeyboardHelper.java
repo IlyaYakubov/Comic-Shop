@@ -1,4 +1,4 @@
-package mechanism;
+package mechanism.utils;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

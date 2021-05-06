@@ -20,7 +20,7 @@ public class Util {
      * @param message собранная строка типа StringBuilder для вывода в консоль
      */
     public static void printMessage(StringBuilder message) {
-        System.out.println(message);
+        System.out.print(message);
         message.delete(0, message.length() - 1);
     }
 }

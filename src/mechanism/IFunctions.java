@@ -1,6 +1,4 @@
-package ui;
-
-import mechanism.Comic;
+package mechanism;
 
 import java.io.IOException;
 
@@ -14,4 +12,6 @@ public interface IFunctions {
     void deleteComic(String nameOfComic);
 
     void editComic(String nameOfComic, int elementOfComic, String newElement);
+
+    void sellComic(String nameOfComic, int numberOfComics);
 }

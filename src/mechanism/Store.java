@@ -1,8 +1,7 @@
 package mechanism;
 
-import ui.IFunctions;
-
 import java.io.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,6 +99,66 @@ public class Store implements IFunctions {
         }
     }
 
+    /**
+     * Метод позволяет продать комикс в магазине
+     */
+    @Override
+    public void sellComic(String nameOfComic, int numberOfComics) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_WITH_COMICS))) {
+            String line;
+            List<String> list = new ArrayList<>();
+            while ((line = reader.readLine()) != null) {
+                String[] arrayOfValues = line.split(";");
+                if (arrayOfValues[0].equals(nameOfComic) && numberOfComics > 0) {
+                    numberOfComics--;
+                    continue;
+                }
+                list.add(line);
+            }
+
+            writeComicsElements(list);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String line = LocalDate.now() + ";" + nameOfComic + ";";
+
+        File sales = new File("Sales.txt");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(sales, true))) {
+            writer.write(line + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Поиск комикса
+     *
+     * @param nameOfComic наименование комикса
+     * @return количество найденных комиксов
+     */
+    public int findComics(String nameOfComic) {
+        int numberOfComics = 0;
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_WITH_COMICS))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] arrayOfValues = line.split(";");
+                if (arrayOfValues[0].equals(nameOfComic)) {
+                    numberOfComics++;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return numberOfComics;
+    }
+
+    /**
+     * Запись элементов комикса в строку
+     *
+     * @param listOfElements список данных комикса
+     */
     private void writeComicsElements(List<String> listOfElements) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_COMICS, false))) {
             for (String element : listOfElements) {

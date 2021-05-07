@@ -130,6 +130,16 @@ public class Menu {
                     String element = getElementFromUser();
                     showEditMenu(element);
                 }
+                case "4" -> {
+                    showMessage("Введите название комикса, который требуется продать");
+                    String element = getElementFromUser();
+                    int quantityForSale = STORE.findComics(element);
+                    if (quantityForSale > 0) {
+                        showQuantityInputMenu(element, quantityForSale);
+                    } else {
+                        showMessage("Не найден комикс для продажи");
+                    }
+                }
                 case "0" -> exitProgram();
             }
         } catch (IOException e) {
@@ -140,8 +150,10 @@ public class Menu {
 
     /**
      * Отображает пункты меню редактирования и просит пользователя ввести пункт меню
+     *
+     * @param nameOfComic наименование комикса
      */
-    public void showEditMenu(String name) {
+    private void showEditMenu(String nameOfComic) {
         TEXT.append("любой символ - отмена\n").append("1 - название\n").append("2 - автор\n")
                 .append("3 - издательство\n").append("4 - количество страниц\n")
                 .append("5 - жанр\n").append("6 - год публикации\n")
@@ -150,57 +162,89 @@ public class Menu {
 
         Util.printMessage(TEXT);
 
-        enteringEditMenuItem(name);
+        enteringEditMenuItem(nameOfComic);
     }
 
     /**
-     * В зависимости от выбранного элемнта редактирования передается нужный аргумент
+     * В зависимости от выбранного элемента редактирования передается нужный аргумент
      *
-     * @param name имя редактируемого комикса
+     * @param nameOfComic имя редактируемого комикса
      */
-    private void enteringEditMenuItem(String name) {
+    private void enteringEditMenuItem(String nameOfComic) {
         try {
             String userOption = CONSOLE_READER.readLine();
             switch (userOption) {
                 case "1" -> {
                     showMessage("Введите новое имя");
-                    STORE.editComic(name, SERIAL_NUMBER_NAME, CONSOLE_READER.readLine());
+                    STORE.editComic(nameOfComic, SERIAL_NUMBER_NAME, CONSOLE_READER.readLine());
                 }
                 case "2" -> {
                     showMessage("Введите ФИО нового автора");
-                    STORE.editComic(name, SERIAL_NUMBER_AUTHOR, CONSOLE_READER.readLine());
+                    STORE.editComic(nameOfComic, SERIAL_NUMBER_AUTHOR, CONSOLE_READER.readLine());
                 }
                 case "3" -> {
                     showMessage("Введите новое название издания");
-                    STORE.editComic(name, SERIAL_NUMBER_PUBLISHING, CONSOLE_READER.readLine());
+                    STORE.editComic(nameOfComic, SERIAL_NUMBER_PUBLISHING, CONSOLE_READER.readLine());
                 }
                 case "4" -> {
                     showMessage("Введите новое количество страниц");
-                    STORE.editComic(name, SERIAL_NUMBER_NUMBER_OF_PAGES, CONSOLE_READER.readLine());
+                    STORE.editComic(nameOfComic, SERIAL_NUMBER_NUMBER_OF_PAGES, CONSOLE_READER.readLine());
                 }
                 case "5" -> {
                     showMessage("Введите название нового жанра");
-                    STORE.editComic(name, SERIAL_NUMBER_GENRE, CONSOLE_READER.readLine());
+                    STORE.editComic(nameOfComic, SERIAL_NUMBER_GENRE, CONSOLE_READER.readLine());
                 }
                 case "6" -> {
                     showMessage("Введите новый год выпуска");
-                    STORE.editComic(name, SERIAL_NUMBER_YEAR, CONSOLE_READER.readLine());
+                    STORE.editComic(nameOfComic, SERIAL_NUMBER_YEAR, CONSOLE_READER.readLine());
                 }
                 case "7" -> {
                     showMessage("Введите новую себестоимость");
-                    STORE.editComic(name, SERIAL_NUMBER_COST_PRICE, CONSOLE_READER.readLine());
+                    STORE.editComic(nameOfComic, SERIAL_NUMBER_COST_PRICE, CONSOLE_READER.readLine());
                 }
                 case "8" -> {
                     showMessage("Введите новую цену продажи");
-                    STORE.editComic(name, SERIAL_NUMBER_SALE_PRICE, CONSOLE_READER.readLine());
+                    STORE.editComic(nameOfComic, SERIAL_NUMBER_SALE_PRICE, CONSOLE_READER.readLine());
                 }
                 case "9" -> {
                     showMessage("Введите \"true\" если комикс всё же является продолжением");
-                    STORE.editComic(name, SERIAL_NUMBER_IS_CONTINUATION, CONSOLE_READER.readLine());
+                    STORE.editComic(nameOfComic, SERIAL_NUMBER_IS_CONTINUATION, CONSOLE_READER.readLine());
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    /**
+     * Отображение сообщения о вводе количества
+     *
+     * @param nameOfComic наименование комикса
+     * @param quantityForSale количество, которое есть в магазине
+     */
+    private void showQuantityInputMenu(String nameOfComic, int quantityForSale) {
+        showMessage("Введите количество на продажу");
+        enteringQuantityInputMenu(nameOfComic, quantityForSale);
+    }
+
+    /**
+     * Отображение ввода количества комикса
+     *
+     * @param nameOfComic наименование комикса
+     * @param quantityForSale количество, которое есть в магазине
+     */
+    private void enteringQuantityInputMenu(String nameOfComic, int quantityForSale) {
+        try {
+            int userWantQuantity = Integer.parseInt(CONSOLE_READER.readLine());
+            if (userWantQuantity < quantityForSale) {
+                STORE.sellComic(nameOfComic, userWantQuantity);
+            } else {
+                showMessage("Столько нет в магазине");
+                showQuantityInputMenu(nameOfComic, quantityForSale);
+            }
+        } catch (IOException | NumberFormatException e) {
+            e.printStackTrace();
+            enteringQuantityInputMenu(nameOfComic, quantityForSale);
         }
     }
 

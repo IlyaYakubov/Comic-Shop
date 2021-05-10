@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class Store implements IFunctions {
 
-    private static final String FILE_NAME = "BaseData.txt";
+    private static final String FILE_NAME = "Comics.txt";
     private static final File FILE_WITH_COMICS;
 
     static {

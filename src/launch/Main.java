@@ -1,11 +1,12 @@
 package launch;
 
 import ui.Menu;
+import ui.utils.Util;
 
 public class Main {
     public static void main(String[] args) {
         Menu menu = new Menu();
-        menu.showMessage("---------- Вас приветствует программа \"Магазин комиксов\" ----------");
+        Util.printMessage("---------- Вас приветствует программа \"Магазин комиксов\" ----------");
         menu.showMainFunctions();
     }
 }

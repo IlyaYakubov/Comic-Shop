@@ -1,12 +1,6 @@
 package mechanism;
 
-/**
- * Структура комикса
- */
 public class Comic {
-
-    // разделитель данных в файле, для точного определения необходимых данных
-    private static final String DELIMITER = ";";
 
     private String name;
     private String author;
@@ -38,16 +32,39 @@ public class Comic {
         this.isContinuation = isContinuation;
     }
 
-    /**
-     * @return данные одного комикса
-     */
-    public StringBuilder getAllData() {
-        StringBuilder data = new StringBuilder();
-        data
-                .append(name).append(DELIMITER).append(author).append(DELIMITER).append(publishing).append(DELIMITER)
-                .append(numberOfPages).append(DELIMITER).append(genre).append(DELIMITER)
-                .append(yearOfPublishing).append(DELIMITER).append(costPrice).append(DELIMITER)
-                .append(sellingPrice).append(DELIMITER).append(isContinuation).append(DELIMITER).append("\n");
-        return data;
+    public String getName() {
+        return name;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public String getPublishing() {
+        return publishing;
+    }
+
+    public int getNumberOfPages() {
+        return numberOfPages;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public int getYearOfPublishing() {
+        return yearOfPublishing;
+    }
+
+    public double getCostPrice() {
+        return costPrice;
+    }
+
+    public double getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public boolean isContinuation() {
+        return isContinuation;
     }
 }

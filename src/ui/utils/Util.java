@@ -3,7 +3,7 @@ package ui.utils;
 /**
  * Вспомогательные методы для работы с консолью
  */
-public class Util {
+public final class Util {
 
     /**
      * Класс содержит только статические методы

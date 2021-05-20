@@ -1,20 +1,24 @@
 package ui;
 
 import mechanism.Comic;
+import mechanism.DataBase;
 import mechanism.Store;
+import mechanism.WorkWithComic;
 import ui.utils.Util;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-
-import static mechanism.utils.KeyboardHelper.CONSOLE_READER;
+import java.io.InputStreamReader;
 
 /**
  * Класс взаимодействия пользователя с программой
  */
 public class Menu {
 
+    private static final BufferedReader CONSOLE_READER = new BufferedReader(new InputStreamReader(System.in));
     private static final StringBuilder TEXT = new StringBuilder();
-    private static final Store STORE = new Store();
+
+    private DataBase dataBase = new DataBase();
 
     private static final int SERIAL_NUMBER_NAME = 1;
     private static final int SERIAL_NUMBER_AUTHOR = 2;
@@ -57,6 +61,7 @@ public class Menu {
     private void enteringMenuItem() {
         try {
             String userOption = CONSOLE_READER.readLine();
+            WorkWithComic workWithComic = new WorkWithComic();
             switch (userOption) {
                 case "1" -> {
                     Util.printMessage("Введите название комикса: ");
@@ -110,13 +115,13 @@ public class Menu {
                     Util.printMessage("Является ли комикс продолжением другого комикса или серии (true / false) ? ");
                     boolean isContinuation = Boolean.parseBoolean(CONSOLE_READER.readLine());
 
-                    STORE.addComic(new Comic(name, author, publishing, numberOfPages, genre,
+                    workWithComic.addComic(new Comic(name, author, publishing, numberOfPages, genre,
                             yearOfPublishing, costPrice, sellingPrice, isContinuation));
                 }
                 case "2" -> {
                     Util.printMessage("Введите название комикса, который требуется удалить");
                     String element = getElementFromUser();
-                    STORE.deleteComic(element);
+                    workWithComic.deleteComic(element);
                 }
                 case "3" -> {
                     Util.printMessage("Введите название комикса, который требуется редактировать");
@@ -126,7 +131,7 @@ public class Menu {
                 case "4" -> {
                     Util.printMessage("Введите название комикса, который требуется продать");
                     String element = getElementFromUser();
-                    int quantityForSale = STORE.findComics(element);
+                    int quantityForSale = dataBase.findComics(element);
                     if (quantityForSale > 0) {
                         showQuantityInputMenu(element, quantityForSale);
                     } else {
@@ -136,12 +141,12 @@ public class Menu {
                 case "5" -> {
                     Util.printMessage("Введите название комикса, который требуется списать");
                     String element = getElementFromUser();
-                    STORE.deleteComic(element);
+                    workWithComic.deleteComic(element);
                 }
                 case "6" -> {
                     Util.printMessage("Введите название комикса, который требуется отложить");
                     String element = getElementFromUser();
-                    STORE.deleteComic(element);
+                    workWithComic.deleteComic(element);
                 }
                 case "0" -> exitProgram();
             }
@@ -176,42 +181,43 @@ public class Menu {
     private void enteringEditMenuItem(String nameOfComic) {
         try {
             String userOption = CONSOLE_READER.readLine();
+            WorkWithComic workWithComic = new WorkWithComic();
             switch (userOption) {
                 case "1" -> {
                     Util.printMessage("Введите новое имя");
-                    STORE.editComic(nameOfComic, SERIAL_NUMBER_NAME, CONSOLE_READER.readLine());
+                    workWithComic.editComic(nameOfComic, SERIAL_NUMBER_NAME, CONSOLE_READER.readLine());
                 }
                 case "2" -> {
                     Util.printMessage("Введите ФИО нового автора");
-                    STORE.editComic(nameOfComic, SERIAL_NUMBER_AUTHOR, CONSOLE_READER.readLine());
+                    workWithComic.editComic(nameOfComic, SERIAL_NUMBER_AUTHOR, CONSOLE_READER.readLine());
                 }
                 case "3" -> {
                     Util.printMessage("Введите новое название издания");
-                    STORE.editComic(nameOfComic, SERIAL_NUMBER_PUBLISHING, CONSOLE_READER.readLine());
+                    workWithComic.editComic(nameOfComic, SERIAL_NUMBER_PUBLISHING, CONSOLE_READER.readLine());
                 }
                 case "4" -> {
                     Util.printMessage("Введите новое количество страниц");
-                    STORE.editComic(nameOfComic, SERIAL_NUMBER_NUMBER_OF_PAGES, CONSOLE_READER.readLine());
+                    workWithComic.editComic(nameOfComic, SERIAL_NUMBER_NUMBER_OF_PAGES, CONSOLE_READER.readLine());
                 }
                 case "5" -> {
                     Util.printMessage("Введите название нового жанра");
-                    STORE.editComic(nameOfComic, SERIAL_NUMBER_GENRE, CONSOLE_READER.readLine());
+                    workWithComic.editComic(nameOfComic, SERIAL_NUMBER_GENRE, CONSOLE_READER.readLine());
                 }
                 case "6" -> {
                     Util.printMessage("Введите новый год выпуска");
-                    STORE.editComic(nameOfComic, SERIAL_NUMBER_YEAR, CONSOLE_READER.readLine());
+                    workWithComic.editComic(nameOfComic, SERIAL_NUMBER_YEAR, CONSOLE_READER.readLine());
                 }
                 case "7" -> {
                     Util.printMessage("Введите новую себестоимость");
-                    STORE.editComic(nameOfComic, SERIAL_NUMBER_COST_PRICE, CONSOLE_READER.readLine());
+                    workWithComic.editComic(nameOfComic, SERIAL_NUMBER_COST_PRICE, CONSOLE_READER.readLine());
                 }
                 case "8" -> {
                     Util.printMessage("Введите новую цену продажи");
-                    STORE.editComic(nameOfComic, SERIAL_NUMBER_SALE_PRICE, CONSOLE_READER.readLine());
+                    workWithComic.editComic(nameOfComic, SERIAL_NUMBER_SALE_PRICE, CONSOLE_READER.readLine());
                 }
                 case "9" -> {
                     Util.printMessage("Введите \"true\" если комикс всё же является продолжением");
-                    STORE.editComic(nameOfComic, SERIAL_NUMBER_IS_CONTINUATION, CONSOLE_READER.readLine());
+                    workWithComic.editComic(nameOfComic, SERIAL_NUMBER_IS_CONTINUATION, CONSOLE_READER.readLine());
                 }
             }
         } catch (IOException e) {
@@ -240,7 +246,8 @@ public class Menu {
         try {
             int userWantQuantity = Integer.parseInt(CONSOLE_READER.readLine());
             if (userWantQuantity < quantityForSale) {
-                STORE.sellComic(nameOfComic, userWantQuantity);
+                Store store = new Store();
+                store.sellComic(nameOfComic, userWantQuantity);
             } else {
                 Util.printMessage("Столько нет в магазине");
                 showQuantityInputMenu(nameOfComic, quantityForSale);

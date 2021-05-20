@@ -2,7 +2,6 @@ package ui;
 
 import mechanism.Comic;
 import mechanism.DataBase;
-import mechanism.Store;
 import mechanism.WorkWithComic;
 import ui.utils.Util;
 
@@ -17,8 +16,6 @@ public class Menu {
 
     private static final BufferedReader CONSOLE_READER = new BufferedReader(new InputStreamReader(System.in));
     private static final StringBuilder TEXT = new StringBuilder();
-
-    private DataBase dataBase = new DataBase();
 
     private static final int SERIAL_NUMBER_NAME = 1;
     private static final int SERIAL_NUMBER_AUTHOR = 2;
@@ -128,16 +125,6 @@ public class Menu {
                     String element = getElementFromUser();
                     showEditMenu(element);
                 }
-                case "4" -> {
-                    Util.printMessage("Введите название комикса, который требуется продать");
-                    String element = getElementFromUser();
-                    int quantityForSale = dataBase.findComics(element);
-                    if (quantityForSale > 0) {
-                        showQuantityInputMenu(element, quantityForSale);
-                    } else {
-                        Util.printMessage("Не найден комикс для продажи");
-                    }
-                }
                 case "5" -> {
                     Util.printMessage("Введите название комикса, который требуется списать");
                     String element = getElementFromUser();
@@ -222,39 +209,6 @@ public class Menu {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    /**
-     * Отображение сообщения о вводе количества
-     *
-     * @param nameOfComic наименование комикса
-     * @param quantityForSale количество, которое есть в магазине
-     */
-    private void showQuantityInputMenu(String nameOfComic, int quantityForSale) {
-        Util.printMessage("Введите количество на продажу");
-        enteringQuantityInputMenu(nameOfComic, quantityForSale);
-    }
-
-    /**
-     * Отображение ввода количества комикса
-     *
-     * @param nameOfComic наименование комикса
-     * @param quantityForSale количество, которое есть в магазине
-     */
-    private void enteringQuantityInputMenu(String nameOfComic, int quantityForSale) {
-        try {
-            int userWantQuantity = Integer.parseInt(CONSOLE_READER.readLine());
-            if (userWantQuantity < quantityForSale) {
-                Store store = new Store();
-                store.sellComic(nameOfComic, userWantQuantity);
-            } else {
-                Util.printMessage("Столько нет в магазине");
-                showQuantityInputMenu(nameOfComic, quantityForSale);
-            }
-        } catch (IOException | NumberFormatException e) {
-            e.printStackTrace();
-            enteringQuantityInputMenu(nameOfComic, quantityForSale);
         }
     }
 

@@ -1,5 +1,8 @@
 package mechanism;
 
+/**
+ * Модель комикса
+ */
 public class Comic {
 
     private String name;

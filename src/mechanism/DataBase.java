@@ -5,10 +5,12 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Парсер файлов с данными
+ */
 public class DataBase {
 
     private static final String FILE_NAME_COMICS = "Comics.txt";
-    private static final String FILE_NAME_SALES = "Sales.txt";
     private static final File FILE_WITH_COMICS;
     private static final String DELIMITER = ";";
 
@@ -23,6 +25,11 @@ public class DataBase {
         }
     }
 
+    /**
+     * Добавление
+     * @param comic комикс
+     * @throws IOException исключение ввода/вывода
+     */
     public void add(Comic comic) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_COMICS, true))) {
             writer.write(formComicFromElements(comic).toString());
@@ -31,6 +38,10 @@ public class DataBase {
         }
     }
 
+    /**
+     * Удаление
+     * @param nameOfComic наименование комикса
+     */
     public void delete(String nameOfComic) {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_WITH_COMICS))) {
             String line;
@@ -49,6 +60,12 @@ public class DataBase {
         }
     }
 
+    /**
+     * Редакитирование
+     * @param nameOfComic наименование комикса
+     * @param elementOfComic элемент комикса
+     * @param newElement отредактированный элемент
+     */
     public void edit(String nameOfComic, int elementOfComic, String newElement) {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_WITH_COMICS))) {
             String elements;
@@ -83,34 +100,6 @@ public class DataBase {
         }
     }
 
-    public void sellComic(String nameOfComic, int numberOfComics) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_WITH_COMICS))) {
-            String line;
-            List<String> list = new ArrayList<>();
-            while ((line = reader.readLine()) != null) {
-                String[] arrayOfValues = line.split(DELIMITER);
-                if (arrayOfValues[0].equals(nameOfComic) && numberOfComics > 0) {
-                    numberOfComics--;
-                    continue;
-                }
-                list.add(line);
-            }
-
-            writeComicsElements(list);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        String line = LocalDate.now() + DELIMITER + nameOfComic + DELIMITER;
-
-        File sales = new File(FILE_NAME_SALES);
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(sales, true))) {
-            writer.write(line + "\n");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private StringBuilder formComicFromElements(Comic comic) {
         StringBuilder data = new StringBuilder();
         data
@@ -134,22 +123,5 @@ public class DataBase {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public int findComics(String nameOfComic) {
-        int numberOfComics = 0;
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_WITH_COMICS))) {
-            String line;
-            while ((line = reader.readLine()) != null) {
-                String[] arrayOfValues = line.split(DELIMITER);
-                if (arrayOfValues[0].equals(nameOfComic)) {
-                    numberOfComics++;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return numberOfComics;
     }
 }

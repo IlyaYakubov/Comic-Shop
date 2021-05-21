@@ -1,7 +1,6 @@
 package ui;
 
 import mechanism.Comic;
-import mechanism.DataBase;
 import mechanism.WorkWithComic;
 import ui.utils.Util;
 

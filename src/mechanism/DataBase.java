@@ -29,9 +29,8 @@ public class DataBase {
     /**
      * Добавление
      * @param comic комикс
-     * @throws IOException исключение ввода/вывода
      */
-    public void add(Comic comic) throws IOException {
+    public void add(Comic comic) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_COMICS, true))) {
             writer.write(formComicFromElements(comic).toString());
         } catch (IOException e) {

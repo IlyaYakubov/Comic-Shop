@@ -33,9 +33,6 @@ public class Menu {
         TEXT.append("1 - добавить комикс\n");
         TEXT.append("2 - удалить комикс\n");
         TEXT.append("3 - редактировать данные комикса\n");
-        TEXT.append("4 - продать комикс\n");
-        TEXT.append("5 - списание комикса\n");
-        TEXT.append("6 - отложить комикс\n");
         TEXT.append("0 - выход из приложения\n");
 
         Util.printMessage(TEXT);
@@ -123,16 +120,6 @@ public class Menu {
                     Util.printMessage("Введите название комикса, который требуется редактировать");
                     String element = getElementFromUser();
                     showEditMenu(element);
-                }
-                case "5" -> {
-                    Util.printMessage("Введите название комикса, который требуется списать");
-                    String element = getElementFromUser();
-                    workWithComic.deleteComic(element);
-                }
-                case "6" -> {
-                    Util.printMessage("Введите название комикса, который требуется отложить");
-                    String element = getElementFromUser();
-                    workWithComic.deleteComic(element);
                 }
                 case "0" -> exitProgram();
             }

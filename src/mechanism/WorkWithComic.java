@@ -1,5 +1,7 @@
 package mechanism;
 
+import models.Comic;
+
 import java.io.*;
 
 public class WorkWithComic {

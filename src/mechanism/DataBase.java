@@ -1,5 +1,7 @@
 package mechanism;
 
+import models.Comic;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -103,13 +105,11 @@ public class DataBase {
         StringBuilder data = new StringBuilder();
         data
                 .append(comic.getName()).append(DELIMITER)
-                .append(comic.getAuthor()).append(DELIMITER)
-                .append(comic.getPublishing()).append(DELIMITER)
+                .append(comic.getAuthor().getName()).append(DELIMITER)
+                .append(comic.getPublishing().getName()).append(DELIMITER)
                 .append(comic.getNumberOfPages()).append(DELIMITER)
-                .append(comic.getGenre()).append(DELIMITER)
+                .append(comic.getGenre().getName()).append(DELIMITER)
                 .append(comic.getYearOfPublishing()).append(DELIMITER)
-                .append(comic.getCostPrice()).append(DELIMITER)
-                .append(comic.getSellingPrice()).append(DELIMITER)
                 .append(comic.isContinuation()).append(DELIMITER).append("\n");
         return data;
     }

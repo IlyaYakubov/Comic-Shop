@@ -1,6 +1,6 @@
 package ui;
 
-import mechanism.Comic;
+import models.Comic;
 import mechanism.WorkWithComic;
 import ui.utils.Util;
 

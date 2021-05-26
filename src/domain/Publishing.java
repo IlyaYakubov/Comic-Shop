@@ -1,13 +1,13 @@
-package models;
+package domain;
 
 /**
- * Художник комикса
+ * Издатель
  */
-public class Author {
+public class Publishing {
 
     private String name;
 
-    public Author(String name) {
+    public Publishing(String name) {
         this.name = name;
     }
 

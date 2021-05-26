@@ -1,6 +1,7 @@
-package mechanism;
+package services;
 
-import models.Comic;
+import dao.DataBase;
+import domain.Comic;
 
 import java.io.*;
 

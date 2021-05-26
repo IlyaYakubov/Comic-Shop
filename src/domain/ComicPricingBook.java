@@ -1,4 +1,4 @@
-package models;
+package domain;
 
 /**
  * Книга покупок и продаж

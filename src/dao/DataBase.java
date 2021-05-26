@@ -1,6 +1,6 @@
-package mechanism;
+package dao;
 
-import models.Comic;
+import domain.Comic;
 
 import java.io.*;
 import java.util.ArrayList;

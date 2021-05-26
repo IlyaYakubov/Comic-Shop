@@ -1,7 +1,7 @@
 package ui;
 
-import models.Comic;
-import mechanism.WorkWithComic;
+import domain.Comic;
+import services.WorkWithComic;
 import ui.utils.Util;
 
 import java.io.BufferedReader;

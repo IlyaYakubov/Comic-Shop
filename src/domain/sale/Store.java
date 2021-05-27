@@ -1,19 +1,17 @@
 package domain.sale;
 
-import domain.Comic;
-
-import java.util.HashMap;
-import java.util.List;
-
 /**
  * Магазин
  */
 public class Store {
 
-    private HashMap<Customer, Cart> customersWithCarts;
+    private Cart cart;
 
-    public void makePurchase(List<Comic> comics, int quantity) {
-        Cart cart = new Cart();
-        cart.addComic(comics, quantity);
+    public Store(Cart cart) {
+        this.cart = cart;
+    }
+
+    public void makePurchase() {
+        cart.extractComics();
     }
 }

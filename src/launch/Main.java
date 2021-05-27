@@ -1,6 +1,6 @@
 package launch;
 
-import ui.Menu;
+import ui.MainUI;
 import ui.utils.Util;
 
 /**
@@ -8,8 +8,8 @@ import ui.utils.Util;
  */
 public class Main {
     public static void main(String[] args) {
-        Menu menu = new Menu();
+        MainUI mainUI = new MainUI();
         Util.printMessage("---------- Вас приветствует программа \"Магазин комиксов\" ----------");
-        menu.showMainFunctions();
+        mainUI.showMainFunctions();
     }
 }

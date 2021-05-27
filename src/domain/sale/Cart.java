@@ -2,6 +2,7 @@ package domain.sale;
 
 import domain.Comic;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,10 +10,17 @@ import java.util.List;
  */
 public class Cart {
 
-    private List<PurchaseItem> purchasedComics;
+    private List<Comic> purchasedComics = new ArrayList<>();
 
-    public void addComic(List<Comic> comics, int quantity) {
-        PurchaseItem purchaseItem = new PurchaseItem();
-        purchasedComics.add(purchaseItem);
+    public void addComic(Comic comic) {
+        purchasedComics.add(comic);
+    }
+
+    public boolean isEmpty() {
+        return purchasedComics.isEmpty();
+    }
+
+    public void extractComics() {
+        purchasedComics.clear();
     }
 }

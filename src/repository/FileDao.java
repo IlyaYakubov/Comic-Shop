@@ -1,15 +1,19 @@
-package dao;
+package repository;
 
+import domain.Author;
 import domain.Comic;
+import domain.Genre;
+import domain.Publishing;
 
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Парсер файлов с данными
+ * Работа с файлом
  */
-public class DataBase {
+public class FileDao {
 
     private static final String FILE_NAME_COMICS = "Comics.txt";
     private static final File FILE_WITH_COMICS;
@@ -28,6 +32,7 @@ public class DataBase {
 
     /**
      * Добавление
+     *
      * @param comic комикс
      */
     public void add(Comic comic) {
@@ -40,6 +45,7 @@ public class DataBase {
 
     /**
      * Удаление
+     *
      * @param nameOfComic наименование комикса
      */
     public void delete(String nameOfComic) {
@@ -62,9 +68,10 @@ public class DataBase {
 
     /**
      * Редакитирование
-     * @param nameOfComic наименование комикса
+     *
+     * @param nameOfComic    наименование комикса
      * @param elementOfComic элемент комикса
-     * @param newElement отредактированный элемент
+     * @param newElement     отредактированный элемент
      */
     public void edit(String nameOfComic, int elementOfComic, String newElement) {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_WITH_COMICS))) {
@@ -98,6 +105,29 @@ public class DataBase {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Запрос, возвращающий все комиксы из файла
+     * @return список комиксов, как объектов
+     */
+    public List<Comic> getAllComics() {
+        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_WITH_COMICS))) {
+            List<Comic> comics = new ArrayList<>();
+            List<String> comicsWithElements = reader.lines().collect(Collectors.toList());
+            for (String comic : comicsWithElements) {
+                String[] elementsOfComic = comic.split(DELIMITER);
+                comics.add(new Comic(elementsOfComic[0], new Author(elementsOfComic[1])
+                        , new Publishing(elementsOfComic[2]), Integer.parseInt(elementsOfComic[3])
+                        , new Genre(elementsOfComic[4]), Integer.parseInt(elementsOfComic[5])
+                        , Double.parseDouble(elementsOfComic[6]), Double.parseDouble(elementsOfComic[7])
+                        , Boolean.parseBoolean(elementsOfComic[8])));
+            }
+            return comics;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 
     private StringBuilder formComicFromElements(Comic comic) {

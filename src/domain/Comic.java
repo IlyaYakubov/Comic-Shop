@@ -16,10 +16,10 @@ public class Comic {
     private ComicPricingBook comicPricingBook;
 
     public Comic(String name,
-                 String author,
-                 String publishing,
+                 Author author,
+                 Publishing publishing,
                  int numberOfPages,
-                 String genre,
+                 Genre genre,
                  int yearOfPublishing,
                  double costPrice,
                  double sellingPrice,
@@ -28,10 +28,9 @@ public class Comic {
         this.numberOfPages = numberOfPages;
         this.yearOfPublishing = yearOfPublishing;
         this.isContinuation = isContinuation;
-
-        this.author = new Author(author);
-        this.publishing = new Publishing(publishing);
-        this.genre = new Genre(genre);
+        this.author = author;
+        this.publishing = publishing;
+        this.genre = genre;
         this.comicPricingBook = new ComicPricingBook(costPrice, sellingPrice);
     }
 

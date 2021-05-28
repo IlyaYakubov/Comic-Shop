@@ -26,21 +26,21 @@ public class ComicService {
      *
      * @param comic комикс
      */
-    public void addComic(Comic comic) {
+    public void addComic(String[] comic) {
         fileDao.saveToFile(formComicFromElements(comic).toString());
     }
 
     /**
      * Удаление комикса
+     * Если в файле есть комиксы, то при совпадении имени комикс не перезаписывается по новой
+     * (т.к. файл предварительно удаляется)
      *
      * @param nameOfComic название комикса
      */
     public void deleteComic(String nameOfComic) {
         List<String> comicsList = fileDao.readFromFile();
-
-        fileDao.deleteFile();
-
         if (comicsList.size() > 0) {
+            fileDao.deleteFile();
             for (String comic : comicsList) {
                 String[] arrayOfElements = comic.split(DELIMITER);
                 if (arrayOfElements[0].equals(nameOfComic)) {
@@ -103,16 +103,18 @@ public class ComicService {
         }
     }
 
-    private StringBuilder formComicFromElements(Comic comic) {
+    private StringBuilder formComicFromElements(String[] comic) {
         StringBuilder data = new StringBuilder();
         data
-                .append(comic.getName()).append(DELIMITER)
-                .append(comic.getAuthor().getName()).append(DELIMITER)
-                .append(comic.getPublishing().getName()).append(DELIMITER)
-                .append(comic.getNumberOfPages()).append(DELIMITER)
-                .append(comic.getGenre().getName()).append(DELIMITER)
-                .append(comic.getYearOfPublishing()).append(DELIMITER)
-                .append(comic.isContinuation()).append(DELIMITER).append("\n");
+                .append(comic[0]).append(DELIMITER)
+                .append(comic[1]).append(DELIMITER)
+                .append(comic[2]).append(DELIMITER)
+                .append(comic[3]).append(DELIMITER)
+                .append(comic[4]).append(DELIMITER)
+                .append(comic[5]).append(DELIMITER)
+                .append(comic[6]).append(DELIMITER)
+                .append(comic[7]).append(DELIMITER)
+                .append(comic[8]).append(DELIMITER);
         return data;
     }
 }

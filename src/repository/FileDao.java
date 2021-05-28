@@ -29,6 +29,47 @@ public class FileDao {
         }
     }
 
+    /**
+     * Запись комикса в файл
+     * @param comic комикс из элементов
+     */
+    public void saveToFile(String comic) {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_COMICS, true))) {
+            writer.write(comic + "\n");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Чтение строки (элементов) комикса
+     * @return коллекцию комиксов
+     */
+    public List<String> readFromFile() {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME_COMICS));
+            return bufferedReader.lines().collect(Collectors.toList());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    /**
+     * Удаление файла
+     */
+    public void deleteFile() {
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(FILE_WITH_COMICS);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assert writer != null;
+        writer.print("");
+        writer.close();
+    }
+
     public Comic getComicByName(String comicName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_WITH_COMICS))) {
             List<String> comicsWithElements = reader.lines().collect(Collectors.toList());
@@ -47,41 +88,5 @@ public class FileDao {
             e.printStackTrace();
         }
         return null;
-    }
-
-    /**
-     * Запись комикса в файл
-     * @param comic комикс из элементов
-     */
-    public void saveToFile(String comic) {
-        File file = new File("comics.txt");
-        try {
-            PrintStream printStream = new PrintStream(file);
-            printStream.write(comic.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-       /* try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_COMICS, false))) {
-            for (String element : listOfElements) {
-                writer.write(element + "\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
-    }
-
-    public List<String> readFromFile() {
-        File file = new File("comics.txt");
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            return bufferedReader.lines().collect(Collectors.toList());
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return new ArrayList<>();
-    }
-
-    public void deleteFile() {
-        FILE_WITH_COMICS.delete();
     }
 }

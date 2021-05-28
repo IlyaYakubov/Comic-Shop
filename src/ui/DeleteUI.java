@@ -8,30 +8,31 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import presenters.SellPresenter;
+import presenters.AdditionPresenter;
+import presenters.DeletePresenter;
 
-public class SellUI extends Application {
+public class DeleteUI extends Application {
 
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Продажа");
+        stage.setTitle("Удаление");
 
         Label labelNameComic = new Label("Наименование");
         TextField textFieldComic = new TextField();
-        Button buttonSell = new Button("Продать");
+        Button buttonDelete = new Button("Удалить");
 
         FlowPane flowPane = new FlowPane();
         flowPane.getChildren().add(labelNameComic);
         flowPane.getChildren().add(textFieldComic);
-        flowPane.getChildren().add(buttonSell);
+        flowPane.getChildren().add(buttonDelete);
         flowPane.setVgap(10);
         flowPane.setHgap(10);
         flowPane.setOrientation(Orientation.VERTICAL);
 
-        SellPresenter sellPresenter = new SellPresenter(this);
+        DeletePresenter deletePresenter = new DeletePresenter(this);
 
-        buttonSell.setOnMouseClicked(mouseEvent -> {
-            sellPresenter.onClickSale(textFieldComic.getText());
+        buttonDelete.setOnMouseClicked(mouseEvent -> {
+            deletePresenter.onClickDelete(textFieldComic.getText());
         });
 
         Scene scene = new Scene(flowPane, 200, 200);

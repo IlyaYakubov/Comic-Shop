@@ -7,6 +7,9 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
+/**
+ * Окно входа
+ */
 public class LoginController {
 
     @FXML

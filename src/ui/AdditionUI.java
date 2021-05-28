@@ -12,6 +12,9 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import presenters.AdditionPresenter;
 
+/**
+ * Окно добавления комикса
+ */
 public class AdditionUI extends Application {
 
     @Override

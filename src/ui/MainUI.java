@@ -8,7 +8,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 
 /**
- * Класс взаимодействия пользователя с программой
+ * Основное окно
  */
 public class MainUI extends Application {
 

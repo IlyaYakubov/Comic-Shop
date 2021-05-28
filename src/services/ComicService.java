@@ -5,10 +5,6 @@ import domain.sale.Cart;
 import domain.sale.Sell;
 import repository.FileDao;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,42 +43,6 @@ public class ComicService {
                     continue;
                 }
                 fileDao.saveToFile(comic);
-            }
-        }
-    }
-
-    /**
-     * Редактирование комикса
-     *
-     * @param nameOfComic    название комикса
-     * @param elementOfComic редактируемый элемент комикса
-     * @param newElement     новый элемент
-     */
-    public void editComic(String nameOfComic, int elementOfComic, String newElement) {
-        List<String> comicsList = fileDao.readFromFile();
-        if (comicsList.size() > 0) {
-            for (String comic : comicsList) {
-                String[] arrayOfElementsOfComic = comic.split(DELIMITER);
-                boolean wasEditing = false;
-                if (arrayOfElementsOfComic[0].equals(nameOfComic)) {
-                    for (int i = 0; i < arrayOfElementsOfComic.length; i++) {
-                        String element = arrayOfElementsOfComic[i];
-                        if (i == elementOfComic - 1) {
-                            comic += newElement + DELIMITER;
-                            wasEditing = true;
-                        } else {
-                            comic += element + DELIMITER;
-                        }
-                    }
-                }
-                if (wasEditing) {
-                    String[] arrayOfElements = comic.split(DELIMITER);
-                    comic = "";
-                    for (int i = 9; i < arrayOfElements.length; i++) {
-                        comic += arrayOfElements[i] + DELIMITER;
-                    }
-                    fileDao.saveToFile(comic);
-                }
             }
         }
     }

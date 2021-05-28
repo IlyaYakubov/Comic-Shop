@@ -8,9 +8,11 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
-import presenters.AdditionPresenter;
 import presenters.DeletePresenter;
 
+/**
+ * Окно удаления комикса
+ */
 public class DeleteUI extends Application {
 
     @Override

@@ -10,6 +10,9 @@ import javafx.scene.layout.FlowPane;
 import javafx.stage.Stage;
 import presenters.SellPresenter;
 
+/**
+ * Окно продажи
+ */
 public class SellUI extends Application {
 
     @Override

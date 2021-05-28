@@ -16,10 +16,6 @@ public class Cart {
         purchasedComics.add(comic);
     }
 
-    public boolean isEmpty() {
-        return purchasedComics.isEmpty();
-    }
-
     public void extractComics() {
         purchasedComics.clear();
     }

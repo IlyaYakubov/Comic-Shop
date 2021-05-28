@@ -1,13 +1,13 @@
 package domain.sale;
 
 /**
- * Магазин
+ * Продажа
  */
-public class Store {
+public class Sell {
 
     private Cart cart;
 
-    public Store(Cart cart) {
+    public Sell(Cart cart) {
         this.cart = cart;
     }
 

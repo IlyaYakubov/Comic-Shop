@@ -1,15 +1,27 @@
 package launch;
 
-import ui.MainUI;
-import ui.utils.Util;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 /**
- * Основной класс
+ * Начало программы
  */
-public class Main {
+public class Main extends Application {
     public static void main(String[] args) {
-        MainUI mainUI = new MainUI();
-        Util.printMessage("---------- Вас приветствует программа \"Магазин комиксов\" ----------");
-        mainUI.showMainFunctions();
+        launch(args);
+    }
+
+    @Override
+    public void start(Stage stage) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/resources/login.fxml"));
+        stage.setTitle("Вход");
+        stage.setScene(new Scene(root, 240, 145));
+        stage.setResizable(false);
+        stage.show();
     }
 }

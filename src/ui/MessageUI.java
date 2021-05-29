@@ -29,7 +29,7 @@ public class MessageUI extends Application {
         labelMessage.setFont(new Font(15));
         Button buttonOK = new Button("OK");
         buttonOK.setFont(new Font(15));
-        buttonOK.setPrefWidth(165);
+        buttonOK.setPrefWidth(225);
 
         VBox vBox = new VBox();
         vBox.getChildren().add(labelMessage);
@@ -41,7 +41,7 @@ public class MessageUI extends Application {
             stage.close();
         });
 
-        Scene scene = new Scene(vBox, 200, 100);
+        Scene scene = new Scene(vBox, 250, 100);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setAlwaysOnTop(true);

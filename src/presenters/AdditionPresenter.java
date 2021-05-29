@@ -4,7 +4,7 @@ import services.ComicService;
 import ui.AdditionUI;
 
 /**
- * Контроллер добавления комиксов
+ * Контроллер добавления комикса
  */
 public class AdditionPresenter {
 

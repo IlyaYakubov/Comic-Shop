@@ -1,14 +1,15 @@
 package ui;
 
 import javafx.application.Application;
-import javafx.geometry.Orientation;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import presenters.AdditionPresenter;
 
@@ -16,6 +17,18 @@ import presenters.AdditionPresenter;
  * Окно добавления комикса
  */
 public class AdditionUI extends Application {
+
+    private TextField textFieldNameComic = new TextField();
+    private TextField textFieldNumberOfPagesComic = new TextField();
+    private TextField textFieldYearOfPublishingComic = new TextField();
+    private TextField textFieldAuthorComic = new TextField();
+    private TextField textFieldPublishingComic = new TextField();
+    private TextField textFieldGenreComic = new TextField();
+    private TextField textFieldCoastPriceComic = new TextField();
+    private TextField textFieldSellingPriceComic = new TextField();
+    private CheckBox checkBoxIsContinuation = new CheckBox();
+
+    private Button buttonAdd;
 
     @Override
     public void start(Stage stage) {
@@ -31,64 +44,59 @@ public class AdditionUI extends Application {
         Label labelSellingPriceComic = new Label("Цена продажи");
         Label labelIsContinuation = new Label("Комикс является продолжением серии");
 
-        TextField textFieldNameComic = new TextField();
-        TextField textFieldNumberOfPagesComic = new TextField();
-        TextField textFieldYearOfPublishingComic = new TextField();
-        TextField textFieldAuthorComic = new TextField();
-        TextField textFieldPublishingComic = new TextField();
-        TextField textFieldGenreComic = new TextField();
-        TextField textFieldCoastPriceComic = new TextField();
-        TextField textFieldSellingPriceComic = new TextField();
-        CheckBox checkBoxIsContinuation = new CheckBox();
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(20.0);
+        gridPane.setVgap(20.0);
+        gridPane.add(labelNameComic, 0, 0 );
+        gridPane.add(textFieldNameComic, 1, 0);
+        gridPane.add(labelNumberOfPagesComic, 0, 1);
+        gridPane.add(textFieldNumberOfPagesComic, 1, 1);
+        gridPane.add(labelYearOfPublishingComic, 0, 2);
+        gridPane.add(textFieldYearOfPublishingComic, 1, 2);
+        gridPane.add(labelAuthorComic, 0, 3);
+        gridPane.add(textFieldAuthorComic, 1, 3);
+        gridPane.add(labelPublishingComic, 0, 4);
+        gridPane.add(textFieldPublishingComic, 1, 4);
+        gridPane.add(labelGenreComic, 0, 5);
+        gridPane.add(textFieldGenreComic, 1, 5);
+        gridPane.add(labelCoastPriceComic, 0, 6);
+        gridPane.add(textFieldCoastPriceComic, 1, 6);
+        gridPane.add(labelSellingPriceComic, 0, 7);
+        gridPane.add(textFieldSellingPriceComic, 1, 7);
+        gridPane.add(labelIsContinuation, 0, 8);
+        gridPane.add(checkBoxIsContinuation, 1, 8);
 
-        Button buttonAdd = new Button("Добавить");
+        buttonAdd = new Button("Добавить");
+        buttonAdd.setFont(new Font(15));
+        buttonAdd.setPrefWidth(385);
+        buttonAdd.setPrefHeight(100);
 
-        FlowPane flowPaneLeft = new FlowPane();
-        flowPaneLeft.getChildren().add(labelNameComic);
-        flowPaneLeft.getChildren().add(labelNumberOfPagesComic);
-        flowPaneLeft.getChildren().add(labelYearOfPublishingComic);
-        flowPaneLeft.getChildren().add(labelAuthorComic);
-        flowPaneLeft.getChildren().add(labelPublishingComic);
-        flowPaneLeft.getChildren().add(labelGenreComic);
-        flowPaneLeft.getChildren().add(labelCoastPriceComic);
-        flowPaneLeft.getChildren().add(labelSellingPriceComic);
-        flowPaneLeft.getChildren().add(labelIsContinuation);
-        flowPaneLeft.setVgap(10);
-        flowPaneLeft.setHgap(10);
-        flowPaneLeft.setOrientation(Orientation.VERTICAL);
-
-        FlowPane flowPaneRight = new FlowPane();
-        flowPaneRight.getChildren().add(textFieldNameComic);
-        flowPaneRight.getChildren().add(textFieldNumberOfPagesComic);
-        flowPaneRight.getChildren().add(textFieldYearOfPublishingComic);
-        flowPaneRight.getChildren().add(textFieldAuthorComic);
-        flowPaneRight.getChildren().add(textFieldPublishingComic);
-        flowPaneRight.getChildren().add(textFieldGenreComic);
-        flowPaneRight.getChildren().add(textFieldCoastPriceComic);
-        flowPaneRight.getChildren().add(textFieldSellingPriceComic);
-        flowPaneRight.getChildren().add(checkBoxIsContinuation);
-        flowPaneRight.getChildren().add(buttonAdd);
-        flowPaneRight.setVgap(10);
-        flowPaneRight.setHgap(10);
-        flowPaneRight.setOrientation(Orientation.VERTICAL);
-
-        HBox hBox = new HBox();
-        hBox.getChildren().add(flowPaneLeft);
-        hBox.getChildren().add(flowPaneRight);
+        VBox vBox = new VBox();
+        vBox.getChildren().add(gridPane);
+        vBox.getChildren().add(buttonAdd);
+        vBox.setSpacing(20.0);
+        vBox.setPadding(new Insets(20));
 
         AdditionPresenter additionPresenter = new AdditionPresenter(this);
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
+            if (textFieldNameComic.getText().isEmpty()) {
+                new MessageUI("Не заполнены поля!").start(new Stage());
+                return;
+            }
             String[] elementsOfComic = elementsOfComic(textFieldNameComic.getText(), textFieldNumberOfPagesComic.getText()
                     , textFieldYearOfPublishingComic.getText(), textFieldAuthorComic.getText()
                     , textFieldPublishingComic.getText(), textFieldGenreComic.getText()
                     , textFieldCoastPriceComic.getText(), textFieldSellingPriceComic.getText()
                     , checkBoxIsContinuation.isSelected());
+
             additionPresenter.onClickAdd(elementsOfComic);
+            stage.close();
         });
 
-        Scene scene = new Scene(hBox, 500, 350);
+        Scene scene = new Scene(vBox, 425, 500);
         stage.setScene(scene);
+        stage.setResizable(false);
         stage.show();
     }
 

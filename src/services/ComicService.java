@@ -15,12 +15,11 @@ public class ComicService {
     private static final String DELIMITER = ";";
 
     private FileDao fileDao = new FileDao();
-    private Cart cart;
 
     /**
-     * Добавление комикса
+     * Добавление комикса из элементов
      *
-     * @param comic комикс
+     * @param comic - элементы комикса
      */
     public void addComic(String[] comic) {
         fileDao.saveToFile(formComicFromElements(comic).toString());
@@ -28,10 +27,10 @@ public class ComicService {
 
     /**
      * Удаление комикса
-     * Если в файле есть комиксы, то при совпадении имени комикс не перезаписывается по новой
-     * (т.к. файл предварительно удаляется)
+     * При совпадении имени комикс не перезаписывается
+     * (файл предварительно удаляется)
      *
-     * @param nameOfComic название комикса
+     * @param nameOfComic - название комикса
      */
     public void deleteComic(String nameOfComic) {
         List<String> comicsList = fileDao.readFromFile();
@@ -50,17 +49,20 @@ public class ComicService {
     /**
      * Продажа комикса
      *
-     * @param comicName наименование продаваемого комикса
+     * @param cart - корзина комиксов
      */
-    public void makePurchase(String comicName) {
-        cart = new Cart();
-        Comic comic = fileDao.getComicByName(comicName);
-        if (comic != null) {
-            cart.addComic(comic);
-            Sell sell = new Sell(cart);
-            sell.makePurchase();
-            deleteComic(comicName);
-        }
+    public void makePurchase(Cart cart) {
+        Sell sell = new Sell(cart);
+        sell.makePurchase();
+    }
+
+    /**
+     * Получение комикса по наименованию
+     * @param nameOfComic - наименование комикса
+     * @return - комикс, если найден в файле
+     */
+    public Comic getComicByName(String nameOfComic) {
+        return fileDao.getComicByName(nameOfComic);
     }
 
     private StringBuilder formComicFromElements(String[] comic) {

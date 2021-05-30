@@ -1,7 +1,6 @@
 package presenters;
 
 import services.ComicService;
-import ui.DeleteUI;
 
 /**
  * Контроллер удаления комиксов
@@ -9,15 +8,14 @@ import ui.DeleteUI;
 public class DeletePresenter {
 
     private ComicService comicService;
-    private DeleteUI deleteUI;
 
-    public DeletePresenter(DeleteUI deleteUI) {
+    public DeletePresenter() {
         comicService = new ComicService();
-        this.deleteUI = deleteUI;
     }
 
     /**
-     * Добавление комикса
+     * Удаление комикса
+     * @param nameOfComics - наименование комикса
      */
     public void onClickDelete(String nameOfComics) {
         comicService.deleteComic(nameOfComics);

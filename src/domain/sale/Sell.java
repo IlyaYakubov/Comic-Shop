@@ -11,6 +11,9 @@ public class Sell {
         this.cart = cart;
     }
 
+    /**
+     * Совершить продажу
+     */
     public void makePurchase() {
         cart.extractComics();
     }

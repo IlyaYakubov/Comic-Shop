@@ -20,6 +20,11 @@ public class MessageUI extends Application {
         this.message = message;
     }
 
+    /**
+     * Отображает сообщение
+     *
+     * @param stage - окно
+     */
     @Override
     public void start(Stage stage) {
         stage.setTitle("Сообщение");

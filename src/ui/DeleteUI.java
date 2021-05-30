@@ -2,12 +2,10 @@ package ui;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -18,6 +16,10 @@ import presenters.DeletePresenter;
  */
 public class DeleteUI extends Application {
 
+    /**
+     * Отображает окно удаления
+     * @param stage - окно
+     */
     @Override
     public void start(Stage stage) {
         stage.setTitle("Удаление");
@@ -37,7 +39,7 @@ public class DeleteUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        DeletePresenter deletePresenter = new DeletePresenter(this);
+        DeletePresenter deletePresenter = new DeletePresenter();
 
         buttonDelete.setOnMouseClicked(mouseEvent -> {
             if (textFieldComic.getText().isEmpty()) {

@@ -18,18 +18,10 @@ import presenters.AdditionPresenter;
  */
 public class AdditionUI extends Application {
 
-    private TextField textFieldNameComic = new TextField();
-    private TextField textFieldNumberOfPagesComic = new TextField();
-    private TextField textFieldYearOfPublishingComic = new TextField();
-    private TextField textFieldAuthorComic = new TextField();
-    private TextField textFieldPublishingComic = new TextField();
-    private TextField textFieldGenreComic = new TextField();
-    private TextField textFieldCoastPriceComic = new TextField();
-    private TextField textFieldSellingPriceComic = new TextField();
-    private CheckBox checkBoxIsContinuation = new CheckBox();
-
-    private Button buttonAdd;
-
+    /**
+     * Отображает окно создания комикса
+     * @param stage - окно
+     */
     @Override
     public void start(Stage stage) {
         stage.setTitle("Добавление");
@@ -43,6 +35,16 @@ public class AdditionUI extends Application {
         Label labelCoastPriceComic = new Label("Себестоимость");
         Label labelSellingPriceComic = new Label("Цена продажи");
         Label labelIsContinuation = new Label("Комикс является продолжением серии");
+
+        TextField textFieldNameComic = new TextField();
+        TextField textFieldNumberOfPagesComic = new TextField();
+        TextField textFieldYearOfPublishingComic = new TextField();
+        TextField textFieldAuthorComic = new TextField();
+        TextField textFieldPublishingComic = new TextField();
+        TextField textFieldGenreComic = new TextField();
+        TextField textFieldCoastPriceComic = new TextField();
+        TextField textFieldSellingPriceComic = new TextField();
+        CheckBox checkBoxIsContinuation = new CheckBox();
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(20.0);
@@ -66,7 +68,7 @@ public class AdditionUI extends Application {
         gridPane.add(labelIsContinuation, 0, 8);
         gridPane.add(checkBoxIsContinuation, 1, 8);
 
-        buttonAdd = new Button("Добавить");
+        Button buttonAdd = new Button("Добавить");
         buttonAdd.setFont(new Font(15));
         buttonAdd.setPrefWidth(385);
         buttonAdd.setPrefHeight(100);
@@ -77,7 +79,7 @@ public class AdditionUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        AdditionPresenter additionPresenter = new AdditionPresenter(this);
+        AdditionPresenter additionPresenter = new AdditionPresenter();
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
             if (textFieldNameComic.getText().isEmpty()) {

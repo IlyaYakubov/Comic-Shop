@@ -31,7 +31,7 @@ public class FileDao {
 
     /**
      * Запись комикса в файл
-     * @param comic комикс из элементов
+     * @param comic - комикс из элементов
      */
     public void saveToFile(String comic) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_COMICS, true))) {
@@ -43,7 +43,7 @@ public class FileDao {
 
     /**
      * Чтение строки (элементов) комикса
-     * @return коллекцию комиксов
+     * @return - коллекция комиксов
      */
     public List<String> readFromFile() {
         try {
@@ -70,6 +70,11 @@ public class FileDao {
         writer.close();
     }
 
+    /**
+     * Запрос комикса по наименованию
+     * @param comicName - наименование комикса
+     * @return - комикс
+     */
     public Comic getComicByName(String comicName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(FILE_WITH_COMICS))) {
             List<String> comicsWithElements = reader.lines().collect(Collectors.toList());

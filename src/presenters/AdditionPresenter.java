@@ -1,7 +1,6 @@
 package presenters;
 
 import services.ComicService;
-import ui.AdditionUI;
 
 /**
  * Контроллер добавления комикса
@@ -9,15 +8,14 @@ import ui.AdditionUI;
 public class AdditionPresenter {
 
     private ComicService comicService;
-    private AdditionUI additionUI;
 
-    public AdditionPresenter(AdditionUI additionUI) {
+    public AdditionPresenter() {
         comicService = new ComicService();
-        this.additionUI = additionUI;
     }
 
     /**
-     * Добавление комикса
+     * При нажатии на кнопку добавления элементов комикса
+     * @param elementsOfComic - массив с элементами комикса
      */
     public void onClickAdd(String[] elementsOfComic) {
         comicService.addComic(elementsOfComic);

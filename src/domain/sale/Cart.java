@@ -10,13 +10,24 @@ import java.util.List;
  */
 public class Cart {
 
-    private List<Comic> purchasedComics = new ArrayList<>();
+    private List<Comic> comics = new ArrayList<>();
 
-    public void addComic(Comic comic) {
-        purchasedComics.add(comic);
+    public List<Comic> getComics() {
+        return comics;
     }
 
+    /**
+     * Добавление комикса в корзину
+     * @param comic - комикс
+     */
+    public void addComic(Comic comic) {
+        comics.add(comic);
+    }
+
+    /**
+     * Опустошение корзины
+     */
     public void extractComics() {
-        purchasedComics.clear();
+        comics.clear();
     }
 }

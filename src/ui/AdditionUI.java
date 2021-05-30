@@ -82,13 +82,16 @@ public class AdditionUI extends Application {
         AdditionPresenter additionPresenter = new AdditionPresenter();
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
-            if (textFieldNameComic.getText().isEmpty()) {
-                new MessageUI("Не заполнены поля!").start(new Stage());
+            if (textFieldNameComic.getText().isEmpty() || textFieldAuthorComic.getText().isEmpty()
+            || textFieldPublishingComic.getText().isEmpty() || textFieldNumberOfPagesComic.getText().isEmpty()
+            || textFieldGenreComic.getText().isEmpty() || textFieldYearOfPublishingComic.getText().isEmpty()
+            || textFieldCoastPriceComic.getText().isEmpty() || textFieldSellingPriceComic.getText().isEmpty()) {
+                new MessageUI("Заполните все поля!").start(new Stage());
                 return;
             }
-            String[] elementsOfComic = elementsOfComic(textFieldNameComic.getText(), textFieldNumberOfPagesComic.getText()
-                    , textFieldYearOfPublishingComic.getText(), textFieldAuthorComic.getText()
-                    , textFieldPublishingComic.getText(), textFieldGenreComic.getText()
+            String[] elementsOfComic = elementsOfComic(textFieldNameComic.getText(), textFieldAuthorComic.getText()
+                    , textFieldPublishingComic.getText(), textFieldNumberOfPagesComic.getText()
+                    , textFieldGenreComic.getText(), textFieldYearOfPublishingComic.getText()
                     , textFieldCoastPriceComic.getText(), textFieldSellingPriceComic.getText()
                     , checkBoxIsContinuation.isSelected());
 
@@ -103,16 +106,16 @@ public class AdditionUI extends Application {
     }
 
     private String[] elementsOfComic(String textFieldNameComic,
-                                     String textFieldNumberOfPagesComic,
-                                     String textFieldYearOfPublishingComic,
                                      String textFieldAuthorComic,
                                      String textFieldPublishingComic,
+                                     String textFieldNumberOfPagesComic,
                                      String textFieldGenreComic,
+                                     String textFieldYearOfPublishingComic,
                                      String textFieldCoastPriceComic,
                                      String textFieldSellingPriceComic,
                                      boolean checkBoxIsContinuation) {
-        String[] elementsOfComic = {textFieldNameComic, textFieldNumberOfPagesComic, textFieldYearOfPublishingComic
-        , textFieldAuthorComic, textFieldPublishingComic, textFieldGenreComic, textFieldCoastPriceComic
+        String[] elementsOfComic = {textFieldNameComic, textFieldAuthorComic, textFieldPublishingComic
+        , textFieldNumberOfPagesComic, textFieldGenreComic, textFieldYearOfPublishingComic, textFieldCoastPriceComic
         , textFieldSellingPriceComic, checkBoxIsContinuation ? "true" : "false"};
         return elementsOfComic;
     }

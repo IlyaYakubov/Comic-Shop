@@ -1,8 +1,8 @@
 package services;
 
 import domain.Comic;
-import domain.sale.Cart;
-import domain.sale.Sell;
+import domain.sell.Cart;
+import domain.sell.Sell;
 import repository.FileDao;
 
 import java.util.List;
@@ -68,15 +68,15 @@ public class ComicService {
     private StringBuilder formComicFromElements(String[] comic) {
         StringBuilder data = new StringBuilder();
         data
-                .append(comic[0]).append(DELIMITER)
-                .append(comic[1]).append(DELIMITER)
-                .append(comic[2]).append(DELIMITER)
-                .append(comic[3]).append(DELIMITER)
-                .append(comic[4]).append(DELIMITER)
-                .append(comic[5]).append(DELIMITER)
-                .append(comic[6]).append(DELIMITER)
-                .append(comic[7]).append(DELIMITER)
-                .append(comic[8]).append(DELIMITER);
+                .append(comic[0]).append(DELIMITER) // наименование
+                .append(comic[1]).append(DELIMITER) // автор
+                .append(comic[2]).append(DELIMITER) // издательство
+                .append(comic[3]).append(DELIMITER) // количество страниц
+                .append(comic[4]).append(DELIMITER) // жанр
+                .append(comic[5]).append(DELIMITER) // год издательства
+                .append(comic[6]).append(DELIMITER) // себестоимость
+                .append(comic[7]).append(DELIMITER) // цена продажи
+                .append(comic[8]).append(DELIMITER); // является продолжением
         return data;
     }
 }

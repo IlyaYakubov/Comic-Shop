@@ -1,5 +1,8 @@
 package domain;
 
+import domain.sell.ComicPrice;
+import javafx.beans.property.SimpleObjectProperty;
+
 /**
  * Модель комикса
  */
@@ -13,7 +16,7 @@ public class Comic {
     private Author author;
     private Publishing publishing;
     private Genre genre;
-    private ComicPricingBook comicPricingBook;
+    private ComicPrice comicPrice;
 
     public Comic(String name,
                  Author author,
@@ -31,7 +34,7 @@ public class Comic {
         this.author = author;
         this.publishing = publishing;
         this.genre = genre;
-        this.comicPricingBook = new ComicPricingBook(costPrice, sellingPrice);
+        this.comicPrice = new ComicPrice(this, costPrice, sellingPrice);
     }
 
     public String getName() {
@@ -84,5 +87,9 @@ public class Comic {
 
     public boolean isContinuation() {
         return isContinuation;
+    }
+
+    public ComicPrice getComicPrice() {
+        return comicPrice;
     }
 }

@@ -1,4 +1,4 @@
-package domain.sale;
+package domain.sell;
 
 import domain.Comic;
 
@@ -10,9 +10,9 @@ import java.util.List;
  */
 public class Cart {
 
-    private List<Comic> comics = new ArrayList<>();
+    private List<CartItem> comics = new ArrayList<>();
 
-    public List<Comic> getComics() {
+    public List<CartItem> getComics() {
         return comics;
     }
 
@@ -21,11 +21,12 @@ public class Cart {
      * @param comic - комикс
      */
     public void addComic(Comic comic) {
-        comics.add(comic);
+        ComicPrice comicPrice = comic.getComicPrice();
+        comics.add(new CartItem(comic, comicPrice.getSellingPrice()));
     }
 
     /**
-     * Опустошение корзины
+     * Опустошение элементов
      */
     public void extractComics() {
         comics.clear();

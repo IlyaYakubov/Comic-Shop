@@ -1,6 +1,8 @@
 package ui;
 
 import domain.Comic;
+import domain.sell.Cart;
+import domain.sell.CartItem;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -18,7 +20,7 @@ import presenters.SellPresenter;
  */
 public class SellUI extends Application {
 
-    private TableView<Comic> table;
+    private TableView<CartItem> table;
 
     /**
      * Отображает окно продажи
@@ -41,11 +43,17 @@ public class SellUI extends Application {
         hBox.getChildren().addAll(labelComicName, textFieldComicName, buttonAdd);
 
         table = new TableView<>();
-        table.setPrefHeight(1000);
+        table.setPrefHeight(1000.0);
 
-        TableColumn<Comic, String> nameColumn = new TableColumn<>("Наименование");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        TableColumn<CartItem, String> nameColumn = new TableColumn<>("Наименование");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("comic"));
+        nameColumn.setPrefWidth(350.0);
         table.getColumns().add(nameColumn);
+
+        TableColumn<CartItem, Double> priceColumn = new TableColumn<>("Стоимость");
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        priceColumn.setPrefWidth(150.0);
+        table.getColumns().add(priceColumn);
 
         Button buttonSell = new Button("Продать");
         buttonSell.setFont(new Font(15));
@@ -86,7 +94,7 @@ public class SellUI extends Application {
      * Установка контента в элементы окна
      * @param comics - список комиксов
      */
-    public void setContent(ObservableList<Comic> comics) {
+    public void setContent(ObservableList<CartItem> comics) {
         table.setItems(comics);
     }
 

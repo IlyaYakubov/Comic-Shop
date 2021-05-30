@@ -1,7 +1,8 @@
 package presenters;
 
 import domain.Comic;
-import domain.sale.Cart;
+import domain.sell.Cart;
+import domain.sell.CartItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import services.ComicService;
@@ -31,7 +32,7 @@ public class SellPresenter {
             return;
         }
         cart.addComic(comic);
-        ObservableList<Comic> comics = FXCollections.observableArrayList(cart.getComics());
+        ObservableList<CartItem> comics = FXCollections.observableArrayList(cart.getComics());
         sellUI.setContent(comics);
     }
 

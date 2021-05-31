@@ -21,6 +21,7 @@ import presenters.SellPresenter;
 public class SellUI extends Application {
 
     private TableView<CartItem> table;
+    private Label labelAmount;
 
     /**
      * Отображает окно продажи
@@ -62,7 +63,18 @@ public class SellUI extends Application {
         VBox vBox = new VBox();
         vBox.getChildren().add(hBox);
         vBox.getChildren().add(table);
-        vBox.getChildren().add(buttonSell);
+
+        Label labelTextAmount = new Label("Итого");
+        labelTextAmount.setFont(new Font(20));
+        labelAmount = new Label("0.0");
+        labelAmount.setFont(new Font(20));
+        HBox hBoxAmount = new HBox();
+        hBoxAmount.getChildren().add(buttonSell);
+        hBoxAmount.getChildren().add(labelTextAmount);
+        hBoxAmount.getChildren().add(labelAmount);
+        hBoxAmount.setSpacing(20.0);
+
+        vBox.getChildren().add(hBoxAmount);
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
@@ -82,6 +94,7 @@ public class SellUI extends Application {
             }
             sellPresenter.onClickSale();
             table.getItems().clear();
+            labelAmount.setText("0.0");
         });
 
         Scene scene = new Scene(vBox, 700, 500);
@@ -93,9 +106,11 @@ public class SellUI extends Application {
     /**
      * Установка контента в элементы окна
      * @param comics - список комиксов
+     * @param amount - сумма
      */
-    public void setContent(ObservableList<CartItem> comics) {
+    public void setContent(ObservableList<CartItem> comics, double amount) {
         table.setItems(comics);
+        labelAmount.setText(String.valueOf(amount));
     }
 
     private boolean checkComicName(TextField textFieldComicName) {

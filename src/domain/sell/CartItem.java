@@ -2,7 +2,6 @@ package domain.sell;
 
 import domain.Comic;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
@@ -12,7 +11,6 @@ public class CartItem {
 
     private SimpleStringProperty comic;
     private SimpleDoubleProperty price;
-    private SimpleIntegerProperty quantity;
 
     public CartItem(Comic comic, double price) {
         this.comic = new SimpleStringProperty(comic.getName());
@@ -41,17 +39,5 @@ public class CartItem {
 
     public void setPrice(double price) {
         this.price.set(price);
-    }
-
-    public int getQuantity() {
-        return quantity.get();
-    }
-
-    public SimpleIntegerProperty quantityProperty() {
-        return quantity;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity.set(quantity);
     }
 }

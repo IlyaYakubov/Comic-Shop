@@ -33,7 +33,7 @@ public class SellPresenter {
         }
         cart.addComic(comic);
         ObservableList<CartItem> comics = FXCollections.observableArrayList(cart.getComics());
-        sellUI.setContent(comics);
+        sellUI.setContent(comics, cart.getAmount());
     }
 
     /**

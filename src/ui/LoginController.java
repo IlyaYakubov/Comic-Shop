@@ -29,7 +29,8 @@ public class LoginController {
     }
 
     @FXML
-    void onClickButtonCancel(ActionEvent event) {
-        System.exit(0);
+    void onClickButtonRegistration(ActionEvent event) throws Exception {
+        RegistrationUI registrationUI = new RegistrationUI();
+        registrationUI.start(new Stage());
     }
 }

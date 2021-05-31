@@ -2,9 +2,12 @@ package services;
 
 import domain.Comic;
 import domain.sell.Cart;
+import domain.sell.CartItem;
 import domain.sell.Sell;
 import repository.FileDao;
+import repository.SellDao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -15,6 +18,7 @@ public class ComicService {
     private static final String DELIMITER = ";";
 
     private FileDao fileDao = new FileDao();
+    private List<String> comicsInFile = fileDao.readFromFile();
 
     /**
      * Добавление комикса из элементов
@@ -33,16 +37,20 @@ public class ComicService {
      * @param nameOfComic - название комикса
      */
     public void deleteComic(String nameOfComic) {
-        List<String> comicsList = fileDao.readFromFile();
-        if (comicsList.size() > 0) {
+        if (comicsInFile.size() > 0) {
             fileDao.deleteFile();
-            for (String comic : comicsList) {
+            boolean control = false;
+            for (String comic : comicsInFile) {
                 String[] arrayOfElements = comic.split(DELIMITER);
-                if (arrayOfElements[0].equals(nameOfComic)) {
+                if (!control && arrayOfElements[0].equals(nameOfComic)) {
+                    control = true;
                     continue;
                 }
-                fileDao.saveToFile(comic);
+                if (control) {
+                    fileDao.saveToFile(comic);
+                }
             }
+            comicsInFile.remove(0);
         }
     }
 
@@ -52,12 +60,23 @@ public class ComicService {
      * @param cart - корзина комиксов
      */
     public void makePurchase(Cart cart) {
+        for (CartItem item : cart.getComics()) {
+            deleteComic(item.getComic());
+        }
+
+        SellDao sellDao = new SellDao();
+        for (CartItem comic : cart.getComics()) {
+            String buyItem = LocalDateTime.now() + DELIMITER + comic.getComic() + DELIMITER
+                    + comic.getPrice();
+            sellDao.saveToFile(buyItem);
+        }
         Sell sell = new Sell(cart);
         sell.makePurchase();
     }
 
     /**
      * Получение комикса по наименованию
+     *
      * @param nameOfComic - наименование комикса
      * @return - комикс, если найден в файле
      */

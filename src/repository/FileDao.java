@@ -46,10 +46,9 @@ public class FileDao {
      * @return - коллекция комиксов
      */
     public List<String> readFromFile() {
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME_COMICS));
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME_COMICS))) {
             return bufferedReader.lines().collect(Collectors.toList());
-        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return new ArrayList<>();

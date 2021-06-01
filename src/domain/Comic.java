@@ -1,7 +1,6 @@
 package domain;
 
 import domain.sell.ComicPrice;
-import javafx.beans.property.SimpleObjectProperty;
 
 /**
  * Модель комикса

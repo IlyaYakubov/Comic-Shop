@@ -1,9 +1,9 @@
 package repository;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Работа с файлом зарегистрированных пользователей
@@ -34,5 +34,18 @@ public class UserDao {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Чтение файла с пользователями
+     * @return - коллекция пользователей с паролями
+     */
+    public List<String> readFromFile() {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_WITH_USERS))) {
+            return bufferedReader.lines().collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 }

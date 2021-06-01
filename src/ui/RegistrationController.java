@@ -7,7 +7,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import launch.Main;
 import presenters.RegistrationPresenter;
+
+import java.io.IOException;
 
 /**
  * Окно регистрации
@@ -24,7 +27,7 @@ public class RegistrationController {
     private PasswordField textFieldPasswordConfirmation;
 
     @FXML
-    void onClickOK(ActionEvent event) {
+    void onClickOK(ActionEvent event) throws IOException {
         String name = textFieldName.getText();
         String password = textFieldPassword.getText();
         if (name.isEmpty()) {
@@ -38,6 +41,8 @@ public class RegistrationController {
         RegistrationPresenter registrationPresenter = new RegistrationPresenter(name, password);
         registrationPresenter.saveUser();
         ObservableList<Window> windows = Stage.getWindows();
-        windows.get(1).hide();
+        windows.get(0).hide();
+        Main main = new Main();
+        main.start(new Stage());
     }
 }

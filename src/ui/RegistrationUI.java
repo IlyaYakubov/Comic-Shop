@@ -12,7 +12,7 @@ public class RegistrationUI extends Application {
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/resources/registration.fxml"));
         stage.setTitle("Регистрация пользователя");
-        stage.setScene(new Scene(root, 450, 270));
+        stage.setScene(new Scene(root, 355, 230));
         stage.setResizable(false);
         stage.show();
     }

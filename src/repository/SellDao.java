@@ -1,13 +1,9 @@
 package repository;
 
-import domain.sell.Cart;
-import domain.sell.CartItem;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 /**
  * Работа с файлом продажи

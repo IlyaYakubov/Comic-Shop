@@ -35,16 +35,22 @@ public class MainUI extends Application {
         buttonSellComic.setPrefWidth(200);
         buttonSellComic.setPrefHeight(70);
         buttonSellComic.setFont(new Font(15));
+        Button buttonWriteOffComic = new Button("Списание");
+        buttonWriteOffComic.setPrefWidth(200);
+        buttonWriteOffComic.setPrefHeight(70);
+        buttonWriteOffComic.setFont(new Font(15));
 
         TilePane tilePane = new TilePane();
         tilePane.setOrientation(Orientation.VERTICAL);
         tilePane.setMargin(buttonAddComic, new Insets(20.0));
         tilePane.setMargin(buttonDeleteComic, new Insets(20.0));
         tilePane.setMargin(buttonSellComic, new Insets(20.0));
+        tilePane.setMargin(buttonWriteOffComic, new Insets(20.0));
 
         tilePane.getChildren().add(buttonAddComic);
         tilePane.getChildren().add(buttonDeleteComic);
         tilePane.getChildren().add(buttonSellComic);
+        tilePane.getChildren().add(buttonWriteOffComic);
 
         buttonAddComic.setOnMouseClicked(mouseEvent -> {
             AdditionUI additionUI = new AdditionUI();
@@ -61,7 +67,12 @@ public class MainUI extends Application {
             sellUI.start(new Stage());
         });
 
-        Scene scene = new Scene(tilePane, 250, 350);
+        buttonWriteOffComic.setOnMouseClicked(mouseEvent -> {
+            WriteOffUI writeOffUI = new WriteOffUI();
+            writeOffUI.start(new Stage());
+        });
+
+        Scene scene = new Scene(tilePane, 250, 450);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

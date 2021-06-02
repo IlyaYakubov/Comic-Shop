@@ -6,6 +6,7 @@ import domain.sell.CartItem;
 import domain.sell.Sell;
 import repository.FileDao;
 import repository.SellDao;
+import repository.WriteOffDao;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -55,7 +56,7 @@ public class ComicService {
     }
 
     /**
-     * Продажа комикса
+     * Продажа комиксов
      *
      * @param cart - корзина комиксов
      */
@@ -72,6 +73,25 @@ public class ComicService {
         }
         Sell sell = new Sell(cart);
         sell.makePurchase();
+    }
+
+    /**
+     * Списание комиксов
+     *
+     * @param cart - корзина комиксов
+     */
+    public void writeOffComics(Cart cart) {
+        for (CartItem comic : cart.getComics()) {
+            deleteComic(comic.getComic());
+        }
+
+        WriteOffDao writeOffDao = new WriteOffDao();
+        for (CartItem comic : cart.getComics()) {
+            String buyItem = LocalDateTime.now() + DELIMITER + comic.getComic();
+            writeOffDao.saveToFile(buyItem);
+        }
+
+        cart.getComics().clear();
     }
 
     /**

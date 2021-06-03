@@ -37,11 +37,21 @@ public class ComicService {
      * @param comic - элементы комикса
      */
     public void editComic(String[] comic) {
+        fileDao.deleteFile();
+
+        List<String> newListOfComics = new ArrayList<>();
         for (String elementsOfComic : comicsInFile) {
-            if (elementsOfComic.equals(comic[0])) {
-                deleteComic(elementsOfComic);
-                addComic(comic);
+            String[] arrayOfElements = elementsOfComic.split(DELIMITER);
+            if (comic[0].equals(arrayOfElements[0])) {
+                newListOfComics.add(formComicFromElements(comic).toString());
+                continue;
             }
+            newListOfComics.add(elementsOfComic);
+        }
+
+        comicsInFile = newListOfComics;
+        for (String newComic : newListOfComics) {
+            fileDao.saveToFile(newComic);
         }
     }
 

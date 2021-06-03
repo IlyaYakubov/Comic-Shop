@@ -35,7 +35,7 @@ public class Cart {
     /**
      * Опустошение элементов
      */
-    public void extractComics() {
+    public void clear() {
         comics.clear();
     }
 }

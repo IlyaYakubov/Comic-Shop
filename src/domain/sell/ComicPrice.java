@@ -1,18 +1,14 @@
 package domain.sell;
 
-import domain.Comic;
-
 /**
  * Цены комикса
  */
 public class ComicPrice {
 
-    private Comic comic;
     private double costPrice;
     private double sellingPrice;
 
-    public ComicPrice(Comic comic, double costPrice, double sellingPrice) {
-        this.comic = comic;
+    public ComicPrice(double costPrice, double sellingPrice) {
         this.costPrice = costPrice;
         this.sellingPrice = sellingPrice;
     }

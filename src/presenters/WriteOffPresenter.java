@@ -24,6 +24,7 @@ public class WriteOffPresenter {
 
     /**
      * При нажатии на кнопку добавления комикса в корзину
+     *
      * @param comicName - наименование комикса
      */
     public void onClickAdd(String comicName) {

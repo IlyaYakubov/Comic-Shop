@@ -26,6 +26,7 @@ public class WriteOffDao {
 
     /**
      * Запись списания в файл
+     *
      * @param writeOff - списанный комикс
      */
     public void saveToFile(String writeOff) {

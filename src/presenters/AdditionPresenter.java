@@ -15,6 +15,7 @@ public class AdditionPresenter {
 
     /**
      * При нажатии на кнопку добавления элементов комикса
+     *
      * @param elementsOfComic - массив с элементами комикса
      */
     public void onClickAdd(String[] elementsOfComic) {

@@ -31,6 +31,7 @@ public class FileDao {
 
     /**
      * Запись комикса в файл
+     *
      * @param comic - комикс из элементов
      */
     public void saveToFile(String comic) {
@@ -43,6 +44,7 @@ public class FileDao {
 
     /**
      * Чтение строки (элементов) комикса
+     *
      * @return - коллекция комиксов
      */
     public List<String> readFromFile() {
@@ -71,6 +73,7 @@ public class FileDao {
 
     /**
      * Запрос комикса по наименованию
+     *
      * @param comicName - наименование комикса
      * @return - комикс
      */

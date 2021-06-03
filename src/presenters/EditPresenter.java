@@ -19,6 +19,7 @@ public class EditPresenter {
 
     /**
      * При нажатии на кнопку завершения редактирования элементов комикса
+     *
      * @param comicName - наименование комикса
      */
     public void findComicForEdit(String comicName) {
@@ -31,6 +32,7 @@ public class EditPresenter {
 
     /**
      * При нажатии на кнопку завершения редактирования элементов комикса
+     *
      * @param comic - элементы комикса
      */
     public void onClickEdit(String[] comic) {

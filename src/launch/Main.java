@@ -16,6 +16,12 @@ public class Main extends Application {
         launch(args);
     }
 
+    /**
+     * Отображает главное окно
+     *
+     * @param stage - окно
+     * @throws IOException - исключение
+     */
     @Override
     public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/resources/login.fxml"));

@@ -26,6 +26,7 @@ public class UserDao {
 
     /**
      * Запись пользователя в файл
+     *
      * @param user - пользователь с паролем
      */
     public void saveToFile(String user) {
@@ -38,6 +39,7 @@ public class UserDao {
 
     /**
      * Чтение файла с пользователями
+     *
      * @return - коллекция пользователей с паролями
      */
     public List<String> readFromFile() {

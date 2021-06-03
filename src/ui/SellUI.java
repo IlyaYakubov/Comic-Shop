@@ -23,6 +23,7 @@ public class SellUI extends Application {
 
     /**
      * Отображает окно продажи
+     *
      * @param stage - окно
      */
     @Override
@@ -103,6 +104,7 @@ public class SellUI extends Application {
 
     /**
      * Установка контента в элементы окна
+     *
      * @param comics - список комиксов
      * @param amount - сумма
      */

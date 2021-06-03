@@ -22,6 +22,7 @@ public class WriteOffUI extends Application {
 
     /**
      * Отображает окно списания
+     *
      * @param stage - окно
      */
     @Override
@@ -86,6 +87,7 @@ public class WriteOffUI extends Application {
 
     /**
      * Установка контента в элементы окна
+     *
      * @param comics - список комиксов
      */
     public void setContent(ObservableList<CartItem> comics) {

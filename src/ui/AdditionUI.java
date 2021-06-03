@@ -20,6 +20,7 @@ public class AdditionUI extends Application {
 
     /**
      * Отображает окно создания комикса
+     *
      * @param stage - окно
      */
     @Override
@@ -49,7 +50,7 @@ public class AdditionUI extends Application {
         GridPane gridPane = new GridPane();
         gridPane.setHgap(20.0);
         gridPane.setVgap(20.0);
-        gridPane.add(labelNameComic, 0, 0 );
+        gridPane.add(labelNameComic, 0, 0);
         gridPane.add(textFieldNameComic, 1, 0);
         gridPane.add(labelNumberOfPagesComic, 0, 1);
         gridPane.add(textFieldNumberOfPagesComic, 1, 1);
@@ -83,9 +84,9 @@ public class AdditionUI extends Application {
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
             if (textFieldNameComic.getText().isEmpty() || textFieldAuthorComic.getText().isEmpty()
-            || textFieldPublishingComic.getText().isEmpty() || textFieldNumberOfPagesComic.getText().isEmpty()
-            || textFieldGenreComic.getText().isEmpty() || textFieldYearOfPublishingComic.getText().isEmpty()
-            || textFieldCoastPriceComic.getText().isEmpty() || textFieldSellingPriceComic.getText().isEmpty()) {
+                    || textFieldPublishingComic.getText().isEmpty() || textFieldNumberOfPagesComic.getText().isEmpty()
+                    || textFieldGenreComic.getText().isEmpty() || textFieldYearOfPublishingComic.getText().isEmpty()
+                    || textFieldCoastPriceComic.getText().isEmpty() || textFieldSellingPriceComic.getText().isEmpty()) {
                 new MessageUI("Заполните все поля!").start(new Stage());
                 return;
             }
@@ -115,8 +116,8 @@ public class AdditionUI extends Application {
                                      String textFieldSellingPriceComic,
                                      boolean checkBoxIsContinuation) {
         String[] elementsOfComic = {textFieldNameComic, textFieldAuthorComic, textFieldPublishingComic
-        , textFieldNumberOfPagesComic, textFieldGenreComic, textFieldYearOfPublishingComic, textFieldCoastPriceComic
-        , textFieldSellingPriceComic, checkBoxIsContinuation ? "true" : "false"};
+                , textFieldNumberOfPagesComic, textFieldGenreComic, textFieldYearOfPublishingComic, textFieldCoastPriceComic
+                , textFieldSellingPriceComic, checkBoxIsContinuation ? "true" : "false"};
         return elementsOfComic;
     }
 }

@@ -18,6 +18,7 @@ public class DeleteUI extends Application {
 
     /**
      * Отображает окно удаления
+     *
      * @param stage - окно
      */
     @Override

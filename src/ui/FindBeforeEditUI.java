@@ -9,7 +9,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import presenters.DeletePresenter;
 
 /**
  * Окно поиска перед редактированием комикса
@@ -18,6 +17,7 @@ public class FindBeforeEditUI extends Application {
 
     /**
      * Отображает окно поиска перед редактированием
+     *
      * @param stage - окно
      */
     @Override

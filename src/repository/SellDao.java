@@ -26,6 +26,7 @@ public class SellDao {
 
     /**
      * Запись продажи в файл
+     *
      * @param sell - продажа
      */
     public void saveToFile(String sell) {

@@ -17,6 +17,10 @@ public class ComicPrice {
         this.sellingPrice = sellingPrice;
     }
 
+    public double getCostPrice() {
+        return costPrice;
+    }
+
     public double getSellingPrice() {
         return sellingPrice;
     }

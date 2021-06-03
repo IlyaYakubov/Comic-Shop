@@ -27,6 +27,10 @@ public class MainUI extends Application {
         buttonAddComic.setPrefWidth(200);
         buttonAddComic.setPrefHeight(70);
         buttonAddComic.setFont(new Font(15));
+        Button buttonEditComic = new Button("Редактирование");
+        buttonEditComic.setPrefWidth(200);
+        buttonEditComic.setPrefHeight(70);
+        buttonEditComic.setFont(new Font(15));
         Button buttonDeleteComic = new Button("Удаление");
         buttonDeleteComic.setPrefWidth(200);
         buttonDeleteComic.setPrefHeight(70);
@@ -43,11 +47,13 @@ public class MainUI extends Application {
         TilePane tilePane = new TilePane();
         tilePane.setOrientation(Orientation.VERTICAL);
         tilePane.setMargin(buttonAddComic, new Insets(20.0));
+        tilePane.setMargin(buttonEditComic, new Insets(20.0));
         tilePane.setMargin(buttonDeleteComic, new Insets(20.0));
         tilePane.setMargin(buttonSellComic, new Insets(20.0));
         tilePane.setMargin(buttonWriteOffComic, new Insets(20.0));
 
         tilePane.getChildren().add(buttonAddComic);
+        tilePane.getChildren().add(buttonEditComic);
         tilePane.getChildren().add(buttonDeleteComic);
         tilePane.getChildren().add(buttonSellComic);
         tilePane.getChildren().add(buttonWriteOffComic);
@@ -55,6 +61,11 @@ public class MainUI extends Application {
         buttonAddComic.setOnMouseClicked(mouseEvent -> {
             AdditionUI additionUI = new AdditionUI();
             additionUI.start(new Stage());
+        });
+
+        buttonEditComic.setOnMouseClicked(mouseEvent -> {
+            FindBeforeEditUI findBeforeEditUI = new FindBeforeEditUI();
+            findBeforeEditUI.start(new Stage());
         });
 
         buttonDeleteComic.setOnMouseClicked(mouseEvent -> {
@@ -72,7 +83,7 @@ public class MainUI extends Application {
             writeOffUI.start(new Stage());
         });
 
-        Scene scene = new Scene(tilePane, 250, 450);
+        Scene scene = new Scene(tilePane, 250, 550);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

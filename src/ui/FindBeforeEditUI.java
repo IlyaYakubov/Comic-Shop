@@ -12,41 +12,40 @@ import javafx.stage.Stage;
 import presenters.DeletePresenter;
 
 /**
- * Окно удаления комикса
+ * Окно поиска перед редактированием комикса
  */
-public class DeleteUI extends Application {
+public class FindBeforeEditUI extends Application {
 
     /**
-     * Отображает окно удаления
+     * Отображает окно поиска перед редактированием
      * @param stage - окно
      */
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Удаление");
+        stage.setTitle("Редактирование");
 
         Label labelNameComic = new Label("Наименование комикса");
         labelNameComic.setFont(new Font(15));
 
         TextField textFieldComic = new TextField();
-        Button buttonDelete = new Button("Удалить");
-        buttonDelete.setFont(new Font(15));
-        buttonDelete.setPrefWidth(265);
+        Button buttonEdit = new Button("Редактировать");
+        buttonEdit.setFont(new Font(15));
+        buttonEdit.setPrefWidth(265);
 
         VBox vBox = new VBox();
         vBox.getChildren().add(labelNameComic);
         vBox.getChildren().add(textFieldComic);
-        vBox.getChildren().add(buttonDelete);
+        vBox.getChildren().add(buttonEdit);
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        DeletePresenter deletePresenter = new DeletePresenter();
-
-        buttonDelete.setOnMouseClicked(mouseEvent -> {
+        buttonEdit.setOnMouseClicked(mouseEvent -> {
             if (textFieldComic.getText().isEmpty()) {
                 new MessageUI("Введите название комикса!").start(new Stage());
                 return;
             }
-            deletePresenter.onClickEdit(textFieldComic.getText());
+            EditUI editUI = new EditUI(textFieldComic.getText());
+            editUI.start(new Stage());
             stage.close();
         });
 

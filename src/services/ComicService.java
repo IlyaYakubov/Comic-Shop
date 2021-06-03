@@ -9,6 +9,7 @@ import repository.SellDao;
 import repository.WriteOffDao;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +32,20 @@ public class ComicService {
     }
 
     /**
+     * Редактирование комикса
+     *
+     * @param comic - элементы комикса
+     */
+    public void editComic(String[] comic) {
+        for (String elementsOfComic : comicsInFile) {
+            if (elementsOfComic.equals(comic[0])) {
+                deleteComic(elementsOfComic);
+                addComic(comic);
+            }
+        }
+    }
+
+    /**
      * Удаление комикса
      * При совпадении имени комикс не перезаписывается
      * (файл предварительно удаляется)
@@ -39,19 +54,19 @@ public class ComicService {
      */
     public void deleteComic(String nameOfComic) {
         if (comicsInFile.size() > 0) {
+            List<String> newListOfComics = new ArrayList<>();
             fileDao.deleteFile();
-            boolean control = false;
+            boolean wasAPass = false;
             for (String comic : comicsInFile) {
                 String[] arrayOfElements = comic.split(DELIMITER);
-                if (!control && arrayOfElements[0].equals(nameOfComic)) {
-                    control = true;
+                if (arrayOfElements[0].equals(nameOfComic) && !wasAPass) {
+                    wasAPass = true;
                     continue;
                 }
-                if (control) {
-                    fileDao.saveToFile(comic);
-                }
+                newListOfComics.add(comic);
+                fileDao.saveToFile(comic);
             }
-            comicsInFile.remove(0);
+            comicsInFile = newListOfComics;
         }
     }
 

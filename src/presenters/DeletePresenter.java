@@ -17,7 +17,7 @@ public class DeletePresenter {
      * Удаление комикса
      * @param nameOfComics - наименование комикса
      */
-    public void onClickDelete(String nameOfComics) {
+    public void onClickEdit(String nameOfComics) {
         comicService.deleteComic(nameOfComics);
     }
 }

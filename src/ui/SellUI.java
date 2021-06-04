@@ -96,9 +96,10 @@ public class SellUI extends Application {
             labelAmount.setText("0.0");
         });
 
-        Scene scene = new Scene(vBox, 700, 500);
+        Scene scene = new Scene(vBox, 800, 600);
         stage.setScene(scene);
         stage.setAlwaysOnTop(true);
+        stage.setResizable(false);
         stage.show();
     }
 

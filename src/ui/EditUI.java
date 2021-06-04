@@ -108,11 +108,16 @@ public class EditUI extends Application {
                 new MessageUI("Заполните все поля!").start(new Stage());
                 return;
             }
-            String[] elementsOfComic = elementsOfComic(textFieldNameComic.getText(), textFieldAuthorComic.getText()
-                    , textFieldPublishingComic.getText(), textFieldNumberOfPagesComic.getText()
-                    , textFieldGenreComic.getText(), textFieldYearOfPublishingComic.getText()
-                    , textFieldCoastPriceComic.getText(), textFieldSellingPriceComic.getText()
-                    , checkBoxIsContinuation.isSelected());
+            String[] elementsOfComic = elementsOfComic(
+                    textFieldNameComic.getText(),
+                    textFieldAuthorComic.getText(),
+                    textFieldPublishingComic.getText(),
+                    textFieldNumberOfPagesComic.getText(),
+                    textFieldGenreComic.getText(),
+                    textFieldYearOfPublishingComic.getText(),
+                    textFieldCoastPriceComic.getText(),
+                    textFieldSellingPriceComic.getText(),
+                    checkBoxIsContinuation.isSelected());
 
             editPresenter.onClickEdit(elementsOfComic);
             stage.close();
@@ -150,9 +155,15 @@ public class EditUI extends Application {
                                      String textFieldCoastPriceComic,
                                      String textFieldSellingPriceComic,
                                      boolean checkBoxIsContinuation) {
-        String[] elementsOfComic = {textFieldNameComic, textFieldAuthorComic, textFieldPublishingComic
-                , textFieldNumberOfPagesComic, textFieldGenreComic, textFieldYearOfPublishingComic, textFieldCoastPriceComic
-                , textFieldSellingPriceComic, checkBoxIsContinuation ? "true" : "false"};
-        return elementsOfComic;
+        return new String[]{
+                textFieldNameComic,
+                textFieldAuthorComic,
+                textFieldPublishingComic,
+                textFieldNumberOfPagesComic,
+                textFieldGenreComic,
+                textFieldYearOfPublishingComic,
+                textFieldCoastPriceComic,
+                textFieldSellingPriceComic,
+                checkBoxIsContinuation ? "true" : "false"};
     }
 }

@@ -8,81 +8,73 @@
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="230.0"
       prefWidth="355.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="ui.RegistrationController">
-    <children>
-        <HBox prefHeight="50.0" prefWidth="200.0">
-            <children>
-                <Label text="Имя пользователя">
-                    <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                    </HBox.margin>
-                    <font>
-                        <Font size="15.0"/>
-                    </font>
-                </Label>
-                <TextField fx:id="textFieldName">
-                    <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                    </HBox.margin>
-                    <font>
-                        <Font size="15.0"/>
-                    </font>
-                </TextField>
-            </children>
-        </HBox>
-        <HBox prefHeight="50.0" prefWidth="600.0">
-            <children>
-                <Label prefHeight="27.0" prefWidth="128.0" text="Пароль">
-                    <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                    </HBox.margin>
-                    <font>
-                        <Font size="15.0"/>
-                    </font>
-                </Label>
-                <PasswordField fx:id="textFieldPassword">
-                    <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                    </HBox.margin>
-                    <font>
-                        <Font size="15.0"/>
-                    </font>
-                </PasswordField>
-            </children>
-        </HBox>
-        <HBox prefHeight="50.0" prefWidth="200.0">
-            <children>
-                <Label text="Повторите пароль">
-                    <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                    </HBox.margin>
-                    <font>
-                        <Font size="15.0"/>
-                    </font>
-                </Label>
-                <PasswordField fx:id="textFieldPasswordConfirmation">
-                    <HBox.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                    </HBox.margin>
-                    <font>
-                        <Font size="15.0"/>
-                    </font>
-                </PasswordField>
-            </children>
-            <padding>
-                <Insets bottom="10.0"/>
-            </padding>
-        </HBox>
-        <Button mnemonicParsing="false" onAction="#onClickOK" prefHeight="39.0" prefWidth="334.0"
-                text="Зарегистрироваться" textFill="#0f6fdb">
-            <VBox.margin>
+    <HBox prefHeight="50.0" prefWidth="200.0">
+        <Label text="Имя пользователя">
+            <HBox.margin>
                 <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-            </VBox.margin>
+            </HBox.margin>
             <font>
                 <Font size="15.0"/>
             </font>
-            <effect>
-                <DropShadow height="28.41" radius="13.335" width="26.93"/>
-            </effect>
-        </Button>
-    </children>
+        </Label>
+        <TextField fx:id="textFieldName">
+            <HBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </HBox.margin>
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </TextField>
+    </HBox>
+    <HBox prefHeight="50.0" prefWidth="600.0">
+        <Label prefHeight="27.0" prefWidth="128.0" text="Пароль">
+            <HBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </HBox.margin>
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </Label>
+        <PasswordField fx:id="textFieldPassword">
+            <HBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </HBox.margin>
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </PasswordField>
+    </HBox>
+    <HBox prefHeight="50.0" prefWidth="200.0">
+        <padding>
+            <Insets bottom="10.0"/>
+        </padding>
+        <Label text="Повторите пароль">
+            <HBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </HBox.margin>
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </Label>
+        <PasswordField fx:id="textFieldPasswordConfirmation">
+            <HBox.margin>
+                <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+            </HBox.margin>
+            <font>
+                <Font size="15.0"/>
+            </font>
+        </PasswordField>
+    </HBox>
+    <Button mnemonicParsing="false" onAction="#onClickOK" prefHeight="39.0" prefWidth="334.0"
+            text="Зарегистрироваться" textFill="#0f6fdb">
+        <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+        </VBox.margin>
+        <font>
+            <Font size="15.0"/>
+        </font>
+        <effect>
+            <DropShadow height="28.41" radius="13.335" width="26.93"/>
+        </effect>
+    </Button>
 </VBox>

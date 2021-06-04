@@ -5,6 +5,7 @@ import domain.sell.Cart;
 import domain.sell.CartItem;
 import domain.sell.Sell;
 import repository.FileDao;
+import repository.ReservationDao;
 import repository.SellDao;
 import repository.WriteOffDao;
 
@@ -114,6 +115,26 @@ public class ComicService {
         for (CartItem comic : cart.getComics()) {
             String buyItem = LocalDateTime.now() + DELIMITER + comic.getComic();
             writeOffDao.saveToFile(buyItem);
+        }
+
+        cart.getComics().clear();
+    }
+
+    /**
+     * Резервация комиксов
+     *
+     * @param cart     - корзина комиксов
+     * @param customer - имя клиента
+     */
+    public void reservationComics(Cart cart, String customer) {
+        for (CartItem comic : cart.getComics()) {
+            deleteComic(comic.getComic());
+        }
+
+        ReservationDao reservationDao = new ReservationDao();
+        for (CartItem comic : cart.getComics()) {
+            String buyItem = LocalDateTime.now() + DELIMITER + comic.getComic() + DELIMITER + customer + DELIMITER;
+            reservationDao.saveToFile(buyItem);
         }
 
         cart.getComics().clear();

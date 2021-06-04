@@ -79,9 +79,10 @@ public class WriteOffUI extends Application {
             table.getItems().clear();
         });
 
-        Scene scene = new Scene(vBox, 700, 500);
+        Scene scene = new Scene(vBox, 800, 600);
         stage.setScene(scene);
         stage.setAlwaysOnTop(true);
+        stage.setResizable(false);
         stage.show();
     }
 

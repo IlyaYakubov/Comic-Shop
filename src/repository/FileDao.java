@@ -31,6 +31,7 @@ public class FileDao {
 
     /**
      * Запись комикса в файл
+     *
      * @param comic - комикс из элементов
      */
     public void saveToFile(String comic) {
@@ -43,6 +44,7 @@ public class FileDao {
 
     /**
      * Чтение строки (элементов) комикса
+     *
      * @return - коллекция комиксов
      */
     public List<String> readFromFile() {
@@ -71,6 +73,7 @@ public class FileDao {
 
     /**
      * Запрос комикса по наименованию
+     *
      * @param comicName - наименование комикса
      * @return - комикс
      */
@@ -80,12 +83,16 @@ public class FileDao {
             for (String desiredComic : comicsWithElements) {
                 String[] elementsOfComic = desiredComic.split(";");
                 if (elementsOfComic[0].equals(comicName)) {
-                    Comic comic = new Comic(elementsOfComic[0], new Author(elementsOfComic[1])
-                            , new Publishing(elementsOfComic[2]), Integer.parseInt(elementsOfComic[3])
-                            , new Genre(elementsOfComic[4]), Integer.parseInt(elementsOfComic[5])
-                            , Double.parseDouble(elementsOfComic[6]), Double.parseDouble(elementsOfComic[7])
-                            , Boolean.parseBoolean(elementsOfComic[8]));
-                    return comic;
+                    return new Comic(
+                            elementsOfComic[0],
+                            new Author(elementsOfComic[1]),
+                            new Publishing(elementsOfComic[2]),
+                            Integer.parseInt(elementsOfComic[3]),
+                            new Genre(elementsOfComic[4]),
+                            Integer.parseInt(elementsOfComic[5]),
+                            Double.parseDouble(elementsOfComic[6]),
+                            Double.parseDouble(elementsOfComic[7]),
+                            Boolean.parseBoolean(elementsOfComic[8]));
                 }
             }
         } catch (IOException e) {

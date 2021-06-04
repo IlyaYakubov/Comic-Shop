@@ -15,6 +15,6 @@ public class Sell {
      * Совершить продажу
      */
     public void makePurchase() {
-        cart.extractComics();
+        cart.clear();
     }
 }

@@ -1,13 +1,9 @@
 package repository;
 
-import domain.sell.Cart;
-import domain.sell.CartItem;
-
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
 
 /**
  * Работа с файлом продажи
@@ -30,6 +26,7 @@ public class SellDao {
 
     /**
      * Запись продажи в файл
+     *
      * @param sell - продажа
      */
     public void saveToFile(String sell) {

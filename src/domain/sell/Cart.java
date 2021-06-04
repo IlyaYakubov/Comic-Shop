@@ -23,6 +23,7 @@ public class Cart {
 
     /**
      * Добавление комикса в корзину
+     *
      * @param comic - комикс
      */
     public void addComic(Comic comic) {
@@ -32,9 +33,9 @@ public class Cart {
     }
 
     /**
-     * Опустошение элементов
+     * Очистка корзины
      */
-    public void extractComics() {
+    public void clear() {
         comics.clear();
     }
 }

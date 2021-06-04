@@ -1,7 +1,6 @@
 package domain;
 
 import domain.sell.ComicPrice;
-import javafx.beans.property.SimpleObjectProperty;
 
 /**
  * Модель комикса
@@ -34,7 +33,7 @@ public class Comic {
         this.author = author;
         this.publishing = publishing;
         this.genre = genre;
-        this.comicPrice = new ComicPrice(this, costPrice, sellingPrice);
+        this.comicPrice = new ComicPrice(costPrice, sellingPrice);
     }
 
     public String getName() {

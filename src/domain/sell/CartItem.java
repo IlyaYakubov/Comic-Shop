@@ -21,23 +21,23 @@ public class CartItem {
         return comic.get();
     }
 
-    public SimpleStringProperty comicProperty() {
-        return comic;
-    }
-
     public void setComic(String comic) {
         this.comic.set(comic);
+    }
+
+    public SimpleStringProperty comicProperty() {
+        return comic;
     }
 
     public double getPrice() {
         return price.get();
     }
 
-    public SimpleDoubleProperty priceProperty() {
-        return price;
-    }
-
     public void setPrice(double price) {
         this.price.set(price);
+    }
+
+    public SimpleDoubleProperty priceProperty() {
+        return price;
     }
 }

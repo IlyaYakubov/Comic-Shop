@@ -29,7 +29,6 @@ public class ReservationUI extends Application {
     public void start(Stage stage) {
         stage.setTitle("Резервирование");
 
-        //-----------------------------------------------------------------------------------------------------
         Label labelComicName = new Label("Наименование");
         labelComicName.setFont(new Font(15));
         TextField textFieldComicName = new TextField();
@@ -39,7 +38,6 @@ public class ReservationUI extends Application {
         hBox.setSpacing(20.0);
         hBox.getChildren().addAll(labelComicName, textFieldComicName);
 
-        //-----------------------------------------------------------------------------------------------------
         Label labelCustomerName = new Label("Имя клиента");
         labelCustomerName.setFont(new Font(15));
         TextField textFieldCustomerName = new TextField();
@@ -49,12 +47,10 @@ public class ReservationUI extends Application {
         hBox.setSpacing(20.0);
         hBox.getChildren().addAll(labelCustomerName, textFieldCustomerName);
 
-        //-----------------------------------------------------------------------------------------------------
         Button buttonAdd = new Button("Добавить");
         buttonAdd.setFont(new Font(15));
         buttonAdd.setPrefWidth(200);
 
-        //-----------------------------------------------------------------------------------------------------
         table = new TableView<>();
         table.setPrefHeight(1000.0);
 
@@ -76,7 +72,6 @@ public class ReservationUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        //-----------------------------------------------------------------------------------------------------
         ReservationPresenter reservationPresenter = new ReservationPresenter(this);
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
@@ -89,7 +84,7 @@ public class ReservationUI extends Application {
 
         buttonReservation.setOnMouseClicked(mouseEvent -> {
             if (table.getItems().isEmpty() || textFieldCustomerName.getText().isEmpty()) {
-                new MessageUI("Не заполнен клиент или комиксы");
+                new MessageUI("Заполните клиента или комиксы");
                 return;
             }
             reservationPresenter.onClickReservation(textFieldCustomerName.getText());

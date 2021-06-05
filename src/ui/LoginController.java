@@ -23,7 +23,7 @@ public class LoginController {
     void onClickButtonOK(ActionEvent event) {
         String login = textFieldLogin.getText();
         if (login.equals("")) {
-            new MessageUI("Имя не может быть пустым").start(new Stage());
+            new MessageUI("Заполните логин").start(new Stage());
             return;
         }
         UserService userService = new UserService(login, textFieldPassword.getText());

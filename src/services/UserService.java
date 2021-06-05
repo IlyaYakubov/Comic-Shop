@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class UserService {
 
-    UserDao userDao = new UserDao();
+    private UserDao userDao = new UserDao();
     private String name;
     private String password;
 
@@ -25,6 +25,11 @@ public class UserService {
         userDao.saveToFile(name + "\n" + password);
     }
 
+    /**
+     * Пользователь зарегистрирован
+     *
+     * @return - true в случае если пользователь найден
+     */
     public boolean userInTheSystem() {
         List<String> users = userDao.readFromFile();
         for (int i = 0; i < users.size() - 1; i++) {

@@ -6,6 +6,7 @@ import domain.sell.CartItem;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import services.ComicService;
+import services.SearchService;
 import ui.WriteOffUI;
 
 /**
@@ -14,11 +15,13 @@ import ui.WriteOffUI;
 public class WriteOffPresenter {
 
     private ComicService comicService;
+    private SearchService searchService;
     private WriteOffUI writeOffUI;
     private Cart cart = new Cart();
 
     public WriteOffPresenter(WriteOffUI writeOffUI) {
         comicService = new ComicService();
+        searchService = new SearchService();
         this.writeOffUI = writeOffUI;
     }
 
@@ -28,7 +31,7 @@ public class WriteOffPresenter {
      * @param comicName - наименование комикса
      */
     public void onClickAdd(String comicName) {
-        Comic comic = comicService.getComicByName(comicName);
+        Comic comic = searchService.getComicByName(comicName);
         if (comic == null) {
             return;
         }

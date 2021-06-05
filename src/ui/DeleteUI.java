@@ -44,7 +44,7 @@ public class DeleteUI extends Application {
 
         buttonDelete.setOnMouseClicked(mouseEvent -> {
             if (textFieldComic.getText().isEmpty()) {
-                new MessageUI("Введите название комикса!").start(new Stage());
+                new MessageUI("Введите название комикса").start(new Stage());
                 return;
             }
             deletePresenter.onClickEdit(textFieldComic.getText());

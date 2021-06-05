@@ -41,7 +41,7 @@ public class FindBeforeEditUI extends Application {
 
         buttonEdit.setOnMouseClicked(mouseEvent -> {
             if (textFieldComic.getText().isEmpty()) {
-                new MessageUI("Введите название комикса!").start(new Stage());
+                new MessageUI("Введите название комикса").start(new Stage());
                 return;
             }
             EditUI editUI = new EditUI(textFieldComic.getText());

@@ -87,7 +87,7 @@ public class AdditionUI extends Application {
                     || textFieldPublishingComic.getText().isEmpty() || textFieldNumberOfPagesComic.getText().isEmpty()
                     || textFieldGenreComic.getText().isEmpty() || textFieldYearOfPublishingComic.getText().isEmpty()
                     || textFieldCoastPriceComic.getText().isEmpty() || textFieldSellingPriceComic.getText().isEmpty()) {
-                new MessageUI("Заполните все поля!").start(new Stage());
+                new MessageUI("Заполните все поля").start(new Stage());
                 return;
             }
             String[] elementsOfComic = elementsOfComic(

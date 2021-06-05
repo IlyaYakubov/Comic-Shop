@@ -2,6 +2,7 @@ package presenters;
 
 import domain.Comic;
 import services.ComicService;
+import services.SearchService;
 import ui.EditUI;
 
 /**
@@ -10,10 +11,12 @@ import ui.EditUI;
 public class EditPresenter {
 
     private ComicService comicService;
+    private SearchService searchService;
     private EditUI editUI;
 
     public EditPresenter(EditUI editUI) {
         comicService = new ComicService();
+        searchService = new SearchService();
         this.editUI = editUI;
     }
 
@@ -23,7 +26,7 @@ public class EditPresenter {
      * @param comicName - наименование комикса
      */
     public void findComicForEdit(String comicName) {
-        Comic comic = comicService.getComicByName(comicName);
+        Comic comic = searchService.getComicByName(comicName);
         if (comic == null) {
             return;
         }

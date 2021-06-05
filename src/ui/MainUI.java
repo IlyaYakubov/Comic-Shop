@@ -47,6 +47,10 @@ public class MainUI extends Application {
         buttonReservationComic.setPrefWidth(200);
         buttonReservationComic.setPrefHeight(70);
         buttonReservationComic.setFont(new Font(15));
+        Button buttonPromotions = new Button("Акции");
+        buttonPromotions.setPrefWidth(200);
+        buttonPromotions.setPrefHeight(70);
+        buttonPromotions.setFont(new Font(15));
 
         TilePane tilePane = new TilePane();
         tilePane.setOrientation(Orientation.VERTICAL);
@@ -56,6 +60,7 @@ public class MainUI extends Application {
         tilePane.setMargin(buttonSellComic, new Insets(10.0));
         tilePane.setMargin(buttonWriteOffComic, new Insets(10.0));
         tilePane.setMargin(buttonReservationComic, new Insets(10.0));
+        tilePane.setMargin(buttonPromotions, new Insets(10.0));
 
         tilePane.getChildren().add(buttonAddComic);
         tilePane.getChildren().add(buttonEditComic);
@@ -63,6 +68,7 @@ public class MainUI extends Application {
         tilePane.getChildren().add(buttonSellComic);
         tilePane.getChildren().add(buttonWriteOffComic);
         tilePane.getChildren().add(buttonReservationComic);
+        tilePane.getChildren().add(buttonPromotions);
 
         buttonAddComic.setOnMouseClicked(mouseEvent -> {
             AdditionUI additionUI = new AdditionUI();
@@ -92,6 +98,11 @@ public class MainUI extends Application {
         buttonReservationComic.setOnMouseClicked(mouseEvent -> {
             ReservationUI reservationUI = new ReservationUI();
             reservationUI.start(new Stage());
+        });
+
+        buttonPromotions.setOnMouseClicked(mouseEvent -> {
+            DiscountListUI discountUI = new DiscountListUI();
+            discountUI.start(new Stage());
         });
 
         Scene scene = new Scene(tilePane, 250, 650);

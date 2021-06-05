@@ -1,6 +1,5 @@
 package services;
 
-import domain.Comic;
 import domain.sell.Cart;
 import domain.sell.CartItem;
 import domain.sell.Sell;
@@ -138,16 +137,6 @@ public class ComicService {
         }
 
         cart.getComics().clear();
-    }
-
-    /**
-     * Получение комикса по наименованию
-     *
-     * @param nameOfComic - наименование комикса
-     * @return - комикс, если найден в файле
-     */
-    public Comic getComicByName(String nameOfComic) {
-        return fileDao.getComicByName(nameOfComic);
     }
 
     private StringBuilder formComicFromElements(String[] comic) {

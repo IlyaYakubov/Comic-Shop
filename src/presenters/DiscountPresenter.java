@@ -1,6 +1,5 @@
 package presenters;
 
-import domain.Comic;
 import domain.sell.CartItem;
 import javafx.collections.ObservableList;
 import services.SearchService;

@@ -1,9 +1,7 @@
 package ui;
 
-import domain.Comic;
 import domain.sell.CartItem;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;

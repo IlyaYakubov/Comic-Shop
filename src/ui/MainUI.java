@@ -56,13 +56,13 @@ public class MainUI extends Application {
 
         TilePane tilePane = new TilePane();
         tilePane.setOrientation(Orientation.VERTICAL);
-        tilePane.setMargin(buttonAddComic, new Insets(10.0));
-        tilePane.setMargin(buttonEditComic, new Insets(10.0));
-        tilePane.setMargin(buttonDeleteComic, new Insets(10.0));
-        tilePane.setMargin(buttonSellComic, new Insets(10.0));
-        tilePane.setMargin(buttonWriteOffComic, new Insets(10.0));
-        tilePane.setMargin(buttonReservationComic, new Insets(10.0));
-        tilePane.setMargin(buttonPromotions, new Insets(10.0));
+        TilePane.setMargin(buttonAddComic, new Insets(10.0));
+        TilePane.setMargin(buttonEditComic, new Insets(10.0));
+        TilePane.setMargin(buttonDeleteComic, new Insets(10.0));
+        TilePane.setMargin(buttonSellComic, new Insets(10.0));
+        TilePane.setMargin(buttonWriteOffComic, new Insets(10.0));
+        TilePane.setMargin(buttonReservationComic, new Insets(10.0));
+        TilePane.setMargin(buttonPromotions, new Insets(10.0));
 
         tilePane.getChildren().add(buttonAddComic);
         tilePane.getChildren().add(buttonEditComic);

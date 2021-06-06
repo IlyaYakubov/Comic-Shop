@@ -14,10 +14,10 @@ import javafx.stage.Stage;
  */
 public class MessageUI extends Application {
 
-    private String message;
+    private final String MESSAGE;
 
     public MessageUI(String message) {
-        this.message = message;
+        this.MESSAGE = message;
     }
 
     /**
@@ -30,7 +30,7 @@ public class MessageUI extends Application {
         stage.setTitle("Сообщение");
 
         Label labelMessage = new Label();
-        labelMessage.setText(message);
+        labelMessage.setText(MESSAGE);
         labelMessage.setFont(new Font(15));
         Button buttonOK = new Button("OK");
         buttonOK.setFont(new Font(15));

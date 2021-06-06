@@ -1,6 +1,5 @@
 package presenters;
 
-import domain.Comic;
 import domain.sell.CartItem;
 import services.ComicService;
 import services.SearchService;

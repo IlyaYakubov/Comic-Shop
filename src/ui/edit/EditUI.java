@@ -99,7 +99,10 @@ public class EditUI extends Application {
         vBox.setPadding(new Insets(20));
 
         EditPresenter editPresenter = new EditPresenter(this);
-        editPresenter.findComicForEdit(comicName);
+        if (!editPresenter.findComicForEdit(comicName)) {
+            stage.close();
+            return;
+        }
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
             if (textFieldNameComic.getText().isEmpty() || textFieldAuthorComic.getText().isEmpty()

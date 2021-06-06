@@ -92,7 +92,7 @@ public class ComicService {
 
         SellDao sellDao = new SellDao();
         for (CartItem comic : cart.getComics()) {
-            String buyItem = LocalDateTime.now() + DELIMITER + comic.getComic() + DELIMITER
+            String buyItem = LocalDateTime.now() + DELIMITER + comic.getComic().getName() + DELIMITER
                     + comic.getPrice();
             sellDao.saveToFile(buyItem);
         }
@@ -112,7 +112,7 @@ public class ComicService {
 
         WriteOffDao writeOffDao = new WriteOffDao();
         for (CartItem comic : cart.getComics()) {
-            String buyItem = LocalDateTime.now() + DELIMITER + comic.getComic();
+            String buyItem = LocalDateTime.now() + DELIMITER + comic.getComic().getName();
             writeOffDao.saveToFile(buyItem);
         }
 
@@ -132,7 +132,7 @@ public class ComicService {
 
         ReservationDao reservationDao = new ReservationDao();
         for (CartItem comic : cart.getComics()) {
-            String buyItem = LocalDateTime.now() + DELIMITER + comic.getComic() + DELIMITER + customer + DELIMITER;
+            String buyItem = LocalDateTime.now() + DELIMITER + comic.getComic().getName() + DELIMITER + customer;
             reservationDao.saveToFile(buyItem);
         }
 

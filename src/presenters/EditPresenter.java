@@ -25,12 +25,13 @@ public class EditPresenter {
      *
      * @param comicName - наименование комикса
      */
-    public void findComicForEdit(String comicName) {
+    public boolean findComicForEdit(String comicName) {
         CartItem comic = searchService.getComicByName(comicName);
         if (comic == null) {
-            return;
+            return false;
         }
         editUI.setContent(comic.getComic());
+        return true;
     }
 
     /**

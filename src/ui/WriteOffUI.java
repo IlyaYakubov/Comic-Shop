@@ -45,7 +45,7 @@ public class WriteOffUI extends Application {
         table.setPrefHeight(1000.0);
 
         TableColumn<CartItem, String> nameColumn = new TableColumn<>("Наименование");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("comic"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setPrefWidth(350.0);
         table.getColumns().add(nameColumn);
 

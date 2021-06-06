@@ -1,4 +1,4 @@
-package ui;
+package ui.edit;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import ui.utils.MessageUI;
 
 /**
  * Окно поиска перед редактированием комикса

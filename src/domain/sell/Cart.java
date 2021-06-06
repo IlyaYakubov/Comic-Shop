@@ -23,17 +23,18 @@ public class Cart {
 
     /**
      * Добавление комикса в корзину
+     * Получается элемент корзины состоящий из комикса, его цены и его наименования
      *
      * @param comic - комикс
      */
     public void addComic(Comic comic) {
         ComicPrice comicPrice = comic.getComicPrice();
-        comics.add(new CartItem(comic, comicPrice.getSellingPrice()));
+        comics.add(new CartItem(comic, comicPrice.getSellingPrice(), comic.getName()));
         amount += comicPrice.getSellingPrice();
     }
 
     /**
-     * Опустошение элементов
+     * Очистка
      */
     public void clear() {
         comics.clear();

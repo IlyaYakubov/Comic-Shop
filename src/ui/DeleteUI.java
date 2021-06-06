@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import presenters.DeletePresenter;
+import ui.utils.MessageUI;
 
 /**
  * Окно удаления комикса

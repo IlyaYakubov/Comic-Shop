@@ -1,10 +1,5 @@
 package repository;
 
-import domain.Author;
-import domain.Comic;
-import domain.Genre;
-import domain.Publishing;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,35 +64,5 @@ public class FileDao {
         assert writer != null;
         writer.print("");
         writer.close();
-    }
-
-    /**
-     * Запрос комикса по наименованию
-     *
-     * @param comicName - наименование комикса
-     * @return - комикс
-     */
-    public Comic getComicByName(String comicName) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(FILE_WITH_COMICS))) {
-            List<String> comicsWithElements = reader.lines().collect(Collectors.toList());
-            for (String desiredComic : comicsWithElements) {
-                String[] elementsOfComic = desiredComic.split(";");
-                if (elementsOfComic[0].equals(comicName)) {
-                    return new Comic(
-                            elementsOfComic[0],
-                            new Author(elementsOfComic[1]),
-                            new Publishing(elementsOfComic[2]),
-                            Integer.parseInt(elementsOfComic[3]),
-                            new Genre(elementsOfComic[4]),
-                            Integer.parseInt(elementsOfComic[5]),
-                            Double.parseDouble(elementsOfComic[6]),
-                            Double.parseDouble(elementsOfComic[7]),
-                            Boolean.parseBoolean(elementsOfComic[8]));
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 }

@@ -1,4 +1,4 @@
-package ui;
+package ui.discount;
 
 import domain.sell.CartItem;
 import javafx.application.Application;
@@ -40,7 +40,7 @@ public class DiscountListUI extends Application {
         table.setPrefHeight(800.0);
 
         TableColumn<CartItem, String> nameColumn = new TableColumn<>("Список акций");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("comic"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setPrefWidth(800.0);
         table.getColumns().add(nameColumn);
 

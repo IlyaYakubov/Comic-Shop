@@ -1,4 +1,4 @@
-package ui;
+package ui.registration;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -7,6 +7,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 import services.UserService;
+import ui.MainUI;
+import ui.utils.MessageUI;
 
 /**
  * Окно входа

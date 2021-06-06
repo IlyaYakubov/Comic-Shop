@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import ui.discount.DiscountListUI;
+import ui.edit.FindBeforeEditUI;
 
 /**
  * Основное окно

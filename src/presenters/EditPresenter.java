@@ -1,9 +1,10 @@
 package presenters;
 
 import domain.Comic;
+import domain.sell.CartItem;
 import services.ComicService;
 import services.SearchService;
-import ui.EditUI;
+import ui.edit.EditUI;
 
 /**
  * Контроллер редактирования комикса
@@ -26,11 +27,11 @@ public class EditPresenter {
      * @param comicName - наименование комикса
      */
     public void findComicForEdit(String comicName) {
-        Comic comic = searchService.getComicByName(comicName);
+        CartItem comic = searchService.getComicByName(comicName);
         if (comic == null) {
             return;
         }
-        editUI.setContent(comic);
+        editUI.setContent(comic.getComic());
     }
 
     /**

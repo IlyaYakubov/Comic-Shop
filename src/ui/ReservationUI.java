@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import presenters.ReservationPresenter;
+import ui.utils.MessageUI;
 
 /**
  * Окно резервирования
@@ -55,7 +56,7 @@ public class ReservationUI extends Application {
         table.setPrefHeight(1000.0);
 
         TableColumn<CartItem, String> nameColumn = new TableColumn<>("Наименование");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("comic"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setPrefWidth(350.0);
         table.getColumns().add(nameColumn);
 

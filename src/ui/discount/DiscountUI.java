@@ -1,4 +1,4 @@
-package ui;
+package ui.discount;
 
 import domain.sell.CartItem;
 import javafx.application.Application;
@@ -11,6 +11,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import presenters.DiscountPresenter;
+import ui.utils.MessageUI;
 
 /**
  * Окно создания акции
@@ -18,6 +20,10 @@ import javafx.stage.Stage;
 public class DiscountUI extends Application {
 
     private TableView<CartItem> table;
+
+    public TableView<CartItem> getTable() {
+        return table;
+    }
 
     /**
      * Отображает окно создания акции
@@ -54,14 +60,14 @@ public class DiscountUI extends Application {
         hBoxDates.setSpacing(20.0);
         hBoxDates.getChildren().addAll(labelBeginDate, datePickerBegin, labelEndDate, datePickerEnd);
 
-        Button buttonAdd = new Button("Добавить комиксы");
+        Button buttonAdd = new Button("Добавить комикс");
         buttonAdd.setFont(new Font(15));
-        buttonAdd.setPrefWidth(500);
+        buttonAdd.setPrefWidth(300);
 
         table = new TableView<>();
         table.setPrefHeight(800.0);
         TableColumn<CartItem, String> nameColumn = new TableColumn<>("Комикс");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("comic"));
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setPrefWidth(350.0);
         table.getColumns().add(nameColumn);
 
@@ -78,10 +84,10 @@ public class DiscountUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        //ReservationPresenter reservationPresenter = new ReservationPresenter(this);
+        DiscountPresenter discountPresenter = new DiscountPresenter();
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
-            ComicListUI comicListUI = new ComicListUI();
+            ComicListUI comicListUI = new ComicListUI(this, discountPresenter);
             comicListUI.start(new Stage());
         });
 
@@ -96,7 +102,7 @@ public class DiscountUI extends Application {
                 return;
             }
 
-            //reservationPresenter.onClickReservation(textFieldCustomerName.getText());
+            discountPresenter.onClickCreate();
         });
 
         Scene scene = new Scene(vBox, 1200, 800);
@@ -112,6 +118,6 @@ public class DiscountUI extends Application {
      * @param comics - список комиксов
      */
     public void setContent(ObservableList<CartItem> comics) {
-        table.setItems(comics);
+        table.getItems().addAll(comics);
     }
 }

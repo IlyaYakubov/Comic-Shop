@@ -1,4 +1,4 @@
-package ui;
+package ui.edit;
 
 import domain.Comic;
 import javafx.application.Application;
@@ -13,6 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import presenters.EditPresenter;
+import ui.utils.MessageUI;
 
 /**
  * Окно редактирования комикса

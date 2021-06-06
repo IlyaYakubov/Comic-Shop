@@ -1,4 +1,4 @@
-package ui;
+package ui.registration;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import javafx.stage.Window;
 import launch.Main;
 import presenters.RegistrationPresenter;
+import ui.utils.MessageUI;
 
 import java.io.IOException;
 

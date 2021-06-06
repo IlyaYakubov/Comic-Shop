@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import presenters.AdditionPresenter;
+import ui.utils.MessageUI;
 
 /**
  * Окно добавления комикса

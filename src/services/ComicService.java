@@ -87,7 +87,7 @@ public class ComicService {
      */
     public void makePurchase(Cart cart) {
         for (CartItem item : cart.getComics()) {
-            deleteComic(item.getComic());
+            deleteComic(item.getComic().getName());
         }
 
         SellDao sellDao = new SellDao();
@@ -107,7 +107,7 @@ public class ComicService {
      */
     public void writeOffComics(Cart cart) {
         for (CartItem comic : cart.getComics()) {
-            deleteComic(comic.getComic());
+            deleteComic(comic.getComic().getName());
         }
 
         WriteOffDao writeOffDao = new WriteOffDao();
@@ -127,7 +127,7 @@ public class ComicService {
      */
     public void reservationComics(Cart cart, String customer) {
         for (CartItem comic : cart.getComics()) {
-            deleteComic(comic.getComic());
+            deleteComic(comic.getComic().getName());
         }
 
         ReservationDao reservationDao = new ReservationDao();

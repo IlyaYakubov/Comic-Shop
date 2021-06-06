@@ -31,11 +31,11 @@ public class SellPresenter {
      * @param comicName - наименование комикса
      */
     public void onClickAdd(String comicName) {
-        Comic comic = searchService.getComicByName(comicName);
+        CartItem comic = searchService.getComicByName(comicName);
         if (comic == null) {
             return;
         }
-        cart.addComic(comic);
+        cart.addComic(comic.getComic());
         ObservableList<CartItem> comics = FXCollections.observableArrayList(cart.getComics());
         sellUI.setContent(comics, cart.getAmount());
     }

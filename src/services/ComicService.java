@@ -1,9 +1,10 @@
 package services;
 
 import domain.Author;
-import domain.DiscountComic;
 import domain.Genre;
 import domain.Publishing;
+import domain.discounts.Discount;
+import domain.discounts.DiscountComic;
 import domain.sell.Cart;
 import domain.sell.CartItem;
 import domain.sell.Sell;
@@ -180,21 +181,34 @@ public class ComicService {
         cart.clear();
     }
 
-    public void getDiscounts(List<CartItem> cartItems) {
+    public List<Discount> getDiscounts() {
+        List<Discount> containers = new ArrayList<>();
+        Discount stockContainer = new Discount();
+        String previousDate = "";
         for (String discountComic : discountDao.readFromFile()) {
             String[] elementsOfDiscountComic = discountComic.split(DELIMITER);
+            String currentDate = elementsOfDiscountComic[0];
+            if (!currentDate.equals(previousDate)) {
+                stockContainer = new Discount();
+            }
             DiscountComic comic = new DiscountComic(
-                    elementsOfDiscountComic[5],
-                    new Author(elementsOfDiscountComic[6]),
-                    new Publishing(elementsOfDiscountComic[7]),
-                    Integer.parseInt(elementsOfDiscountComic[8]),
-                    new Genre(elementsOfDiscountComic[9]),
-                    Integer.parseInt(elementsOfDiscountComic[10]),
-                    Double.parseDouble(elementsOfDiscountComic[11]),
-                    Double.parseDouble(elementsOfDiscountComic[12]),
-                    Boolean.parseBoolean(elementsOfDiscountComic[13]));
-            cartItems.add(new CartItem(comic, comic.getComicPrice().getSellingPrice(), comic.getName()));
+                    elementsOfDiscountComic[5], // наименование
+                    new Author(elementsOfDiscountComic[6]), // автор
+                    new Publishing(elementsOfDiscountComic[7]), // издательство
+                    Integer.parseInt(elementsOfDiscountComic[8]), // количество страниц
+                    new Genre(elementsOfDiscountComic[9]), // жанр
+                    Integer.parseInt(elementsOfDiscountComic[10]), // год издательства
+                    Double.parseDouble(elementsOfDiscountComic[11]), // себестоимость
+                    Double.parseDouble(elementsOfDiscountComic[12]), // цена продажи
+                    Boolean.parseBoolean(elementsOfDiscountComic[13])); // является продолжением
+            // elementsOfDiscountComic[1] - наименование акции
+            stockContainer.add(new CartItem(comic, comic.getComicPrice().getSellingPrice(), elementsOfDiscountComic[1]));
+            if (!currentDate.equals(previousDate)) {
+                containers.add(stockContainer);
+            }
+            previousDate = currentDate;
         }
+        return containers;
     }
 
     private StringBuilder formComicFromElements(String[] comic) {

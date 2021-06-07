@@ -1,4 +1,9 @@
-package domain;
+package domain.discounts;
+
+import domain.Author;
+import domain.Comic;
+import domain.Genre;
+import domain.Publishing;
 
 /**
  * Комикс со скидкой

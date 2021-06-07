@@ -1,6 +1,6 @@
 package presenters;
 
-import domain.DiscountComic;
+import domain.discounts.DiscountComic;
 import domain.sell.Cart;
 import domain.sell.CartItem;
 import javafx.collections.ObservableList;

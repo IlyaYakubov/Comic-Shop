@@ -1,6 +1,6 @@
 package ui.discount;
 
-import domain.sell.CartItem;
+import domain.discounts.Discount;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -20,9 +20,9 @@ import presenters.DiscountListPresenter;
  */
 public class DiscountListUI extends Application {
 
-    private TableView<CartItem> table;
+    private TableView<Discount> table;
 
-    public TableView<CartItem> getTable() {
+    public TableView<Discount> getTable() {
         return table;
     }
 
@@ -45,7 +45,7 @@ public class DiscountListUI extends Application {
         table = new TableView<>();
         table.setPrefHeight(800.0);
 
-        TableColumn<CartItem, String> nameColumn = new TableColumn<>("Список акций");
+        TableColumn<Discount, String> nameColumn = new TableColumn<>("Список акций");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setPrefWidth(800.0);
         table.getColumns().add(nameColumn);
@@ -76,7 +76,7 @@ public class DiscountListUI extends Application {
      *
      * @param comics - список комиксов
      */
-    public void setContent(ObservableList<CartItem> comics) {
+    public void setContent(ObservableList<Discount> comics) {
         table.setItems(comics);
     }
 }

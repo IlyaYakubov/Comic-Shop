@@ -1,13 +1,10 @@
 package presenters;
 
-import domain.sell.CartItem;
+import domain.discounts.Discount;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import services.ComicService;
 import ui.discount.DiscountListUI;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Контроллер списка акций на комиксы
@@ -16,7 +13,6 @@ public class DiscountListPresenter {
 
     private DiscountListUI discountListUI;
     private ComicService comicService = new ComicService();
-    private List<CartItem> cartItems = new ArrayList<>();
 
     public DiscountListPresenter(DiscountListUI discountListUI) {
         this.discountListUI = discountListUI;
@@ -26,8 +22,7 @@ public class DiscountListPresenter {
      * Обновление отображения скидок в таблице
      */
     public void updateTableDiscounts() {
-        comicService.getDiscounts(cartItems);
-        ObservableList<CartItem> comicsList = FXCollections.observableArrayList(cartItems);
+        ObservableList<Discount> comicsList = FXCollections.observableArrayList(comicService.getDiscounts());
         discountListUI.setContent(comicsList);
     }
 }

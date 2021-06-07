@@ -8,8 +8,8 @@ import domain.Comic;
 public class CartItem {
 
     private String name;
-    private Comic comic;
     private double price;
+    private Comic comic;
 
     public CartItem(Comic comic, double price, String name) {
         this.comic = comic;
@@ -17,12 +17,12 @@ public class CartItem {
         this.name = name;
     }
 
-    public Comic getComic() {
-        return comic;
+    public String getName() {
+        return name;
     }
 
-    public void setComic(Comic comic) {
-        this.comic = comic;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public double getPrice() {
@@ -33,11 +33,11 @@ public class CartItem {
         this.price = price;
     }
 
-    public String getName() {
-        return name;
+    public Comic getComic() {
+        return comic;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setComic(Comic comic) {
+        this.comic = comic;
     }
 }

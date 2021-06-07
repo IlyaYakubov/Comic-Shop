@@ -60,6 +60,14 @@ public class Comic {
         this.yearOfPublishing = yearOfPublishing;
     }
 
+    public boolean isContinuation() {
+        return isContinuation;
+    }
+
+    public void setContinuation(boolean continuation) {
+        isContinuation = continuation;
+    }
+
     public Author getAuthor() {
         return author;
     }
@@ -84,11 +92,11 @@ public class Comic {
         this.genre = genre;
     }
 
-    public boolean isContinuation() {
-        return isContinuation;
-    }
-
     public ComicPrice getComicPrice() {
         return comicPrice;
+    }
+
+    public void setComicPrice(ComicPrice comicPrice) {
+        this.comicPrice = comicPrice;
     }
 }

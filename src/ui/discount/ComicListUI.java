@@ -74,9 +74,8 @@ public class ComicListUI extends Application {
                     return;
                 }
                 ObservableList<CartItem> comicsList = FXCollections.observableArrayList(comic);
-                discountUI.setContent(comicsList);
-
                 stage.close();
+                discountUI.setContent(comicsList);
             }
         });
 

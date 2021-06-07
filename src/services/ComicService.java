@@ -3,10 +3,7 @@ package services;
 import domain.sell.Cart;
 import domain.sell.CartItem;
 import domain.sell.Sell;
-import repository.FileDao;
-import repository.ReservationDao;
-import repository.SellDao;
-import repository.WriteOffDao;
+import repository.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -56,7 +53,7 @@ public class ComicService {
     }
 
     /**
-     * Удаление комикса
+     * Удаление комикса из файла
      * При совпадении имени комикс не перезаписывается
      * (файл предварительно удаляется)
      *
@@ -116,7 +113,7 @@ public class ComicService {
             writeOffDao.saveToFile(buyItem);
         }
 
-        cart.getComics().clear();
+        cart.clear();
     }
 
     /**
@@ -136,7 +133,36 @@ public class ComicService {
             reservationDao.saveToFile(buyItem);
         }
 
-        cart.getComics().clear();
+        cart.clear();
+    }
+
+    /**
+     * Запись скидок
+     *
+     * @param name      - наименование акции
+     * @param percent   - процент скидки
+     * @param dateBegin - дата начала
+     * @param dateEnd   - дата окончания
+     * @param cart      - корзина с комиксами
+     */
+    public void setDiscounts(String name,
+                             String percent,
+                             String dateBegin,
+                             String dateEnd,
+                             Cart cart) {
+        for (CartItem comic : cart.getComics()) {
+            deleteComic(comic.getComic().getName());
+        }
+
+        DiscountDao discountDao = new DiscountDao();
+        for (CartItem comic : cart.getComics()) {
+            String discount = name + DELIMITER + percent + DELIMITER + dateBegin + DELIMITER + dateEnd + DELIMITER +
+                    comic.getComic().getName() + DELIMITER + comic.getPrice();
+
+            discountDao.saveToFile(discount);
+        }
+
+        cart.clear();
     }
 
     private StringBuilder formComicFromElements(String[] comic) {

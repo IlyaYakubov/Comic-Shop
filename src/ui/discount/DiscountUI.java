@@ -1,5 +1,7 @@
 package ui.discount;
 
+import domain.Comic;
+import domain.DiscountComic;
 import domain.sell.CartItem;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -19,7 +21,28 @@ import ui.utils.MessageUI;
  */
 public class DiscountUI extends Application {
 
+    private int percent;
+    private TextField textFieldDiscountName;
+    private DatePicker datePickerBegin;
+    private DatePicker datePickerEnd;
     private TableView<CartItem> table;
+    private DiscountPresenter discountPresenter = new DiscountPresenter(this);
+
+    public int getPercent() {
+        return percent;
+    }
+
+    public TextField getTextFieldDiscountName() {
+        return textFieldDiscountName;
+    }
+
+    public DatePicker getDatePickerBegin() {
+        return datePickerBegin;
+    }
+
+    public DatePicker getDatePickerEnd() {
+        return datePickerEnd;
+    }
 
     public TableView<CartItem> getTable() {
         return table;
@@ -36,7 +59,7 @@ public class DiscountUI extends Application {
 
         Label labelDiscountName = new Label("Наименование");
         labelDiscountName.setFont(new Font(15));
-        TextField textFieldDiscountName = new TextField();
+        textFieldDiscountName = new TextField();
         textFieldDiscountName.setFont(new Font(15));
         textFieldDiscountName.setPrefWidth(500.0);
 
@@ -52,10 +75,10 @@ public class DiscountUI extends Application {
 
         Label labelBeginDate = new Label("Начало акции");
         labelBeginDate.setFont(new Font(15));
-        DatePicker datePickerBegin = new DatePicker();
+        datePickerBegin = new DatePicker();
         Label labelEndDate = new Label("Окончание акции");
         labelEndDate.setFont(new Font(15));
-        DatePicker datePickerEnd = new DatePicker();
+        datePickerEnd = new DatePicker();
         HBox hBoxDates = new HBox();
         hBoxDates.setSpacing(20.0);
         hBoxDates.getChildren().addAll(labelBeginDate, datePickerBegin, labelEndDate, datePickerEnd);
@@ -68,8 +91,12 @@ public class DiscountUI extends Application {
         table.setPrefHeight(800.0);
         TableColumn<CartItem, String> nameColumn = new TableColumn<>("Комикс");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        nameColumn.setPrefWidth(350.0);
+        nameColumn.setPrefWidth(550.0);
         table.getColumns().add(nameColumn);
+        TableColumn<CartItem, String> priceColumn = new TableColumn<>("Цена со скидкой");
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        priceColumn.setPrefWidth(250.0);
+        table.getColumns().add(priceColumn);
 
         Button buttonCreate = new Button("Создать акцию");
         buttonCreate.setFont(new Font(15));
@@ -84,7 +111,17 @@ public class DiscountUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        DiscountPresenter discountPresenter = new DiscountPresenter();
+        textFieldPercent.setOnAction(actionEvent -> {
+            String percentString = textFieldPercent.getText();
+            if (!percentString.isEmpty()) {
+                try {
+                    percent = Integer.parseInt(percentString);
+                    discountPresenter.updateTableDiscounts();
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
             ComicListUI comicListUI = new ComicListUI(this, discountPresenter);
@@ -101,8 +138,8 @@ public class DiscountUI extends Application {
                 new MessageUI("Дата начала не может быть больше даты окончания").start(new Stage());
                 return;
             }
-
             discountPresenter.onClickCreate();
+            stage.close();
         });
 
         Scene scene = new Scene(vBox, 1200, 800);
@@ -119,5 +156,6 @@ public class DiscountUI extends Application {
      */
     public void setContent(ObservableList<CartItem> comics) {
         table.getItems().addAll(comics);
+        discountPresenter.updateTableDiscounts();
     }
 }

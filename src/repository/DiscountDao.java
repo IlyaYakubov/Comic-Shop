@@ -1,6 +1,9 @@
 package repository;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Работа с файлом акций
@@ -32,5 +35,19 @@ public class DiscountDao {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Чтение строки комикса с элементами акции
+     *
+     * @return - строка акции комикса
+     */
+    public List<String> readFromFile() {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME_DISCOUNTS))) {
+            return bufferedReader.lines().collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
     }
 }

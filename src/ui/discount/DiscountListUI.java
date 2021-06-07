@@ -2,6 +2,7 @@ package ui.discount;
 
 import domain.sell.CartItem;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -12,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import presenters.DiscountListPresenter;
 
 /**
  * Окно акций
@@ -19,6 +21,10 @@ import javafx.stage.Stage;
 public class DiscountListUI extends Application {
 
     private TableView<CartItem> table;
+
+    public TableView<CartItem> getTable() {
+        return table;
+    }
 
     /**
      * Отображает окно акций
@@ -50,6 +56,9 @@ public class DiscountListUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
+        DiscountListPresenter discountListPresenter = new DiscountListPresenter(this);
+        discountListPresenter.updateTableDiscounts();
+
         buttonAdd.setOnMouseClicked(mouseEvent -> {
             DiscountUI discountUI = new DiscountUI();
             discountUI.start(new Stage());
@@ -60,5 +69,14 @@ public class DiscountListUI extends Application {
         stage.setAlwaysOnTop(true);
         stage.setResizable(false);
         stage.show();
+    }
+
+    /**
+     * Установка контента в элементы окна
+     *
+     * @param comics - список комиксов
+     */
+    public void setContent(ObservableList<CartItem> comics) {
+        table.setItems(comics);
     }
 }

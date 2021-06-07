@@ -8,6 +8,7 @@ import services.ComicService;
 import services.SearchService;
 import ui.discount.DiscountUI;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,7 +37,6 @@ public class DiscountPresenter {
             cartItem.setComic(discountComic);
             cartItems.add(cartItem);
         }
-
     }
 
     public DiscountPresenter(DiscountUI discountUI) {
@@ -86,6 +86,7 @@ public class DiscountPresenter {
             cart.addComic(item.getComic());
         }
         comicService.setDiscounts(
+                String.valueOf(LocalDateTime.now()),
                 discountUI.getTextFieldDiscountName().getText(),
                 String.valueOf(discountUI.getPercent()),
                 String.valueOf(discountUI.getDatePickerBegin().getValue()),

@@ -1,5 +1,9 @@
 package services;
 
+import domain.Author;
+import domain.DiscountComic;
+import domain.Genre;
+import domain.Publishing;
 import domain.sell.Cart;
 import domain.sell.CartItem;
 import domain.sell.Sell;
@@ -17,6 +21,7 @@ public class ComicService {
     private static final String DELIMITER = ";";
 
     private FileDao fileDao = new FileDao();
+    private DiscountDao discountDao = new DiscountDao();
     private List<String> comicsInFile = fileDao.readFromFile();
 
     /**
@@ -145,7 +150,8 @@ public class ComicService {
      * @param dateEnd   - дата окончания
      * @param cart      - корзина с комиксами
      */
-    public void setDiscounts(String name,
+    public void setDiscounts(String date,
+                             String name,
                              String percent,
                              String dateBegin,
                              String dateEnd,
@@ -156,13 +162,39 @@ public class ComicService {
 
         DiscountDao discountDao = new DiscountDao();
         for (CartItem comic : cart.getComics()) {
-            String discount = name + DELIMITER + percent + DELIMITER + dateBegin + DELIMITER + dateEnd + DELIMITER +
-                    comic.getComic().getName() + DELIMITER + comic.getPrice();
+            String discount = date + DELIMITER + name + DELIMITER + percent + DELIMITER +
+                    dateBegin + DELIMITER + dateEnd + DELIMITER +
+                    comic.getComic().getName() + DELIMITER +
+                    comic.getComic().getAuthor().getName() + DELIMITER +
+                    comic.getComic().getPublishing().getName() + DELIMITER +
+                    comic.getComic().getNumberOfPages() + DELIMITER +
+                    comic.getComic().getGenre().getName() + DELIMITER +
+                    comic.getComic().getYearOfPublishing() + DELIMITER +
+                    comic.getComic().getComicPrice().getCostPrice() + DELIMITER +
+                    comic.getComic().getComicPrice().getSellingPrice() + DELIMITER +
+                    comic.getComic().isContinuation();
 
             discountDao.saveToFile(discount);
         }
 
         cart.clear();
+    }
+
+    public void getDiscounts(List<CartItem> cartItems) {
+        for (String discountComic : discountDao.readFromFile()) {
+            String[] elementsOfDiscountComic = discountComic.split(DELIMITER);
+            DiscountComic comic = new DiscountComic(
+                    elementsOfDiscountComic[5],
+                    new Author(elementsOfDiscountComic[6]),
+                    new Publishing(elementsOfDiscountComic[7]),
+                    Integer.parseInt(elementsOfDiscountComic[8]),
+                    new Genre(elementsOfDiscountComic[9]),
+                    Integer.parseInt(elementsOfDiscountComic[10]),
+                    Double.parseDouble(elementsOfDiscountComic[11]),
+                    Double.parseDouble(elementsOfDiscountComic[12]),
+                    Boolean.parseBoolean(elementsOfDiscountComic[13]));
+            cartItems.add(new CartItem(comic, comic.getComicPrice().getSellingPrice(), comic.getName()));
+        }
     }
 
     private StringBuilder formComicFromElements(String[] comic) {

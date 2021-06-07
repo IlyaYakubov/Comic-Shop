@@ -1,7 +1,5 @@
 package ui.discount;
 
-import domain.Comic;
-import domain.DiscountComic;
 import domain.sell.CartItem;
 import javafx.application.Application;
 import javafx.collections.ObservableList;

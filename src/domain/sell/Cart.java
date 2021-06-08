@@ -34,6 +34,20 @@ public class Cart {
     }
 
     /**
+     * Удаление одного комикса из корзины
+     *
+     * @param comic - комикс
+     */
+    public void deleteComic(Comic comic) {
+        for (CartItem cartItem : comics) {
+            if (cartItem.getComic().getName().equals(comic.getName())) {
+                comics.remove(cartItem);
+                break;
+            }
+        }
+    }
+
+    /**
      * Очистка
      */
     public void clear() {

@@ -24,10 +24,9 @@ public class ComicService {
     private final FileDao fileDao = FileDao.INSTANCE;
     private final ReservationDao reservationDao = ReservationDao.INSTANCE;
     private final DiscountDao discountDao = DiscountDao.INSTANCE;
-
-    private List<String> comicsInFile = fileDao.readFromFile();
-
     private final List<DiscountComic> reserves = new ArrayList<>();
+    private final List<DiscountComic> allComics = new ArrayList<>();
+    private List<String> comicsInFile = fileDao.readFromFile();
 
     private ComicService() {
     }
@@ -96,7 +95,7 @@ public class ComicService {
      * @param cart - корзина комиксов
      */
     public void makePurchase(Cart cart) {
-        // todo проверить есть ли в резерве или по скидкам
+        // todo проверить есть ли по скидкам
 
         for (DiscountComic reserve : reserves) {
             cart.addComic(reserve);
@@ -123,7 +122,35 @@ public class ComicService {
      * @param cart - корзина комиксов
      */
     public void writeOffComics(Cart cart) {
-        // todo проверить есть ли в резерве или по скидкам
+        // todo проверить есть ли по скидкам
+
+        getAll();
+        getReserves();
+        List<CartItem> cartItems = new ArrayList<>(cart.getComics());
+        for (CartItem comic : cartItems) {
+            int countInFile = 0;
+            int countInReserve = 0;
+            int countForWriteOff = 0;
+            for (DiscountComic comicInFile : allComics) {
+                if (comic.getName().equals(comicInFile.getName())) {
+                    countInFile++;
+                }
+            }
+            for (DiscountComic comicInReserve : reserves) {
+                if (comic.getName().equals(comicInReserve.getName())) {
+                    countInReserve++;
+                }
+            }
+            for (CartItem cartItem : cart.getComics()) {
+                if (comic.getName().equals(cartItem.getComic().getName())) {
+                    countForWriteOff++;
+                }
+            }
+            if (countForWriteOff > (countInFile - countInReserve)) {
+                // нельзя списать больше чем разность между в файле и резерве
+                return;
+            }
+        }
 
         for (CartItem comic : cart.getComics()) {
             deleteComic(comic.getComic().getName());
@@ -283,5 +310,46 @@ public class ComicService {
                 .append(comic[7]).append(DELIMITER) // цена продажи
                 .append(comic[8]).append(DELIMITER); // является продолжением
         return data;
+    }
+
+    private void getReserves() {
+        List<String> reservationsInFile = reservationDao.readFromFile();
+        List<CartItem> items = new ArrayList<>();
+        for (String reserve : reservationsInFile) {
+            String[] elementsOfReserve = reserve.split(DELIMITER);
+            DiscountComic comic = new DiscountComic(
+                    elementsOfReserve[2], // наименование
+                    new Author(elementsOfReserve[3]), // автор
+                    new Publishing(elementsOfReserve[4]), // издательство
+                    Integer.parseInt(elementsOfReserve[5]), // количество страниц
+                    new Genre(elementsOfReserve[6]), // жанр
+                    Integer.parseInt(elementsOfReserve[7]), // год издательства
+                    Double.parseDouble(elementsOfReserve[8]), // себестоимость
+                    Double.parseDouble(elementsOfReserve[9]), // цена продажи
+                    Boolean.parseBoolean(elementsOfReserve[10])); // является продолжением
+
+            items.add(new CartItem(comic, comic.getComicPrice().getSellingPrice(), elementsOfReserve[1]));
+            reserves.add(comic);
+        }
+    }
+
+    private void getAll() {
+        List<CartItem> items = new ArrayList<>();
+        for (String comic : comicsInFile) {
+            String[] elementsOfComic = comic.split(DELIMITER);
+            DiscountComic discountComic = new DiscountComic(
+                    elementsOfComic[0], // наименование
+                    new Author(elementsOfComic[1]), // автор
+                    new Publishing(elementsOfComic[2]), // издательство
+                    Integer.parseInt(elementsOfComic[3]), // количество страниц
+                    new Genre(elementsOfComic[4]), // жанр
+                    Integer.parseInt(elementsOfComic[5]), // год издательства
+                    Double.parseDouble(elementsOfComic[6]), // себестоимость
+                    Double.parseDouble(elementsOfComic[7]), // цена продажи
+                    Boolean.parseBoolean(elementsOfComic[8])); // является продолжением
+
+            items.add(new CartItem(discountComic, discountComic.getComicPrice().getSellingPrice(), elementsOfComic[1]));
+            allComics.add(discountComic);
+        }
     }
 }

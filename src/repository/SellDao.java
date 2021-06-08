@@ -10,6 +10,7 @@ import java.io.IOException;
  */
 public class SellDao {
 
+    public static SellDao INSTANCE = new SellDao();
     private static final String FILE_NAME_SELL = "selling.txt";
     private static final File FILE_WITH_SELL;
 
@@ -22,6 +23,9 @@ public class SellDao {
                 e.printStackTrace();
             }
         }
+    }
+
+    private SellDao() {
     }
 
     /**

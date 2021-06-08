@@ -13,13 +13,13 @@ import ui.SellUI;
  */
 public class SellPresenter {
 
-    private ComicService comicService;
-    private SearchService searchService;
-    private SellUI sellUI;
-    private Cart cart = new Cart();
+    private final ComicService comicService;
+    private final SearchService searchService;
+    private final SellUI sellUI;
+    private final Cart cart = new Cart();
 
     public SellPresenter(SellUI sellUI) {
-        comicService = new ComicService();
+        comicService = ComicService.INSTANCE;
         searchService = new SearchService();
         this.sellUI = sellUI;
     }
@@ -40,9 +40,22 @@ public class SellPresenter {
     }
 
     /**
-     * При нажатии на кнопку "продажа"
+     * При нажатии на кнопку "Продажа"
      */
     public void onClickSale() {
         comicService.makePurchase(cart);
+    }
+
+    /**
+     * При нажатии на кнопку "Резерв"
+     *
+     * @param customerName - имя клиента
+     */
+    public void onClickReserve(String customerName) {
+        for (CartItem cartItem : comicService.reservedComics(customerName)) {
+            cart.addComic(cartItem.getComic());
+        }
+        ObservableList<CartItem> comicsList = FXCollections.observableArrayList(cart.getComics());
+        sellUI.setContent(comicsList, cart.getAmount());
     }
 }

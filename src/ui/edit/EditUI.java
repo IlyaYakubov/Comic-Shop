@@ -30,7 +30,7 @@ public class EditUI extends Application {
     private TextField textFieldSellingPriceComic;
     private CheckBox checkBoxIsContinuation;
 
-    private String comicName;
+    private final String comicName;
 
     public EditUI(String comicName) {
         this.comicName = comicName;

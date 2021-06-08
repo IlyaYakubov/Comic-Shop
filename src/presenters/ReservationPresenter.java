@@ -6,20 +6,20 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import services.ComicService;
 import services.SearchService;
-import ui.ReservationUI;
+import ui.reservation.ReservationUI;
 
 /**
  * Контроллер резервирования комиксов
  */
 public class ReservationPresenter {
 
-    private ComicService comicService;
-    private SearchService searchService;
-    private ReservationUI reservationUI;
-    private Cart cart = new Cart();
+    private final ComicService comicService;
+    private final SearchService searchService;
+    private final ReservationUI reservationUI;
+    private final Cart cart = new Cart();
 
     public ReservationPresenter(ReservationUI reservationUI) {
-        comicService = new ComicService();
+        comicService = ComicService.INSTANCE;
         searchService = new SearchService();
         this.reservationUI = reservationUI;
     }

@@ -5,7 +5,7 @@ package domain.sell;
  */
 public class Sell {
 
-    private Cart cart;
+    private final Cart cart;
 
     public Sell(Cart cart) {
         this.cart = cart;

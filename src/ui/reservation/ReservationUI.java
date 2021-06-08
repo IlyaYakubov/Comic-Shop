@@ -1,4 +1,4 @@
-package ui;
+package ui.reservation;
 
 import domain.sell.CartItem;
 import javafx.application.Application;

@@ -11,7 +11,7 @@ import java.util.List;
 public class Cart {
 
     private double amount;
-    private List<CartItem> comics = new ArrayList<>();
+    private final List<CartItem> comics = new ArrayList<>();
 
     public double getAmount() {
         return amount;

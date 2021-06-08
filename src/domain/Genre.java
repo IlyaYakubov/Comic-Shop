@@ -5,7 +5,7 @@ package domain;
  */
 public class Genre {
 
-    private String name;
+    private final String name;
 
     public Genre(String name) {
         this.name = name;

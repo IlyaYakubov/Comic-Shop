@@ -12,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import presenters.SellPresenter;
+import ui.reservation.CustomerUI;
 
 /**
  * Окно продажи
@@ -37,10 +38,13 @@ public class SellUI extends Application {
         Button buttonAdd = new Button("Добавить");
         buttonAdd.setFont(new Font(15));
         buttonAdd.setPrefWidth(200);
+        Button buttonReserve = new Button("Резерв");
+        buttonReserve.setFont(new Font(15));
+        buttonReserve.setPrefWidth(200);
 
         HBox hBox = new HBox();
         hBox.setSpacing(20.0);
-        hBox.getChildren().addAll(labelComicName, textFieldComicName, buttonAdd);
+        hBox.getChildren().addAll(labelComicName, textFieldComicName, buttonAdd, buttonReserve);
 
         table = new TableView<>();
         table.setPrefHeight(1000.0);
@@ -85,6 +89,11 @@ public class SellUI extends Application {
             }
             sellPresenter.onClickAdd(textFieldComicName.getText());
             textFieldComicName.setText("");
+        });
+
+        buttonReserve.setOnMouseClicked(mouseEvent -> {
+            CustomerUI customerUI = new CustomerUI(this);
+            customerUI.start(new Stage());
         });
 
         buttonSell.setOnMouseClicked(mouseEvent -> {

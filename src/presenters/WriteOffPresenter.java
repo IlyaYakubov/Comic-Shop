@@ -13,13 +13,13 @@ import ui.WriteOffUI;
  */
 public class WriteOffPresenter {
 
-    private ComicService comicService;
-    private SearchService searchService;
-    private WriteOffUI writeOffUI;
-    private Cart cart = new Cart();
+    private final ComicService comicService;
+    private final SearchService searchService;
+    private final WriteOffUI writeOffUI;
+    private final Cart cart = new Cart();
 
     public WriteOffPresenter(WriteOffUI writeOffUI) {
-        comicService = new ComicService();
+        comicService = ComicService.INSTANCE;
         searchService = new SearchService();
         this.writeOffUI = writeOffUI;
     }

@@ -10,12 +10,12 @@ import ui.edit.EditUI;
  */
 public class EditPresenter {
 
-    private ComicService comicService;
-    private SearchService searchService;
-    private EditUI editUI;
+    private final ComicService comicService;
+    private final SearchService searchService;
+    private final EditUI editUI;
 
     public EditPresenter(EditUI editUI) {
-        comicService = new ComicService();
+        comicService = ComicService.INSTANCE;
         searchService = new SearchService();
         this.editUI = editUI;
     }

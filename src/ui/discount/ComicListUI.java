@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 public class ComicListUI extends Application {
 
     private TableView<CartItem> table;
-    private DiscountUI discountUI;
+    private final DiscountUI discountUI;
 
     public ComicListUI(DiscountUI discountUI) {
         this.discountUI = discountUI;

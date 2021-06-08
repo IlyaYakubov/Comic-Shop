@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
  */
 public class DiscountDao {
 
+    public static DiscountDao INSTANCE = new DiscountDao();
     private static final String FILE_NAME_DISCOUNTS = "discounts.txt";
     private static final File FILE_WITH_DISCOUNTS;
 
@@ -22,6 +23,9 @@ public class DiscountDao {
                 e.printStackTrace();
             }
         }
+    }
+
+    private DiscountDao() {
     }
 
     /**

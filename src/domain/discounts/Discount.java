@@ -9,7 +9,7 @@ import domain.sell.CartItem;
 public class Discount {
 
     private String name;
-    private Cart cart = new Cart();
+    private final Cart cart = new Cart();
 
     public String getName() {
         return name;

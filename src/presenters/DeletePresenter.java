@@ -7,10 +7,10 @@ import services.ComicService;
  */
 public class DeletePresenter {
 
-    private ComicService comicService;
+    private final ComicService comicService;
 
     public DeletePresenter() {
-        comicService = new ComicService();
+        comicService = ComicService.INSTANCE;
     }
 
     /**

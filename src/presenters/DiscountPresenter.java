@@ -18,9 +18,9 @@ import java.util.List;
 public class DiscountPresenter {
 
     private DiscountUI discountUI;
-    private SearchService searchService = new SearchService();
-    private ComicService comicService = new ComicService();
-    private List<CartItem> cartItems = new ArrayList<>();
+    private final SearchService searchService = new SearchService();
+    private final ComicService comicService = ComicService.INSTANCE;
+    private final List<CartItem> cartItems = new ArrayList<>();
 
     public DiscountPresenter() {
         for (CartItem cartItem : searchService.getAllComics()) {

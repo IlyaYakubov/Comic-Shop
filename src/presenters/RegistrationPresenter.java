@@ -7,8 +7,8 @@ import services.UserService;
  */
 public class RegistrationPresenter {
 
-    private String name;
-    private String password;
+    private final String name;
+    private final String password;
 
     public RegistrationPresenter(String name, String password) {
         this.name = name;

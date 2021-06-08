@@ -1,15 +1,16 @@
 package repository;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Работа с файлом резервирования
  */
 public class ReservationDao {
 
+    public static ReservationDao INSTANCE = new ReservationDao();
     private static final String FILE_NAME_RESERVATION = "reservation_comics.txt";
     private static final File FILE_WITH_RESERVATION;
 
@@ -24,6 +25,9 @@ public class ReservationDao {
         }
     }
 
+    private ReservationDao() {
+    }
+
     /**
      * Запись резервирования в файл
      *
@@ -35,5 +39,34 @@ public class ReservationDao {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Чтение резервированных комиксов
+     *
+     * @return - строка резервации комикса
+     */
+    public List<String> readFromFile() {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_WITH_RESERVATION))) {
+            return bufferedReader.lines().collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    /**
+     * Удаление файла
+     */
+    public void deleteFile() {
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(FILE_WITH_RESERVATION);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assert writer != null;
+        writer.print("");
+        writer.close();
     }
 }

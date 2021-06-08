@@ -14,8 +14,8 @@ public class SearchService {
 
     private static final String DELIMITER = ";";
 
-    private FileDao fileDao = new FileDao();
-    private Cart cart = new Cart();
+    private final FileDao fileDao = FileDao.INSTANCE;
+    private final Cart cart = new Cart();
 
     public SearchService() {
         List<String> stringsComics = fileDao.readFromFile();
@@ -68,7 +68,7 @@ public class SearchService {
      */
     public CartItem getComicByName(String comicName) {
         for (CartItem cartItem : cart.getComics()) {
-            if (comicName.equals(String.valueOf(cartItem.getComic().hashCode()))) {
+            if (comicName.equals(cartItem.getComic().getName())) {
                 return cartItem;
             }
         }

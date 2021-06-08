@@ -10,6 +10,8 @@ import java.util.stream.Collectors;
  */
 public class FileDao {
 
+    public static FileDao INSTANCE = new FileDao();
+
     private static final String FILE_NAME_COMICS = "comics.txt";
     private static final File FILE_WITH_COMICS;
 
@@ -22,6 +24,9 @@ public class FileDao {
                 e.printStackTrace();
             }
         }
+    }
+
+    private FileDao() {
     }
 
     /**

@@ -24,7 +24,7 @@ public class DiscountUI extends Application {
     private DatePicker datePickerBegin;
     private DatePicker datePickerEnd;
     private TableView<CartItem> table;
-    private DiscountPresenter discountPresenter = new DiscountPresenter(this);
+    private final DiscountPresenter discountPresenter = new DiscountPresenter(this);
 
     public int getPercent() {
         return percent;

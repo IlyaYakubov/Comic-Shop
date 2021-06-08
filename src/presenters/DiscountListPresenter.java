@@ -11,8 +11,8 @@ import ui.discount.DiscountListUI;
  */
 public class DiscountListPresenter {
 
-    private DiscountListUI discountListUI;
-    private ComicService comicService = new ComicService();
+    private final DiscountListUI discountListUI;
+    private final ComicService comicService = ComicService.INSTANCE;
 
     public DiscountListPresenter(DiscountListUI discountListUI) {
         this.discountListUI = discountListUI;

@@ -5,8 +5,8 @@ package domain.sell;
  */
 public class ComicPrice {
 
-    private double costPrice;
-    private double sellingPrice;
+    private final double costPrice;
+    private final double sellingPrice;
 
     public ComicPrice(double costPrice, double sellingPrice) {
         this.costPrice = costPrice;

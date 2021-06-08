@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class UserService {
 
-    private UserDao userDao = new UserDao();
-    private String name;
-    private String password;
+    private final UserDao userDao = new UserDao();
+    private final String name;
+    private final String password;
 
     public UserService(String name, String password) {
         this.name = name;

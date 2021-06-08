@@ -10,6 +10,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import ui.discount.DiscountListUI;
 import ui.edit.FindBeforeEditUI;
+import ui.reservation.ReservationUI;
 
 /**
  * Основное окно
@@ -88,7 +89,7 @@ public class MainUI extends Application {
         });
 
         buttonSellComic.setOnMouseClicked(mouseEvent -> {
-            SellUI sellUI = new SellUI();
+            ui.SellUI sellUI = new ui.SellUI();
             sellUI.start(new Stage());
         });
 

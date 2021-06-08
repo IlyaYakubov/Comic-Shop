@@ -15,6 +15,10 @@ public class Discount {
         return name;
     }
 
+    public Cart getCart() {
+        return cart;
+    }
+
     /**
      * Добавление скидочного комикса в корзину с акцией
      *

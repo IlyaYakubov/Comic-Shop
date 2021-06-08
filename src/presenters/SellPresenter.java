@@ -1,5 +1,6 @@
 package presenters;
 
+import domain.discounts.Discount;
 import domain.sell.Cart;
 import domain.sell.CartItem;
 import javafx.collections.FXCollections;
@@ -7,6 +8,8 @@ import javafx.collections.ObservableList;
 import services.ComicService;
 import services.SearchService;
 import ui.SellUI;
+
+import java.util.List;
 
 /**
  * Контроллер продажи комиксов
@@ -34,6 +37,16 @@ public class SellPresenter {
         if (comic == null) {
             return;
         }
+
+        List<Discount> discounts = comicService.getDiscounts();
+        for (Discount discount : discounts) {
+            for (CartItem cartItem : discount.getCart().getComics()) {
+                if (cartItem.getComic().getName().equals(comicName)) {
+                    comic.setComic(cartItem.getComic());
+                }
+            }
+        }
+
         cart.addComic(comic.getComic());
         ObservableList<CartItem> comics = FXCollections.observableArrayList(cart.getComics());
         sellUI.setContent(comics, cart.getAmount());

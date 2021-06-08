@@ -7,6 +7,7 @@ import domain.discounts.Discount;
 import domain.discounts.DiscountComic;
 import domain.sell.Cart;
 import domain.sell.CartItem;
+import domain.sell.ComicPrice;
 import domain.sell.Sell;
 import repository.*;
 
@@ -238,12 +239,17 @@ public class ComicService {
      */
     public void setDiscounts(String date,
                              String name,
-                             String percent,
+                             int percent,
                              String dateBegin,
                              String dateEnd,
                              Cart cart) {
         DiscountDao discountDao = DiscountDao.INSTANCE;
         for (CartItem comic : cart.getComics()) {
+            comic.getComic().setComicPrice(
+                    new ComicPrice(
+                            comic.getComic().getComicPrice().getCostPrice(),
+                            comic.getComic().getComicPrice().getSellingPrice() -
+                                    (comic.getComic().getComicPrice().getSellingPrice() * percent / 100)));
             String discount = date + DELIMITER + name + DELIMITER + percent + DELIMITER +
                     dateBegin + DELIMITER + dateEnd + DELIMITER +
                     comic.getComic().getName() + DELIMITER +

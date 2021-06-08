@@ -88,7 +88,7 @@ public class DiscountPresenter {
         comicService.setDiscounts(
                 String.valueOf(LocalDateTime.now()),
                 discountUI.getTextFieldDiscountName().getText(),
-                String.valueOf(discountUI.getPercent()),
+                discountUI.getPercent(),
                 String.valueOf(discountUI.getDatePickerBegin().getValue()),
                 String.valueOf(discountUI.getDatePickerEnd().getValue()),
                 cart);

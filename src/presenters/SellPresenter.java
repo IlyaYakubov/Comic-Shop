@@ -9,6 +9,8 @@ import services.ComicService;
 import services.SearchService;
 import ui.SellUI;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -41,7 +43,9 @@ public class SellPresenter {
         List<Discount> discounts = comicService.getDiscounts();
         for (Discount discount : discounts) {
             for (CartItem cartItem : discount.getCart().getComics()) {
-                if (cartItem.getComic().getName().equals(comicName)) {
+                if (cartItem.getComic().getName().equals(comicName)
+                        && LocalDate.parse(discount.getDateBegin()).isBefore(LocalDate.now())
+                        && LocalDate.parse(discount.getDateEnd()).isAfter(LocalDate.now())) {
                     comic.setComic(cartItem.getComic());
                 }
             }

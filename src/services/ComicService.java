@@ -294,7 +294,10 @@ public class ComicService {
                     Double.parseDouble(elementsOfDiscountComic[12]), // цена продажи
                     Boolean.parseBoolean(elementsOfDiscountComic[13])); // является продолжением
             // elementsOfDiscountComic[1] - наименование акции
-            discount.add(new CartItem(comic, comic.getComicPrice().getSellingPrice(), elementsOfDiscountComic[1]));
+            // elementsOfDiscountComic[3] - начало акции
+            // elementsOfDiscountComic[4] - окончание акции
+            discount.add(new CartItem(comic, comic.getComicPrice().getSellingPrice(), elementsOfDiscountComic[1]),
+                    elementsOfDiscountComic[3], elementsOfDiscountComic[4]);
             if (!currentDate.equals(previousDate)) {
                 discounts.add(discount);
             }

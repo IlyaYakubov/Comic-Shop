@@ -9,10 +9,20 @@ import domain.sell.CartItem;
 public class Discount {
 
     private String name;
+    private String dateBegin;
+    private String dateEnd;
     private final Cart cart = new Cart();
 
     public String getName() {
         return name;
+    }
+
+    public String getDateBegin() {
+        return dateBegin;
+    }
+
+    public String getDateEnd() {
+        return dateEnd;
     }
 
     public Cart getCart() {
@@ -24,8 +34,10 @@ public class Discount {
      *
      * @param cartItem элемент корзины
      */
-    public void add(CartItem cartItem) {
+    public void add(CartItem cartItem, String dateBegin, String dateEnd) {
         name = cartItem.getName();
+        this.dateBegin = dateBegin;
+        this.dateEnd = dateEnd;
         cart.addComic(cartItem.getComic());
     }
 }

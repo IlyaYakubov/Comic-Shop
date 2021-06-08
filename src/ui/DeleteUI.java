@@ -41,7 +41,7 @@ public class DeleteUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        DeletePresenter deletePresenter = new DeletePresenter();
+        DeletePresenter deletePresenter = DeletePresenter.INSTANCE;
 
         buttonDelete.setOnMouseClicked(mouseEvent -> {
             if (textFieldComic.getText().isEmpty()) {

@@ -81,7 +81,7 @@ public class AdditionUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        AdditionPresenter additionPresenter = new AdditionPresenter();
+        AdditionPresenter additionPresenter = AdditionPresenter.INSTANCE;
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
             if (textFieldNameComic.getText().isEmpty() || textFieldAuthorComic.getText().isEmpty()

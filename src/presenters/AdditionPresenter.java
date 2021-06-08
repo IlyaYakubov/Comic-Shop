@@ -7,10 +7,10 @@ import services.ComicService;
  */
 public class AdditionPresenter {
 
-    private final ComicService comicService;
+    public static AdditionPresenter INSTANCE = new AdditionPresenter();
+    private final ComicService comicService = ComicService.INSTANCE;
 
-    public AdditionPresenter() {
-        comicService = ComicService.INSTANCE;
+    private AdditionPresenter() {
     }
 
     /**

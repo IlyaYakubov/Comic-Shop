@@ -13,7 +13,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import presenters.DiscountPresenter;
 
 /**
  * Окно списка комиксов
@@ -22,11 +21,9 @@ public class ComicListUI extends Application {
 
     private TableView<CartItem> table;
     private DiscountUI discountUI;
-    private DiscountPresenter discountPresenter;
 
-    public ComicListUI(DiscountUI discountUI, DiscountPresenter discountPresenter) {
+    public ComicListUI(DiscountUI discountUI) {
         this.discountUI = discountUI;
-        this.discountPresenter = discountPresenter;
     }
 
     /**
@@ -56,20 +53,20 @@ public class ComicListUI extends Application {
         vBox.setPadding(new Insets(20));
 
         ObservableList<CartItem> comics = FXCollections.observableArrayList(
-                discountPresenter.getFilteredComics(discountUI.getTable().getItems()));
+                discountUI.getDiscountPresenter().getFilteredComics(discountUI.getTable().getItems()));
         table.setItems(comics);
 
-        final String[] SELECTED_COMIC_NAME = new String[1];
+        final String[] SELECTED_COMIC = new String[1];
         TableView.TableViewSelectionModel<CartItem> selectionModel = table.getSelectionModel();
         selectionModel.selectedItemProperty().addListener((observableValue, cartItem, newValue) -> {
             if (newValue != null) {
-                SELECTED_COMIC_NAME[0] = newValue.getComic().getName();
+                SELECTED_COMIC[0] = String.valueOf(newValue.getComic().hashCode());
             }
         });
 
         buttonOK.setOnMouseClicked(mouseEvent -> {
-            if (SELECTED_COMIC_NAME[0] != null) {
-                CartItem comic = discountPresenter.getComicByName(SELECTED_COMIC_NAME[0]);
+            if (SELECTED_COMIC[0] != null) {
+                CartItem comic = discountUI.getDiscountPresenter().getComicByHashCode(SELECTED_COMIC[0]);
                 if (comic == null) {
                     return;
                 }

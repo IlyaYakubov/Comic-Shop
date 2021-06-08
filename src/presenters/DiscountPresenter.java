@@ -58,11 +58,11 @@ public class DiscountPresenter {
     /**
      * Получение комикса по наименованию
      *
-     * @param comicName - наименование комикса
+     * @param hashCode - хэш код комикса
      * @return - элемент корзины
      */
-    public CartItem getComicByName(String comicName) {
-        return searchService.getComicByName(comicName);
+    public CartItem getComicByHashCode(String hashCode) {
+        return searchService.getComicByHashCode(hashCode);
     }
 
     /**

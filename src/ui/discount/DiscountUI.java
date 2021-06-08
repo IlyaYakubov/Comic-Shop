@@ -46,6 +46,10 @@ public class DiscountUI extends Application {
         return table;
     }
 
+    public DiscountPresenter getDiscountPresenter() {
+        return discountPresenter;
+    }
+
     /**
      * Отображает окно создания акции
      *
@@ -122,7 +126,7 @@ public class DiscountUI extends Application {
         });
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
-            ComicListUI comicListUI = new ComicListUI(this, discountPresenter);
+            ComicListUI comicListUI = new ComicListUI(this);
             comicListUI.start(new Stage());
         });
 

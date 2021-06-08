@@ -48,12 +48,27 @@ public class SearchService {
     /**
      * Получение комикса по наименованию
      *
+     * @param comicHashCode - хэш код комикса
+     * @return - комикс из коллекции
+     */
+    public CartItem getComicByHashCode(String comicHashCode) {
+        for (CartItem cartItem : cart.getComics()) {
+            if (comicHashCode.equals(String.valueOf(cartItem.getComic().hashCode()))) {
+                return cartItem;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Получение комикса по наименованию
+     *
      * @param comicName - наименование комикса
      * @return - комикс из коллекции
      */
     public CartItem getComicByName(String comicName) {
         for (CartItem cartItem : cart.getComics()) {
-            if (comicName.equals(cartItem.getComic().getName())) {
+            if (comicName.equals(String.valueOf(cartItem.getComic().hashCode()))) {
                 return cartItem;
             }
         }

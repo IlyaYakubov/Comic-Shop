@@ -13,15 +13,15 @@ import ui.WriteOffUI;
  */
 public class WriteOffPresenter {
 
-    private final ComicService comicService;
-    private final SearchService searchService;
-    private final WriteOffUI writeOffUI;
+    private final ComicService COMIC_SERVICE;
+    private final SearchService SEARCH_SERVICE;
+    private final WriteOffUI WRITE_OFF_UI;
     private final Cart cart = new Cart();
 
     public WriteOffPresenter(WriteOffUI writeOffUI) {
-        comicService = ComicService.INSTANCE;
-        searchService = new SearchService();
-        this.writeOffUI = writeOffUI;
+        COMIC_SERVICE = ComicService.INSTANCE;
+        SEARCH_SERVICE = SearchService.INSTANCE;
+        this.WRITE_OFF_UI = writeOffUI;
     }
 
     /**
@@ -30,19 +30,19 @@ public class WriteOffPresenter {
      * @param comicName - наименование комикса
      */
     public void onClickAdd(String comicName) {
-        CartItem comic = searchService.getComicByName(comicName);
+        CartItem comic = SEARCH_SERVICE.getComicByName(comicName);
         if (comic == null) {
             return;
         }
         cart.addComic(comic.getComic());
         ObservableList<CartItem> comics = FXCollections.observableArrayList(cart.getComics());
-        writeOffUI.setContent(comics);
+        WRITE_OFF_UI.setContent(comics);
     }
 
     /**
      * При нажатии на кнопку "списать"
      */
     public void onClickWriteOff() {
-        comicService.writeOffComics(cart);
+        COMIC_SERVICE.writeOffComics(cart);
     }
 }

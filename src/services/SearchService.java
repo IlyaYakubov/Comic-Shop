@@ -12,12 +12,22 @@ import java.util.List;
 
 public class SearchService {
 
+    public static SearchService INSTANCE = new SearchService();
     private static final String DELIMITER = ";";
 
     private final FileDao fileDao = FileDao.INSTANCE;
-    private final Cart cart = new Cart();
+    private Cart cart = new Cart();
 
-    public SearchService() {
+    private SearchService() {
+    }
+
+    /**
+     * Получить все комиксы
+     *
+     * @return список комиксов в форме элемента корзины
+     */
+    public List<CartItem> getAllComics() {
+        cart.clear();
         List<String> stringsComics = fileDao.readFromFile();
         for (String stringComic : stringsComics) {
             String[] elementsOfComic = stringComic.split(DELIMITER);
@@ -34,14 +44,7 @@ public class SearchService {
             );
             cart.addComic(comic);
         }
-    }
 
-    /**
-     * Получить все комиксы
-     *
-     * @return список комиксов в форме элемента корзины
-     */
-    public List<CartItem> getAllComics() {
         return cart.getComics();
     }
 

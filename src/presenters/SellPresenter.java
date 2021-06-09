@@ -10,7 +10,6 @@ import services.SearchService;
 import ui.SellUI;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -18,15 +17,15 @@ import java.util.List;
  */
 public class SellPresenter {
 
-    private final ComicService comicService;
-    private final SearchService searchService;
-    private final SellUI sellUI;
+    private final ComicService COMIC_SERVICE;
+    private final SearchService SEARCH_SERVICE;
+    private final SellUI SELL_UI;
     private final Cart cart = new Cart();
 
     public SellPresenter(SellUI sellUI) {
-        comicService = ComicService.INSTANCE;
-        searchService = new SearchService();
-        this.sellUI = sellUI;
+        COMIC_SERVICE = ComicService.INSTANCE;
+        SEARCH_SERVICE = SearchService.INSTANCE;
+        this.SELL_UI = sellUI;
     }
 
     /**
@@ -35,12 +34,12 @@ public class SellPresenter {
      * @param comicName - наименование комикса
      */
     public void onClickAdd(String comicName) {
-        CartItem comic = searchService.getComicByName(comicName);
+        CartItem comic = SEARCH_SERVICE.getComicByName(comicName);
         if (comic == null) {
             return;
         }
 
-        List<Discount> discounts = comicService.getDiscounts();
+        List<Discount> discounts = COMIC_SERVICE.getDiscounts();
         for (Discount discount : discounts) {
             for (CartItem cartItem : discount.getCart().getComics()) {
                 if (cartItem.getComic().getName().equals(comicName)
@@ -53,14 +52,14 @@ public class SellPresenter {
 
         cart.addComic(comic.getComic());
         ObservableList<CartItem> comics = FXCollections.observableArrayList(cart.getComics());
-        sellUI.setContent(comics, cart.getAmount());
+        SELL_UI.setContent(comics, cart.getAmount());
     }
 
     /**
      * При нажатии на кнопку "Продажа"
      */
     public void onClickSale() {
-        comicService.makePurchase(cart);
+        COMIC_SERVICE.makePurchase(cart);
     }
 
     /**
@@ -69,10 +68,10 @@ public class SellPresenter {
      * @param customerName - имя клиента
      */
     public void onClickReserve(String customerName) {
-        for (CartItem cartItem : comicService.reservedComics(customerName)) {
+        for (CartItem cartItem : COMIC_SERVICE.reservedComics(customerName)) {
             cart.addComic(cartItem.getComic());
         }
         ObservableList<CartItem> comicsList = FXCollections.observableArrayList(cart.getComics());
-        sellUI.setContent(comicsList, cart.getAmount());
+        SELL_UI.setContent(comicsList, cart.getAmount());
     }
 }

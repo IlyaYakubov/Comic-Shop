@@ -10,6 +10,7 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import ui.discount.DiscountListUI;
 import ui.edit.FindBeforeEditUI;
+import ui.search.SearchUI;
 import ui.reservation.ReservationUI;
 
 /**
@@ -54,6 +55,10 @@ public class MainUI extends Application {
         buttonPromotions.setPrefWidth(200);
         buttonPromotions.setPrefHeight(70);
         buttonPromotions.setFont(new Font(15));
+        Button buttonFind = new Button("Поиск");
+        buttonFind.setPrefWidth(200);
+        buttonFind.setPrefHeight(70);
+        buttonFind.setFont(new Font(15));
 
         TilePane tilePane = new TilePane();
         tilePane.setOrientation(Orientation.VERTICAL);
@@ -72,6 +77,7 @@ public class MainUI extends Application {
         tilePane.getChildren().add(buttonWriteOffComic);
         tilePane.getChildren().add(buttonReservationComic);
         tilePane.getChildren().add(buttonPromotions);
+        tilePane.getChildren().add(buttonFind);
 
         buttonAddComic.setOnMouseClicked(mouseEvent -> {
             AdditionUI additionUI = new AdditionUI();
@@ -108,7 +114,12 @@ public class MainUI extends Application {
             discountUI.start(new Stage());
         });
 
-        Scene scene = new Scene(tilePane, 250, 650);
+        buttonFind.setOnMouseClicked(mouseEvent -> {
+            SearchUI searchUI = new SearchUI();
+            searchUI.start(new Stage());
+        });
+
+        Scene scene = new Scene(tilePane, 250, 750);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

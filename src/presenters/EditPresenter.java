@@ -10,13 +10,13 @@ import ui.edit.EditUI;
  */
 public class EditPresenter {
 
-    private final ComicService comicService;
-    private final SearchService searchService;
+    private final ComicService COMIC_SERVICE;
+    private final SearchService SEARCH_SERVICE;
     private final EditUI editUI;
 
     public EditPresenter(EditUI editUI) {
-        comicService = ComicService.INSTANCE;
-        searchService = new SearchService();
+        COMIC_SERVICE = ComicService.INSTANCE;
+        SEARCH_SERVICE = SearchService.INSTANCE;
         this.editUI = editUI;
     }
 
@@ -26,7 +26,7 @@ public class EditPresenter {
      * @param comicName - наименование комикса
      */
     public boolean findComicForEdit(String comicName) {
-        CartItem comic = searchService.getComicByName(comicName);
+        CartItem comic = SEARCH_SERVICE.getComicByName(comicName);
         if (comic == null) {
             return false;
         }
@@ -40,6 +40,6 @@ public class EditPresenter {
      * @param comic - элементы комикса
      */
     public void onClickEdit(String[] comic) {
-        comicService.editComic(comic);
+        COMIC_SERVICE.editComic(comic);
     }
 }

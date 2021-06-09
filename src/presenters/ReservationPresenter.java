@@ -13,15 +13,15 @@ import ui.reservation.ReservationUI;
  */
 public class ReservationPresenter {
 
-    private final ComicService comicService;
-    private final SearchService searchService;
-    private final ReservationUI reservationUI;
+    private final ComicService COMIC_SERVICE;
+    private final SearchService SEARCH_SERVICE;
+    private final ReservationUI RESERVATION_UI;
     private final Cart cart = new Cart();
 
     public ReservationPresenter(ReservationUI reservationUI) {
-        comicService = ComicService.INSTANCE;
-        searchService = new SearchService();
-        this.reservationUI = reservationUI;
+        COMIC_SERVICE = ComicService.INSTANCE;
+        SEARCH_SERVICE = SearchService.INSTANCE;
+        this.RESERVATION_UI = reservationUI;
     }
 
     /**
@@ -30,13 +30,13 @@ public class ReservationPresenter {
      * @param comicName - наименование комикса
      */
     public void onClickAdd(String comicName) {
-        CartItem comic = searchService.getComicByName(comicName);
+        CartItem comic = SEARCH_SERVICE.getComicByName(comicName);
         if (comic == null) {
             return;
         }
         cart.addComic(comic.getComic());
         ObservableList<CartItem> comics = FXCollections.observableArrayList(cart.getComics());
-        reservationUI.setContent(comics);
+        RESERVATION_UI.setContent(comics);
     }
 
     /**
@@ -45,6 +45,6 @@ public class ReservationPresenter {
      * @param customer - имя клиента
      */
     public void onClickReservation(String customer) {
-        comicService.reservationComics(cart, customer);
+        COMIC_SERVICE.reservationComics(cart, customer);
     }
 }

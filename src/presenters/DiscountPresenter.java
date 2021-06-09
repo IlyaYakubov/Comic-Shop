@@ -17,13 +17,13 @@ import java.util.List;
  */
 public class DiscountPresenter {
 
+    private final SearchService SEARCHE_SERVICE = SearchService.INSTANCE;
+    private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
+    private final List<CartItem> CART_ITEMS = new ArrayList<>();
     private DiscountUI discountUI;
-    private final SearchService searchService = new SearchService();
-    private final ComicService comicService = ComicService.INSTANCE;
-    private final List<CartItem> cartItems = new ArrayList<>();
 
     public DiscountPresenter() {
-        for (CartItem cartItem : searchService.getAllComics()) {
+        for (CartItem cartItem : SEARCHE_SERVICE.getAllComics()) {
             DiscountComic discountComic = new DiscountComic(
                     cartItem.getComic().getName(),
                     cartItem.getComic().getAuthor(),
@@ -35,7 +35,7 @@ public class DiscountPresenter {
                     cartItem.getComic().getComicPrice().getSellingPrice(),
                     cartItem.getComic().isContinuation());
             cartItem.setComic(discountComic);
-            cartItems.add(cartItem);
+            CART_ITEMS.add(cartItem);
         }
     }
 
@@ -51,8 +51,8 @@ public class DiscountPresenter {
      * @return - элементы корзины с комиксами
      */
     public List<CartItem> getFilteredComics(ObservableList<CartItem> items) {
-        cartItems.removeAll(items);
-        return cartItems;
+        CART_ITEMS.removeAll(items);
+        return CART_ITEMS;
     }
 
     /**
@@ -62,7 +62,7 @@ public class DiscountPresenter {
      * @return - элемент корзины
      */
     public CartItem getComicByHashCode(String hashCode) {
-        return searchService.getComicByHashCode(hashCode);
+        return SEARCHE_SERVICE.getComicByHashCode(hashCode);
     }
 
     /**
@@ -85,7 +85,7 @@ public class DiscountPresenter {
         for (CartItem item : discountUI.getTable().getItems()) {
             cart.addComic(item.getComic());
         }
-        comicService.setDiscounts(
+        COMIC_SERVICE.setDiscounts(
                 String.valueOf(LocalDateTime.now()),
                 discountUI.getTextFieldDiscountName().getText(),
                 discountUI.getPercent(),

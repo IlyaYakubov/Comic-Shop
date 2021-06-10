@@ -10,8 +10,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import ui.discount.DiscountListUI;
 import ui.edit.FindBeforeEditUI;
-import ui.search.SearchUI;
 import ui.reservation.ReservationUI;
+import ui.search.SearchUI;
 
 /**
  * Основное окно

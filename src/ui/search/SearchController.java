@@ -4,6 +4,7 @@ import domain.sell.CartItem;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,7 +17,10 @@ import java.util.List;
  */
 public class SearchController {
 
-    private SearchService searchService = SearchService.INSTANCE;
+    private final SearchService searchService = SearchService.INSTANCE;
+
+    @FXML
+    private ChoiceBox<String> choiceBox;
 
     @FXML
     private TextField editTextName;
@@ -26,15 +30,19 @@ public class SearchController {
 
     @FXML
     void buttonFind(ActionEvent event) {
-        tableComics.getItems().clear();
         tableComics.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("name"));
+        tableComics.getItems().clear();
+        tableComics.setItems(tableComics.getItems());
 
         if (editTextName.getText().isEmpty()) {
             List<CartItem> allComics = searchService.getAllComics();
             tableComics.setItems(FXCollections.observableList(allComics));
         } else {
-            CartItem cartItem = searchService.getComicByName(editTextName.getText());
-            tableComics.getItems().add(cartItem);
+            switch (choiceBox.getValue()) {
+                case "по наименованию" -> tableComics.getItems().add(searchService.getComicByName(editTextName.getText()));
+                case "по автору" -> tableComics.getItems().add(searchService.getComicByAuthor(editTextName.getText()));
+                case "по жанру" -> tableComics.getItems().add(searchService.getComicByGenre(editTextName.getText()));
+            }
         }
     }
 }

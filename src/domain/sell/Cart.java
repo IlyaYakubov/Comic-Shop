@@ -52,5 +52,6 @@ public class Cart {
      */
     public void clear() {
         comics.clear();
+        amount = 0;
     }
 }

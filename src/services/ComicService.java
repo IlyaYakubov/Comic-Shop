@@ -37,11 +37,13 @@ public class ComicService {
     private static final String DELIMITER = ";";
 
     public static ComicService INSTANCE = new ComicService();
-    private final FileDao FILE_DAO = FileDao.INSTANCE;
+    private final ComicsDao COMIC_DAO = ComicsDao.INSTANCE;
     private final SellDao SELL_DAO = SellDao.INSTANCE;
     private final WriteOffDao WRITE_OFF_DAO = WriteOffDao.INSTANCE;
     private final ReservationDao RESERVATION_DAO = ReservationDao.INSTANCE;
     private final DiscountDao DISCOUNT = DiscountDao.INSTANCE;
+
+    private final DomainsDaoClient DOMAIN_DAO = new DomainsDaoClient();
 
     private final List<Comic> COMICS = new ArrayList<>();
     private final List<Sell> SELLS = new ArrayList<>();
@@ -50,7 +52,7 @@ public class ComicService {
     private final List<String> SELLS_IN_FILE = SELL_DAO.readFromFile();
     private final List<String> RESERVATIONS_IN_FILE = RESERVATION_DAO.readFromFile();
     private final List<String> DISCOUNTS_IN_FILE = DISCOUNT.readFromFile();
-    private List<String> comicsInFile = FILE_DAO.readFromFile();
+    private List<String> comicsInFile = COMIC_DAO.readFromFile();
 
     private ComicService() {
         createComicsFromFile();
@@ -79,8 +81,9 @@ public class ComicService {
     public void addComic(String[] comic) {
         Comic newComic = formComicFromElements(comic);
         COMICS.add(newComic);
-        FILE_DAO.saveToFile(formComicForFile(comic));
-        comicsInFile = FILE_DAO.readFromFile();
+        DOMAIN_DAO.setFileDao(COMIC_DAO);
+        DOMAIN_DAO.saveToFile(formComicForFile(comic));
+        comicsInFile = DOMAIN_DAO.readFromFile();
     }
 
     /**
@@ -148,7 +151,8 @@ public class ComicService {
         deleteComicsFromFile(cart);
         Sell sell = new Sell(date, cart);
         for (CartItem cartItem : cart.getCartItems()) {
-            SELL_DAO.saveToFile(formComicForFile(cartItem) + sell.getDate());
+            DOMAIN_DAO.setFileDao(SELL_DAO);
+            DOMAIN_DAO.saveToFile(formComicForFile(cartItem) + sell.getDate());
         }
         sell.makePurchase();
         SELLS.add(sell);
@@ -167,7 +171,8 @@ public class ComicService {
         }
         deleteComicsFromFile(cart);
         for (CartItem cartItem : cart.getCartItems()) {
-            WRITE_OFF_DAO.saveToFile(formComicForFile(cartItem));
+            DOMAIN_DAO.setFileDao(WRITE_OFF_DAO);
+            DOMAIN_DAO.saveToFile(formComicForFile(cartItem));
         }
         cart.clear();
     }
@@ -181,7 +186,8 @@ public class ComicService {
     public void reserveComics(Cart cart, String customerName) {
         Reservation reservation = new Reservation(new Customer(customerName), cart);
         for (CartItem cartItem : cart.getCartItems()) {
-            RESERVATION_DAO.saveToFile(formComicForFile(cartItem) + customerName);
+            DOMAIN_DAO.setFileDao(RESERVATION_DAO);
+            DOMAIN_DAO.saveToFile(formComicForFile(cartItem) + customerName);
         }
         RESERVATIONS.add(reservation);
         reservation.makeReserve();
@@ -202,10 +208,11 @@ public class ComicService {
         });
         RESERVATIONS.removeIf(x -> x.getCustomer().getName().equals(customerName));
         if (cart.getCartItems().size() > 0) {
-            RESERVATION_DAO.deleteFile();
+            DOMAIN_DAO.setFileDao(RESERVATION_DAO);
+            DOMAIN_DAO.deleteFile();
             for (Reservation reservation : RESERVATIONS) {
                 for (CartItem cartItem : reservation.getCart().getCartItems()) {
-                    RESERVATION_DAO.saveToFile(formComicForFile(cartItem) + reservation.getCustomer().getName());
+                    DOMAIN_DAO.saveToFile(formComicForFile(cartItem) + reservation.getCustomer().getName());
                 }
             }
         }
@@ -231,6 +238,7 @@ public class ComicService {
         discount.calculateDiscounts(percent);
         DISCOUNTS.add(discount);
         for (CartItem cartItem : discount.getCart().getCartItems()) {
+            DOMAIN_DAO.setFileDao(DISCOUNT);
             DISCOUNT.saveToFile(formComicForFile(cartItem) +
                     dateTime + DELIMITER + name + DELIMITER + dateBegin + DELIMITER + dateEnd);
         }
@@ -320,10 +328,11 @@ public class ComicService {
     }
 
     private void updateComicInShop() {
-        FILE_DAO.deleteFile();
+        DOMAIN_DAO.setFileDao(COMIC_DAO);
+        DOMAIN_DAO.deleteFile();
         COMICS.clear();
         for (String comicElements : comicsInFile) {
-            FILE_DAO.saveToFile(comicElements);
+            DOMAIN_DAO.saveToFile(comicElements);
             COMICS.add(formComicFromElements(comicElements));
         }
     }

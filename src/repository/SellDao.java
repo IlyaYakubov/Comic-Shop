@@ -6,53 +6,67 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Работа с файлом продажи
+ * Работа с файлом
  */
-public class SellDao {
+public class SellDao implements IFileDao {
 
-    private static final String FILE_NAME_SELL = "sales.txt";
-    private static final File FILE_WITH_SELL;
     public static SellDao INSTANCE = new SellDao();
-
-    static {
-        FILE_WITH_SELL = new File(FILE_NAME_SELL);
-        if (!FILE_WITH_SELL.exists()) {
-            try {
-                //noinspection ResultOfMethodCallIgnored
-                FILE_WITH_SELL.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     private SellDao() {
     }
 
     /**
-     * Запись продажи в файл
+     * Запись данных в файл
      *
-     * @param sell продажа
+     * @param data данные из элементов
      */
-    public void saveToFile(String sell) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_SELL, true))) {
-            writer.write(sell + "\n");
+    @Override
+    public void saveToFile(String data) {
+        File file = new File("sales.txt");
+        if (!file.exists()) {
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write(data + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Чтение строки (элементов) комикса
+     * Чтение строки (элементов) данных
      *
-     * @return коллекция комиксов
+     * @return коллекция данных
      */
+    @Override
     public List<String> readFromFile() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_WITH_SELL))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("sales.txt"))) {
             return bufferedReader.lines().collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }
         return new ArrayList<>();
+    }
+
+    /**
+     * Удаление файла
+     */
+    @Override
+    public void deleteFile() {
+        File file = new File("sales.txt");
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assert writer != null;
+        writer.print("");
+        writer.close();
     }
 }

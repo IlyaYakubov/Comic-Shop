@@ -6,49 +6,46 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Работа с файлом резервирования
+ * Работа с файлом
  */
-public class ReservationDao {
+public class ReservationDao implements IFileDao {
 
-    private static final String FILE_NAME_RESERVATION = "reserved.txt";
-    private static final File FILE_WITH_RESERVATION;
     public static ReservationDao INSTANCE = new ReservationDao();
-
-    static {
-        FILE_WITH_RESERVATION = new File(FILE_NAME_RESERVATION);
-        if (!FILE_WITH_RESERVATION.exists()) {
-            try {
-                //noinspection ResultOfMethodCallIgnored
-                FILE_WITH_RESERVATION.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     private ReservationDao() {
     }
 
     /**
-     * Запись резервирования в файл
+     * Запись данных в файл
      *
-     * @param reservation зарезервированный комикс
+     * @param data данные из элементов
      */
-    public void saveToFile(String reservation) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_RESERVATION, true))) {
-            writer.write(reservation + "\n");
+    @Override
+    public void saveToFile(String data) {
+        File file = new File("reserved.txt");
+        if (!file.exists()) {
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write(data + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Чтение резервированных комиксов
+     * Чтение строки (элементов) данных
      *
-     * @return строка резервации комикса
+     * @return коллекция данных
      */
+    @Override
     public List<String> readFromFile() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_WITH_RESERVATION))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("reserved.txt"))) {
             return bufferedReader.lines().collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,10 +56,12 @@ public class ReservationDao {
     /**
      * Удаление файла
      */
+    @Override
     public void deleteFile() {
+        File file = new File("reserved.txt");
         PrintWriter writer = null;
         try {
-            writer = new PrintWriter(FILE_WITH_RESERVATION);
+            writer = new PrintWriter(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

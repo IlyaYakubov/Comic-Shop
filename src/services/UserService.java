@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class UserService {
 
-    private final UserDao USER_DAO = new UserDao();
+    private final UserDao USER_DAO = UserDao.INSTANCE;
     private final String NAME;
     private final String PASSWORD;
 

@@ -6,49 +6,67 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Работа с файлом зарегистрированных пользователей
+ * Работа с файлом
  */
-public class UserDao {
+public class UserDao implements IFileDao {
 
-    private static final String FILE_NAME_USERS = "users.txt";
-    private static final File FILE_WITH_USERS;
+    public static UserDao INSTANCE = new UserDao();
 
-    static {
-        FILE_WITH_USERS = new File(FILE_NAME_USERS);
-        if (!FILE_WITH_USERS.exists()) {
+    private UserDao() {
+    }
+
+    /**
+     * Запись данных в файл
+     *
+     * @param data данные из элементов
+     */
+    @Override
+    public void saveToFile(String data) {
+        File file = new File("users.txt");
+        if (!file.exists()) {
             try {
                 //noinspection ResultOfMethodCallIgnored
-                FILE_WITH_USERS.createNewFile();
+                file.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    /**
-     * Запись пользователя в файл
-     *
-     * @param user пользователь с паролем
-     */
-    public void saveToFile(String user) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_USERS, true))) {
-            writer.write(user + "\n");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write(data + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Чтение файла с пользователями
+     * Чтение строки (элементов) данных
      *
-     * @return коллекция пользователей с паролями
+     * @return коллекция данных
      */
+    @Override
     public List<String> readFromFile() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_WITH_USERS))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("users.txt"))) {
             return bufferedReader.lines().collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }
         return new ArrayList<>();
+    }
+
+    /**
+     * Удаление файла
+     */
+    @Override
+    public void deleteFile() {
+        File file = new File("users.txt");
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assert writer != null;
+        writer.print("");
+        writer.close();
     }
 }

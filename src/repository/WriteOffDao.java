@@ -1,44 +1,72 @@
 package repository;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * Работа с файлом списания
+ * Работа с файлом
  */
-public class WriteOffDao {
+public class WriteOffDao implements IFileDao {
 
-    private static final String FILE_NAME_WRITE_OFF = "writeoffed.txt";
-    private static final File FILE_WITH_WRITE_OFF;
     public static WriteOffDao INSTANCE = new WriteOffDao();
-
-    static {
-        FILE_WITH_WRITE_OFF = new File(FILE_NAME_WRITE_OFF);
-        if (!FILE_WITH_WRITE_OFF.exists()) {
-            try {
-                //noinspection ResultOfMethodCallIgnored
-                FILE_WITH_WRITE_OFF.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     private WriteOffDao() {
     }
 
     /**
-     * Запись списания в файл
+     * Запись данных в файл
      *
-     * @param writeOff списанный комикс
+     * @param data данные из элементов
      */
-    public void saveToFile(String writeOff) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_WRITE_OFF, true))) {
-            writer.write(writeOff + "\n");
+    @Override
+    public void saveToFile(String data) {
+        File file = new File("offs.txt");
+        if (!file.exists()) {
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write(data + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Чтение строки (элементов) данных
+     *
+     * @return коллекция данных
+     */
+    @Override
+    public List<String> readFromFile() {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("offs.txt"))) {
+            return bufferedReader.lines().collect(Collectors.toList());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<>();
+    }
+
+    /**
+     * Удаление файла
+     */
+    @Override
+    public void deleteFile() {
+        File file = new File("offs.txt");
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assert writer != null;
+        writer.print("");
+        writer.close();
     }
 }

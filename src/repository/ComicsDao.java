@@ -8,47 +8,44 @@ import java.util.stream.Collectors;
 /**
  * Работа с файлом
  */
-public class FileDao {
+public class ComicsDao implements IFileDao {
 
-    private static final String FILE_NAME_COMICS = "comics.txt";
-    private static final File FILE_WITH_COMICS;
-    public static FileDao INSTANCE = new FileDao();
+    public static ComicsDao INSTANCE = new ComicsDao();
 
-    static {
-        FILE_WITH_COMICS = new File(FILE_NAME_COMICS);
-        if (!FILE_WITH_COMICS.exists()) {
+    private ComicsDao() {
+    }
+
+    /**
+     * Запись данных в файл
+     *
+     * @param data данные из элементов
+     */
+    @Override
+    public void saveToFile(String data) {
+        File file = new File("comics.txt");
+        if (!file.exists()) {
             try {
                 //noinspection ResultOfMethodCallIgnored
-                FILE_WITH_COMICS.createNewFile();
+                file.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-    }
-
-    private FileDao() {
-    }
-
-    /**
-     * Запись комикса в файл
-     *
-     * @param comic комикс из элементов
-     */
-    public void saveToFile(String comic) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_COMICS, true))) {
-            writer.write(comic + "\n");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write(data + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Чтение строки (элементов) комикса
+     * Чтение строки (элементов) данных
      *
-     * @return коллекция комиксов
+     * @return коллекция данных
      */
+    @Override
     public List<String> readFromFile() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME_COMICS))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("comics.txt"))) {
             return bufferedReader.lines().collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
@@ -59,10 +56,12 @@ public class FileDao {
     /**
      * Удаление файла
      */
+    @Override
     public void deleteFile() {
+        File file = new File("comics.txt");
         PrintWriter writer = null;
         try {
-            writer = new PrintWriter(FILE_WITH_COMICS);
+            writer = new PrintWriter(file);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }

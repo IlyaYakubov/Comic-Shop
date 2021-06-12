@@ -6,53 +6,67 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * Работа с файлом акций
+ * Работа с файлом
  */
-public class DiscountDao {
+public class DiscountDao implements IFileDao {
 
-    private static final String FILE_NAME_DISCOUNTS = "discounts.txt";
-    private static final File FILE_WITH_DISCOUNTS;
     public static DiscountDao INSTANCE = new DiscountDao();
-
-    static {
-        FILE_WITH_DISCOUNTS = new File(FILE_NAME_DISCOUNTS);
-        if (!FILE_WITH_DISCOUNTS.exists()) {
-            try {
-                //noinspection ResultOfMethodCallIgnored
-                FILE_WITH_DISCOUNTS.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 
     private DiscountDao() {
     }
 
     /**
-     * Запись акции в файл
+     * Запись данных в файл
      *
-     * @param discount акция
+     * @param data данные из элементов
      */
-    public void saveToFile(String discount) {
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_DISCOUNTS, true))) {
-            writer.write(discount + "\n");
+    @Override
+    public void saveToFile(String data) {
+        File file = new File("discounts.txt");
+        if (!file.exists()) {
+            try {
+                //noinspection ResultOfMethodCallIgnored
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write(data + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     /**
-     * Чтение строки комикса с элементами акции
+     * Чтение строки (элементов) данных
      *
-     * @return строка акции комикса
+     * @return коллекция данных
      */
+    @Override
     public List<String> readFromFile() {
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME_DISCOUNTS))) {
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("discounts.txt"))) {
             return bufferedReader.lines().collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }
         return new ArrayList<>();
+    }
+
+    /**
+     * Удаление файла
+     */
+    @Override
+    public void deleteFile() {
+        File file = new File("discounts.txt");
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(file);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        assert writer != null;
+        writer.print("");
+        writer.close();
     }
 }

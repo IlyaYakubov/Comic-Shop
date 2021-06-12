@@ -8,13 +8,12 @@ import java.util.List;
 
 /**
  * Сервис по поиску комикса
- * Комиксы лежат в корзине
  */
 public class SearchService {
 
     public static SearchService INSTANCE = new SearchService();
     private final Cart CART = new Cart();
-    private ComicService COMIC_SERVICE = ComicService.INSTANCE;
+    private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
 
     private SearchService() {
     }

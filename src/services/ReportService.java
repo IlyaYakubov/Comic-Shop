@@ -15,14 +15,19 @@ import java.util.stream.Collectors;
 public class ReportService {
 
     public static ReportService INSTANCE = new ReportService();
-    private final ComicService comicService = ComicService.INSTANCE;
+    private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
 
     private ReportService() {
     }
 
+    /**
+     * Список продаваемых
+     *
+     * @return сформированный список
+     */
     public List<String> getTopSold() {
         List<Comic> comics = new ArrayList<>();
-        List<Sell> allSells = comicService.getSells();
+        List<Sell> allSells = COMIC_SERVICE.getSells();
         allSells.forEach(sell -> sell.getCart().getCartItems().forEach(cartItem -> comics.add(cartItem.getComic())));
         Map<String, Long> countCartItems = comics.stream().collect(Collectors.groupingBy(Comic::getName, Collectors.counting()));
 
@@ -33,8 +38,13 @@ public class ReportService {
         return newComics;
     }
 
+    /**
+     * Список новинок
+     *
+     * @return сформированный список
+     */
     public List<String> getTopNew() {
-        List<Comic> allComics = comicService.getComics();
+        List<Comic> allComics = COMIC_SERVICE.getComics();
         List<String> newComics = new ArrayList<>();
         allComics.stream().sorted(Comparator.comparingInt(Comic::getYearOfPublishing)).sorted(
                 (o1, o2) -> -o1.getYearOfPublishing() - o2.getYearOfPublishing()).forEach(
@@ -43,8 +53,13 @@ public class ReportService {
         return newComics.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
     }
 
+    /**
+     * Топ авторов
+     *
+     * @return сформированный список
+     */
     public List<String> getTopAuthor() {
-        List<Comic> allComics = comicService.getComics();
+        List<Comic> allComics = COMIC_SERVICE.getComics();
         Map<String, Long> countAuthors = allComics.stream().collect(Collectors.groupingBy(comic -> comic.getAuthor().getName(), Collectors.counting()));
 
         List<String> newComics = new ArrayList<>();
@@ -54,8 +69,13 @@ public class ReportService {
         return newComics;
     }
 
+    /**
+     * Топ жанров
+     *
+     * @return сформированный список
+     */
     public List<String> getTopGenre() {
-        List<Comic> allComics = comicService.getComics();
+        List<Comic> allComics = COMIC_SERVICE.getComics();
         Map<String, Long> countGenres = allComics.stream().collect(Collectors.groupingBy(comic -> comic.getGenre().getName(), Collectors.counting()));
 
         List<String> newComics = new ArrayList<>();

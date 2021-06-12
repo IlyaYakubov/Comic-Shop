@@ -9,31 +9,31 @@ import java.util.List;
  */
 public class UserService {
 
-    private final UserDao userDao = new UserDao();
-    private final String name;
-    private final String password;
+    private final UserDao USER_DAO = new UserDao();
+    private final String NAME;
+    private final String PASSWORD;
 
     public UserService(String name, String password) {
-        this.name = name;
-        this.password = password;
+        NAME = name;
+        PASSWORD = password;
     }
 
     /**
      * Сохранение пользователя и пароля в файл. В файле имя пользователя имеет четный индекс, а пароль - не четный
      */
     public void saveUser() {
-        userDao.saveToFile(name + "\n" + password);
+        USER_DAO.saveToFile(NAME + "\n" + PASSWORD);
     }
 
     /**
      * Пользователь зарегистрирован
      *
-     * @return - true в случае если пользователь найден
+     * @return true - в случае если пользователь найден
      */
     public boolean userInTheSystem() {
-        List<String> users = userDao.readFromFile();
+        List<String> users = USER_DAO.readFromFile();
         for (int i = 0; i < users.size() - 1; i++) {
-            if (users.get(i).equals(name) && users.get(i + 1).equals(password)) {
+            if (users.get(i).equals(NAME) && users.get(i + 1).equals(PASSWORD)) {
                 return true;
             }
         }

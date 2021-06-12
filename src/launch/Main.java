@@ -18,14 +18,14 @@ public class Main extends Application {
     }
 
     /**
-     * Отображает главное окно
+     * Отображает окно входа в систему
      *
-     * @param stage - окно
-     * @throws IOException - исключение
+     * @param stage окно
+     * @throws IOException исключение, если не возможно открыть окно
      */
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/login.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui/resources/login.fxml")));
         stage.setTitle("Вход");
         stage.setScene(new Scene(root, 240, 145));
         stage.setResizable(false);

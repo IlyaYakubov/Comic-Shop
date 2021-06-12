@@ -1,4 +1,4 @@
-package ui.edit;
+package ui.old;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -9,44 +9,46 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import ui.utils.MessageUI;
+import presenters.DeletePresenter;
+import ui.old.utils.MessageUI;
 
 /**
- * Окно поиска перед редактированием комикса
+ * Окно удаления комикса
  */
-public class FindBeforeEditUI extends Application {
+public class DeleteUI extends Application {
 
     /**
-     * Отображает окно поиска перед редактированием
+     * Отображает окно удаления
      *
      * @param stage окно
      */
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Редактирование");
+        stage.setTitle("Удаление");
 
         Label labelNameComic = new Label("Наименование комикса");
         labelNameComic.setFont(new Font(15));
 
         TextField textFieldComic = new TextField();
-        Button buttonEdit = new Button("Редактировать");
-        buttonEdit.setFont(new Font(15));
-        buttonEdit.setPrefWidth(265);
+        Button buttonDelete = new Button("Удалить");
+        buttonDelete.setFont(new Font(15));
+        buttonDelete.setPrefWidth(265);
 
         VBox vBox = new VBox();
         vBox.getChildren().add(labelNameComic);
         vBox.getChildren().add(textFieldComic);
-        vBox.getChildren().add(buttonEdit);
+        vBox.getChildren().add(buttonDelete);
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        buttonEdit.setOnMouseClicked(mouseEvent -> {
+        DeletePresenter deletePresenter = DeletePresenter.INSTANCE;
+
+        buttonDelete.setOnMouseClicked(mouseEvent -> {
             if (textFieldComic.getText().isEmpty()) {
                 new MessageUI("Введите название комикса").start(new Stage());
                 return;
             }
-            EditUI editUI = new EditUI(textFieldComic.getText());
-            editUI.start(new Stage());
+            deletePresenter.onClickEdit(textFieldComic.getText());
             stage.close();
         });
 

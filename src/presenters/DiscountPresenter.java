@@ -2,7 +2,7 @@ package presenters;
 
 import domain.sell.Cart;
 import services.ComicService;
-import ui.discount.DiscountUI;
+import ui.old.discount.DiscountUI;
 
 import java.time.LocalDateTime;
 

@@ -1,4 +1,4 @@
-package ui.discount;
+package ui.old.discount;
 
 import domain.sell.CartItem;
 import javafx.application.Application;

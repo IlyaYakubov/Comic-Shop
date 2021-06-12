@@ -3,7 +3,7 @@ package presenters;
 import domain.Comic;
 import services.ComicService;
 import services.SearchService;
-import ui.edit.EditUI;
+import ui.old.edit.EditUI;
 
 /**
  * Контроллер редактирования комикса

@@ -1,4 +1,4 @@
-package ui;
+package ui.old;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -12,7 +12,7 @@ public class RegistrationUI extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/registration.fxml")));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui/resources/registration.fxml")));
         stage.setTitle("Регистрация пользователя");
         stage.setScene(new Scene(root, 355, 230));
         stage.setResizable(false);

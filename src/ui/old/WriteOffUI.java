@@ -1,4 +1,4 @@
-package ui.reservation;
+package ui.old;
 
 import domain.sell.CartItem;
 import javafx.application.Application;
@@ -11,48 +11,37 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import presenters.ReservationPresenter;
-import ui.utils.MessageUI;
+import presenters.WriteOffPresenter;
 
 import java.util.List;
 
 /**
- * Окно резервирования
+ * Окно списания
  */
-public class ReservationUI extends Application {
+public class WriteOffUI extends Application {
 
     private TableView<CartItem> table;
 
     /**
-     * Отображает окно резервирования
+     * Отображает окно списания
      *
      * @param stage окно
      */
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Резервирование");
+        stage.setTitle("Списание");
 
         Label labelComicName = new Label("Наименование");
         labelComicName.setFont(new Font(15));
         TextField textFieldComicName = new TextField();
         textFieldComicName.setFont(new Font(15));
-
-        HBox hBox = new HBox();
-        hBox.setSpacing(20.0);
-        hBox.getChildren().addAll(labelComicName, textFieldComicName);
-
-        Label labelCustomerName = new Label("Имя клиента");
-        labelCustomerName.setFont(new Font(15));
-        TextField textFieldCustomerName = new TextField();
-        textFieldCustomerName.setFont(new Font(15));
-
-        HBox hBoxCustomer = new HBox();
-        hBox.setSpacing(20.0);
-        hBox.getChildren().addAll(labelCustomerName, textFieldCustomerName);
-
         Button buttonAdd = new Button("Добавить");
         buttonAdd.setFont(new Font(15));
         buttonAdd.setPrefWidth(200);
+
+        HBox hBox = new HBox();
+        hBox.setSpacing(20.0);
+        hBox.getChildren().addAll(labelComicName, textFieldComicName, buttonAdd);
 
         table = new TableView<>();
         table.setPrefHeight(1000.0);
@@ -62,36 +51,33 @@ public class ReservationUI extends Application {
         nameColumn.setPrefWidth(350.0);
         table.getColumns().add(nameColumn);
 
-        Button buttonReservation = new Button("Зарезервировать");
-        buttonReservation.setFont(new Font(15));
-        buttonReservation.setPrefWidth(200);
+        Button buttonWriteOff = new Button("Списать");
+        buttonWriteOff.setFont(new Font(15));
+        buttonWriteOff.setPrefWidth(200);
 
         VBox vBox = new VBox();
         vBox.getChildren().add(hBox);
-        vBox.getChildren().add(hBoxCustomer);
-        vBox.getChildren().add(buttonAdd);
         vBox.getChildren().add(table);
-        vBox.getChildren().add(buttonReservation);
+
+        vBox.getChildren().add(buttonWriteOff);
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        ReservationPresenter reservationPresenter = new ReservationPresenter(this);
+        WriteOffPresenter writeOffPresenter = new WriteOffPresenter(this);
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
             if (checkComicName(textFieldComicName)) {
                 return;
             }
-            reservationPresenter.onClickAdd(textFieldComicName.getText());
+            writeOffPresenter.onClickAdd(textFieldComicName.getText());
             textFieldComicName.setText("");
         });
 
-        buttonReservation.setOnMouseClicked(mouseEvent -> {
-            if (table.getItems().isEmpty() || textFieldCustomerName.getText().isEmpty()) {
-                new MessageUI("Заполните клиента или комиксы").start(new Stage());
+        buttonWriteOff.setOnMouseClicked(mouseEvent -> {
+            if (table.getItems().isEmpty()) {
                 return;
             }
-            reservationPresenter.onClickReservation(textFieldCustomerName.getText());
-            textFieldCustomerName.setText("");
+            writeOffPresenter.onClickWriteOff();
             table.getItems().clear();
         });
 
@@ -107,7 +93,7 @@ public class ReservationUI extends Application {
      * @param cartItems список комиксов
      */
     public void setContent(List<CartItem> cartItems) {
-        table.setItems(FXCollections.observableList(cartItems));
+        table.setItems(FXCollections.observableArrayList(cartItems));
     }
 
     private boolean checkComicName(TextField textFieldComicName) {

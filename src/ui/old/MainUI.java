@@ -1,4 +1,4 @@
-package ui;
+package ui.old;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -8,9 +8,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import ui.discount.DiscountListUI;
-import ui.edit.FindBeforeEditUI;
-import ui.reservation.ReservationUI;
+import ui.old.discount.DiscountListUI;
+import ui.old.edit.FindBeforeEditUI;
+import ui.old.reservation.ReservationUI;
 
 /**
  * Основное окно
@@ -100,7 +100,7 @@ public class MainUI extends Application {
         });
 
         buttonSellComic.setOnMouseClicked(mouseEvent -> {
-            ui.SellUI sellUI = new ui.SellUI();
+            SellUI sellUI = new SellUI();
             sellUI.start(new Stage());
         });
 

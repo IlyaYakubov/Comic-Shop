@@ -8,7 +8,7 @@
 <VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
       minWidth="-Infinity"
       prefHeight="230.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/11"
-      fx:controller="presenters.RegistrationController">
+      fx:controller="ui.RegistrationController">
     <HBox prefHeight="50.0" prefWidth="200.0">
         <Label text="Имя пользователя">
             <HBox.margin>

@@ -1,4 +1,4 @@
-package ui.discount;
+package ui.old.discount;
 
 import domain.sell.CartItem;
 import javafx.application.Application;
@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import presenters.DiscountPresenter;
-import ui.utils.MessageUI;
+import ui.old.utils.MessageUI;
 
 /**
  * Окно создания акции

@@ -201,6 +201,9 @@ public class ComicService {
      */
     public Cart getCustomersReservedComics(String customerName) {
         Cart cart = new Cart();
+        if (RESERVATIONS.size() == 0) {
+            return cart;
+        }
         RESERVATIONS.stream().filter(reservation -> reservation.getCustomer().getName().equals(customerName)).forEach(reservation -> {
             for (CartItem cartItem : reservation.getCart().getCartItems()) {
                 cart.addItem(cartItem);

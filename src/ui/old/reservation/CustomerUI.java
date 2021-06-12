@@ -1,4 +1,4 @@
-package ui.reservation;
+package ui.old.reservation;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
@@ -10,8 +10,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import presenters.SellPresenter;
-import ui.SellUI;
-import ui.utils.MessageUI;
+import ui.old.SellUI;
+import ui.old.utils.MessageUI;
 
 /**
  * Окно ввода клиента

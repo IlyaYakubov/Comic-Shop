@@ -2,7 +2,7 @@ package presenters;
 
 import javafx.collections.FXCollections;
 import services.ReportService;
-import ui.ReportUI;
+import ui.old.ReportUI;
 
 /**
  * Контроллер отчетов

@@ -4,7 +4,7 @@ import domain.discounts.Discount;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import services.ComicService;
-import ui.discount.DiscountListUI;
+import ui.old.discount.DiscountListUI;
 
 /**
  * Контроллер списка акций на комиксы

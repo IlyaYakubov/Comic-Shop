@@ -4,7 +4,7 @@ import domain.Comic;
 import domain.sell.Cart;
 import services.ComicService;
 import services.SearchService;
-import ui.WriteOffUI;
+import ui.old.WriteOffUI;
 
 /**
  * Контроллер списания комиксов

@@ -1,4 +1,4 @@
-package ui;
+package ui.old;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -23,7 +23,7 @@ public class SearchUI extends Application {
     public void start(Stage stage) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/resources/search.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui/resources/search.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }

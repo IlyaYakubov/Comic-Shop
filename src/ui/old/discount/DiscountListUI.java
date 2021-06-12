@@ -1,4 +1,4 @@
-package ui.discount;
+package ui.old.discount;
 
 import domain.discounts.Discount;
 import javafx.application.Application;

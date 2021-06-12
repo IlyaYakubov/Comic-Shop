@@ -4,7 +4,7 @@ import domain.Comic;
 import domain.sell.Cart;
 import services.ComicService;
 import services.SearchService;
-import ui.reservation.ReservationUI;
+import ui.old.reservation.ReservationUI;
 
 /**
  * Контроллер резервирования комиксов
@@ -43,5 +43,6 @@ public class ReservationPresenter {
      */
     public void onClickReservation(String customer) {
         COMIC_SERVICE.reserveComics(CART, customer);
+        RESERVATION_UI.getTable().refresh();
     }
 }

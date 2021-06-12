@@ -1,5 +1,6 @@
-package ui;
+package ui.old.edit;
 
+import domain.Comic;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
@@ -11,22 +12,37 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
-import presenters.AdditionPresenter;
-import ui.utils.MessageUI;
+import presenters.EditPresenter;
+import ui.old.utils.MessageUI;
 
 /**
- * Окно добавления комикса
+ * Окно редактирования комикса
  */
-public class AdditionUI extends Application {
+public class EditUI extends Application {
+
+    private final String COMIC_NAME;
+    private TextField textFieldNameComic;
+    private TextField textFieldNumberOfPagesComic;
+    private TextField textFieldYearOfPublishingComic;
+    private TextField textFieldAuthorComic;
+    private TextField textFieldPublishingComic;
+    private TextField textFieldGenreComic;
+    private TextField textFieldCoastPriceComic;
+    private TextField textFieldSellingPriceComic;
+    private CheckBox checkBoxIsContinuation;
+
+    public EditUI(String comicName) {
+        this.COMIC_NAME = comicName;
+    }
 
     /**
-     * Отображает окно создания комикса
+     * Отображает окно редактирования комикса
      *
      * @param stage окно
      */
     @Override
     public void start(Stage stage) {
-        stage.setTitle("Добавление");
+        stage.setTitle("Редактирование");
 
         Label labelNameComic = new Label("Наименование");
         Label labelNumberOfPagesComic = new Label("Количество страниц");
@@ -38,15 +54,15 @@ public class AdditionUI extends Application {
         Label labelSellingPriceComic = new Label("Цена продажи");
         Label labelIsContinuation = new Label("Комикс является продолжением серии");
 
-        TextField textFieldNameComic = new TextField();
-        TextField textFieldNumberOfPagesComic = new TextField();
-        TextField textFieldYearOfPublishingComic = new TextField();
-        TextField textFieldAuthorComic = new TextField();
-        TextField textFieldPublishingComic = new TextField();
-        TextField textFieldGenreComic = new TextField();
-        TextField textFieldCoastPriceComic = new TextField();
-        TextField textFieldSellingPriceComic = new TextField();
-        CheckBox checkBoxIsContinuation = new CheckBox();
+        textFieldNameComic = new TextField();
+        textFieldNumberOfPagesComic = new TextField();
+        textFieldYearOfPublishingComic = new TextField();
+        textFieldAuthorComic = new TextField();
+        textFieldPublishingComic = new TextField();
+        textFieldGenreComic = new TextField();
+        textFieldCoastPriceComic = new TextField();
+        textFieldSellingPriceComic = new TextField();
+        checkBoxIsContinuation = new CheckBox();
 
         GridPane gridPane = new GridPane();
         gridPane.setHgap(20.0);
@@ -70,7 +86,7 @@ public class AdditionUI extends Application {
         gridPane.add(labelIsContinuation, 0, 8);
         gridPane.add(checkBoxIsContinuation, 1, 8);
 
-        Button buttonAdd = new Button("Добавить");
+        Button buttonAdd = new Button("Редактировать");
         buttonAdd.setFont(new Font(15));
         buttonAdd.setPrefWidth(385);
         buttonAdd.setPrefHeight(100);
@@ -81,7 +97,11 @@ public class AdditionUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        AdditionPresenter additionPresenter = AdditionPresenter.INSTANCE;
+        EditPresenter editPresenter = new EditPresenter(this);
+        if (!editPresenter.findComicForEdit(COMIC_NAME)) {
+            stage.close();
+            return;
+        }
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
             if (textFieldNameComic.getText().isEmpty() || textFieldAuthorComic.getText().isEmpty()
@@ -102,7 +122,7 @@ public class AdditionUI extends Application {
                     textFieldSellingPriceComic.getText(),
                     checkBoxIsContinuation.isSelected());
 
-            additionPresenter.onClickAdd(elementsOfComic);
+            editPresenter.onClickEdit(elementsOfComic);
             stage.close();
         });
 
@@ -110,6 +130,23 @@ public class AdditionUI extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+    }
+
+    /**
+     * Установка контента в элементы окна
+     *
+     * @param comic комикс
+     */
+    public void setContent(Comic comic) {
+        textFieldNameComic.setText(comic.getName());
+        textFieldNumberOfPagesComic.setText(String.valueOf(comic.getNumberOfPages()));
+        textFieldYearOfPublishingComic.setText(String.valueOf(comic.getYearOfPublishing()));
+        textFieldAuthorComic.setText(comic.getAuthor().getName());
+        textFieldPublishingComic.setText(comic.getPublishing().getName());
+        textFieldGenreComic.setText(comic.getGenre().getName());
+        textFieldCoastPriceComic.setText(String.valueOf(comic.getComicPrice().getCostPrice()));
+        textFieldSellingPriceComic.setText(String.valueOf(comic.getComicPrice().getSellingPrice()));
+        checkBoxIsContinuation.setSelected(comic.isContinuation());
     }
 
     private String[] elementsOfComic(String textFieldNameComic,

@@ -6,7 +6,7 @@ import domain.sell.Cart;
 import domain.sell.CartItem;
 import services.ComicService;
 import services.SearchService;
-import ui.SellUI;
+import ui.old.SellUI;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

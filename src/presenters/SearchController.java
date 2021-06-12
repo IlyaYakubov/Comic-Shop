@@ -1,4 +1,4 @@
-package ui.search;
+package presenters;
 
 import domain.sell.CartItem;
 import javafx.collections.FXCollections;
@@ -31,18 +31,31 @@ public class SearchController {
     @FXML
     void buttonFind(ActionEvent event) {
         tableComics.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("name"));
-        tableComics.getItems().clear();
-        tableComics.setItems(tableComics.getItems());
 
         if (editTextName.getText().isEmpty()) {
-            List<CartItem> allComics = searchService.getAllComics();
+            List<CartItem> allComics = searchService.getAllCartItems();
             tableComics.setItems(FXCollections.observableList(allComics));
         } else {
             switch (choiceBox.getValue()) {
-                case "по наименованию" -> tableComics.getItems().add(searchService.getComicByName(editTextName.getText()));
-                case "по автору" -> tableComics.getItems().add(searchService.getComicByAuthor(editTextName.getText()));
-                case "по жанру" -> tableComics.getItems().add(searchService.getComicByGenre(editTextName.getText()));
+                case "по наименованию" -> {
+                    List<CartItem> cartItems = searchService.getAllCartItems(editTextName.getText());
+                    tableComics.setItems(FXCollections.observableList(cartItems));
+                }
+                case "по автору" -> {
+                    List<CartItem> cartItems = searchService.getComicByAuthor(editTextName.getText());
+                    tableComics.setItems(FXCollections.observableList(cartItems));
+                }
+                case "по жанру" -> {
+                    List<CartItem> cartItems = searchService.getComicByGenre(editTextName.getText());
+                    tableComics.setItems(FXCollections.observableList(cartItems));
+                }
+                default -> refreshTable();
             }
         }
+    }
+
+    private void refreshTable() {
+        tableComics.getItems().clear();
+        tableComics.refresh();
     }
 }

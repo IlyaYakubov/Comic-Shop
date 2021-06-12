@@ -10,14 +10,15 @@ import java.util.stream.Collectors;
  */
 public class ReservationDao {
 
-    public static ReservationDao INSTANCE = new ReservationDao();
-    private static final String FILE_NAME_RESERVATION = "reservation_comics.txt";
+    private static final String FILE_NAME_RESERVATION = "reserved.txt";
     private static final File FILE_WITH_RESERVATION;
+    public static ReservationDao INSTANCE = new ReservationDao();
 
     static {
         FILE_WITH_RESERVATION = new File(FILE_NAME_RESERVATION);
         if (!FILE_WITH_RESERVATION.exists()) {
             try {
+                //noinspection ResultOfMethodCallIgnored
                 FILE_WITH_RESERVATION.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -31,7 +32,7 @@ public class ReservationDao {
     /**
      * Запись резервирования в файл
      *
-     * @param reservation - зарезервированный комикс
+     * @param reservation зарезервированный комикс
      */
     public void saveToFile(String reservation) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_RESERVATION, true))) {
@@ -44,7 +45,7 @@ public class ReservationDao {
     /**
      * Чтение резервированных комиксов
      *
-     * @return - строка резервации комикса
+     * @return строка резервации комикса
      */
     public List<String> readFromFile() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_WITH_RESERVATION))) {

@@ -8,7 +8,7 @@ import services.ComicService;
 public class DeletePresenter {
 
     public static DeletePresenter INSTANCE = new DeletePresenter();
-    private final ComicService comicService = ComicService.INSTANCE;
+    private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
 
     private DeletePresenter() {
     }
@@ -16,9 +16,9 @@ public class DeletePresenter {
     /**
      * Удаление комикса
      *
-     * @param nameOfComics - наименование комикса
+     * @param nameOfComics наименование комикса
      */
     public void onClickEdit(String nameOfComics) {
-        comicService.deleteComic(nameOfComics);
+        COMIC_SERVICE.deleteComic(nameOfComics);
     }
 }

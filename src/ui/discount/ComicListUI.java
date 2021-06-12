@@ -3,7 +3,6 @@ package ui.discount;
 import domain.sell.CartItem;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -13,14 +12,17 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import services.SearchService;
+
+import java.util.List;
 
 /**
  * Окно списка комиксов
  */
 public class ComicListUI extends Application {
 
-    private TableView<CartItem> table;
     private final DiscountUI discountUI;
+    private TableView<CartItem> table;
 
     public ComicListUI(DiscountUI discountUI) {
         this.discountUI = discountUI;
@@ -29,7 +31,7 @@ public class ComicListUI extends Application {
     /**
      * Отображает окно списка комиксов
      *
-     * @param stage - окно
+     * @param stage окно
      */
     @Override
     public void start(Stage stage) {
@@ -52,34 +54,28 @@ public class ComicListUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        ObservableList<CartItem> comics = FXCollections.observableArrayList(
-                discountUI.getDiscountPresenter().getFilteredComics(discountUI.getTable().getItems()));
-        table.setItems(comics);
+        SearchService searchService = SearchService.INSTANCE;
+        List<CartItem> cartItems = discountUI.getTable().getItems();
+        table.setItems(FXCollections.observableArrayList(searchService.getAllCartItems(cartItems)));
 
-        final String[] SELECTED_COMIC = new String[1];
+        final CartItem[] SELECTED_CART_ITEM = new CartItem[1];
         TableView.TableViewSelectionModel<CartItem> selectionModel = table.getSelectionModel();
         selectionModel.selectedItemProperty().addListener((observableValue, cartItem, newValue) -> {
             if (newValue != null) {
-                SELECTED_COMIC[0] = String.valueOf(newValue.getComic().hashCode());
+                SELECTED_CART_ITEM[0] = newValue;
             }
         });
 
         buttonOK.setOnMouseClicked(mouseEvent -> {
-            if (SELECTED_COMIC[0] != null) {
-                CartItem comic = discountUI.getDiscountPresenter().getComicByHashCode(SELECTED_COMIC[0]);
-                if (comic == null) {
-                    return;
-                }
-                ObservableList<CartItem> comicsList = FXCollections.observableArrayList(comic);
+            if (SELECTED_CART_ITEM[0] != null) {
+                discountUI.setContent(SELECTED_CART_ITEM[0]);
                 stage.close();
-                discountUI.setContent(comicsList);
             }
         });
 
         Scene scene = new Scene(vBox, 400, 750);
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.setAlwaysOnTop(true);
         stage.show();
     }
 }

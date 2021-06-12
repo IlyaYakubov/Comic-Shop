@@ -2,6 +2,8 @@ package domain;
 
 import domain.sell.ComicPrice;
 
+import java.util.Objects;
+
 /**
  * Модель комикса
  */
@@ -98,5 +100,35 @@ public class Comic {
 
     public void setComicPrice(ComicPrice comicPrice) {
         this.comicPrice = comicPrice;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Comic comic = (Comic) o;
+
+        if (numberOfPages != comic.numberOfPages) return false;
+        if (yearOfPublishing != comic.yearOfPublishing) return false;
+        if (isContinuation != comic.isContinuation) return false;
+        if (!Objects.equals(name, comic.name)) return false;
+        if (!Objects.equals(author, comic.author)) return false;
+        if (!Objects.equals(publishing, comic.publishing)) return false;
+        if (!Objects.equals(genre, comic.genre)) return false;
+        return Objects.equals(comicPrice, comic.comicPrice);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + numberOfPages;
+        result = 31 * result + yearOfPublishing;
+        result = 31 * result + (isContinuation ? 1 : 0);
+        result = 31 * result + (author != null ? author.hashCode() : 0);
+        result = 31 * result + (publishing != null ? publishing.hashCode() : 0);
+        result = 31 * result + (genre != null ? genre.hashCode() : 0);
+        result = 31 * result + (comicPrice != null ? comicPrice.hashCode() : 0);
+        return result;
     }
 }

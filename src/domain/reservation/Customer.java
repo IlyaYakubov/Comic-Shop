@@ -1,13 +1,13 @@
-package domain;
+package domain.reservation;
 
 /**
- * Жанр комикса
+ * Клиент
  */
-public class Genre {
+public class Customer {
 
     private String name;
 
-    public Genre(String name) {
+    public Customer(String name) {
         this.name = name;
     }
 

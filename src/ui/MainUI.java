@@ -11,7 +11,6 @@ import javafx.stage.Stage;
 import ui.discount.DiscountListUI;
 import ui.edit.FindBeforeEditUI;
 import ui.reservation.ReservationUI;
-import ui.search.SearchUI;
 
 /**
  * Основное окно
@@ -21,7 +20,7 @@ public class MainUI extends Application {
     /**
      * Отображает кнопки меню
      *
-     * @param stage - окно
+     * @param stage окно
      */
     @Override
     public void start(Stage stage) {
@@ -59,6 +58,10 @@ public class MainUI extends Application {
         buttonFind.setPrefWidth(200);
         buttonFind.setPrefHeight(70);
         buttonFind.setFont(new Font(15));
+        Button buttonReports = new Button("Отчеты");
+        buttonReports.setPrefWidth(200);
+        buttonReports.setPrefHeight(70);
+        buttonReports.setFont(new Font(15));
 
         TilePane tilePane = new TilePane();
         tilePane.setOrientation(Orientation.VERTICAL);
@@ -69,6 +72,7 @@ public class MainUI extends Application {
         TilePane.setMargin(buttonWriteOffComic, new Insets(10.0));
         TilePane.setMargin(buttonReservationComic, new Insets(10.0));
         TilePane.setMargin(buttonPromotions, new Insets(10.0));
+        TilePane.setMargin(buttonReports, new Insets(10.0));
 
         tilePane.getChildren().add(buttonAddComic);
         tilePane.getChildren().add(buttonEditComic);
@@ -78,6 +82,7 @@ public class MainUI extends Application {
         tilePane.getChildren().add(buttonReservationComic);
         tilePane.getChildren().add(buttonPromotions);
         tilePane.getChildren().add(buttonFind);
+        tilePane.getChildren().add(buttonReports);
 
         buttonAddComic.setOnMouseClicked(mouseEvent -> {
             AdditionUI additionUI = new AdditionUI();
@@ -119,7 +124,12 @@ public class MainUI extends Application {
             searchUI.start(new Stage());
         });
 
-        Scene scene = new Scene(tilePane, 250, 750);
+        buttonReports.setOnMouseClicked(mouseEvent -> {
+            ReportUI reportUI = new ReportUI();
+            reportUI.start(new Stage());
+        });
+
+        Scene scene = new Scene(tilePane, 230, 820);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

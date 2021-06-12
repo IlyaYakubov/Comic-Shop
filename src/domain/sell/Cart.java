@@ -7,51 +7,76 @@ import java.util.List;
 
 /**
  * Корзина с комиксами
+ * В корзине лежат элементы - которые состоят из комикса, его цены продажи и названия
  */
 public class Cart {
 
     private double amount;
-    private final List<CartItem> comics = new ArrayList<>();
+    private List<CartItem> cartItems = new ArrayList<>();
 
     public double getAmount() {
         return amount;
     }
 
-    public List<CartItem> getComics() {
-        return comics;
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
+    public List<CartItem> getCartItems() {
+        return cartItems;
+    }
+
+    public void setCartItems(List<CartItem> cartItems) {
+        this.cartItems = cartItems;
+        updateAmount();
+    }
+
+    /**
+     * Добавление элемента в корзину
+     *
+     * @param cartItem элемент корзины
+     */
+    public void addItem(CartItem cartItem) {
+        cartItems.add(cartItem);
+        updateAmount();
     }
 
     /**
      * Добавление комикса в корзину
      * Получается элемент корзины состоящий из комикса, его цены и его наименования
      *
-     * @param comic - комикс
+     * @param comic комикс
      */
     public void addComic(Comic comic) {
-        ComicPrice comicPrice = comic.getComicPrice();
-        comics.add(new CartItem(comic, comicPrice.getSellingPrice(), comic.getName()));
-        amount += comicPrice.getSellingPrice();
+        add(comic);
     }
 
     /**
-     * Удаление одного комикса из корзины
-     *
-     * @param comic - комикс
-     */
-    public void deleteComic(Comic comic) {
-        for (CartItem cartItem : comics) {
-            if (cartItem.getComic().getName().equals(comic.getName())) {
-                comics.remove(cartItem);
-                break;
-            }
-        }
-    }
-
-    /**
-     * Очистка
+     * Очистка корзины
      */
     public void clear() {
-        comics.clear();
+        cartItems.clear();
         amount = 0;
+    }
+
+    /**
+     * Добавление
+     *
+     * @param comic комикс
+     */
+    private void add(Comic comic) {
+        ComicPrice comicPrice = comic.getComicPrice();
+        cartItems.add(new CartItem(comic, comicPrice.getSellingPrice(), comic.getName()));
+        updateAmount();
+    }
+
+    /**
+     * Обновление скидок
+     */
+    private void updateAmount() {
+        amount = 0;
+        for (CartItem cartItem : cartItems) {
+            amount += cartItem.getPrice();
+        }
     }
 }

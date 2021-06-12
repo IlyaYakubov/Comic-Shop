@@ -2,7 +2,7 @@ package ui.reservation;
 
 import domain.sell.CartItem;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 import presenters.ReservationPresenter;
 import ui.utils.MessageUI;
 
+import java.util.List;
+
 /**
  * Окно резервирования
  */
@@ -24,7 +26,7 @@ public class ReservationUI extends Application {
     /**
      * Отображает окно резервирования
      *
-     * @param stage - окно
+     * @param stage окно
      */
     @Override
     public void start(Stage stage) {
@@ -85,7 +87,7 @@ public class ReservationUI extends Application {
 
         buttonReservation.setOnMouseClicked(mouseEvent -> {
             if (table.getItems().isEmpty() || textFieldCustomerName.getText().isEmpty()) {
-                new MessageUI("Заполните клиента или комиксы");
+                new MessageUI("Заполните клиента или комиксы").start(new Stage());
                 return;
             }
             reservationPresenter.onClickReservation(textFieldCustomerName.getText());
@@ -95,7 +97,6 @@ public class ReservationUI extends Application {
 
         Scene scene = new Scene(vBox, 800, 600);
         stage.setScene(scene);
-        stage.setAlwaysOnTop(true);
         stage.setResizable(false);
         stage.show();
     }
@@ -103,10 +104,10 @@ public class ReservationUI extends Application {
     /**
      * Установка контента в элементы окна
      *
-     * @param comics - список комиксов
+     * @param cartItems список комиксов
      */
-    public void setContent(ObservableList<CartItem> comics) {
-        table.setItems(comics);
+    public void setContent(List<CartItem> cartItems) {
+        table.setItems(FXCollections.observableList(cartItems));
     }
 
     private boolean checkComicName(TextField textFieldComicName) {

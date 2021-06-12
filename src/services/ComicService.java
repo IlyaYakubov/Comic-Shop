@@ -1,364 +1,455 @@
 package services;
 
 import domain.Author;
+import domain.Comic;
 import domain.Genre;
 import domain.Publishing;
 import domain.discounts.Discount;
-import domain.discounts.DiscountComic;
+import domain.reservation.Customer;
+import domain.reservation.Reservation;
 import domain.sell.Cart;
 import domain.sell.CartItem;
-import domain.sell.ComicPrice;
 import domain.sell.Sell;
 import repository.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Сервис по работе с комиксами
  */
 public class ComicService {
 
+    private static final int NAME = 0;
+    private static final int AUTHOR = 1;
+    private static final int PUBLISHING = 2;
+    private static final int NUMBER_OF_PAGES = 3;
+    private static final int GENRE = 4;
+    private static final int YEAR = 5;
+    private static final int COST_PRICE = 6;
+    private static final int PRICE = 7;
+    private static final int IS_CONTINUE = 8;
+    private static final int STRING_PARAM = 9;
+    private static final int NAME_OF_DISCOUNTS = 10;
+    private static final int DATE_BEGIN = 11;
+    private static final int DATE_END = 12;
     private static final String DELIMITER = ";";
+
     public static ComicService INSTANCE = new ComicService();
     private final FileDao fileDao = FileDao.INSTANCE;
+    private final SellDao sellDao = SellDao.INSTANCE;
+    private final WriteOffDao writeOffDao = WriteOffDao.INSTANCE;
     private final ReservationDao reservationDao = ReservationDao.INSTANCE;
     private final DiscountDao discountDao = DiscountDao.INSTANCE;
-    private final List<DiscountComic> reserves = new ArrayList<>();
-    private final List<DiscountComic> allComics = new ArrayList<>();
+
+    private final List<Comic> COMICS = new ArrayList<>();
+    private final List<Sell> SELLS = new ArrayList<>();
+    private final List<Reservation> RESERVATIONS = new ArrayList<>();
+    private final List<Discount> DISCOUNTS = new ArrayList<>();
+    private final List<String> comicsInSalesFile = sellDao.readFromFile();
+    private final List<String> reservationsInFile = reservationDao.readFromFile();
+    private final List<String> discountsInFile = discountDao.readFromFile();
     private List<String> comicsInFile = fileDao.readFromFile();
 
     private ComicService() {
+        createComicsFromFile();
+        createComicsFromSoldFile();
+        createComicsFromReservationsFile();
+        createDiscountsFromDiscountsFile();
+    }
+
+    public List<Comic> getComics() {
+        return COMICS;
+    }
+
+    public List<Sell> getSells() {
+        return SELLS;
+    }
+
+    public List<Discount> getDiscounts() {
+        return DISCOUNTS;
     }
 
     /**
      * Добавление комикса из элементов
      *
-     * @param comic - элементы комикса
+     * @param comic элементы комикса
      */
     public void addComic(String[] comic) {
-        fileDao.saveToFile(formComicFromElements(comic).toString());
+        Comic newComic = formComicFromElements(comic);
+        COMICS.add(newComic);
+        fileDao.saveToFile(formComicForFile(comic));
+        comicsInFile = fileDao.readFromFile();
     }
 
     /**
      * Редактирование комикса
+     * Алгоритм:
+     * 1. Удаляется файл
+     * 2. Строки для файла обходятся циклом и по условию совпадения имени - заменяется строкой с отредатированными
+     * значениями.
+     * Тем самым происходит редактирование одного комикса
      *
-     * @param comic - элементы комикса
+     * @param newComicElements элементы комикса
      */
-    public void editComic(String[] comic) {
-        fileDao.deleteFile();
-
-        List<String> newListOfComics = new ArrayList<>();
-        for (String elementsOfComic : comicsInFile) {
-            String[] arrayOfElements = elementsOfComic.split(DELIMITER);
-            if (comic[0].equals(arrayOfElements[0])) {
-                newListOfComics.add(formComicFromElements(comic).toString());
-                continue;
+    public void editComic(String[] newComicElements) {
+        if (COMICS.size() > 0) {
+            List<String> newComicsForFile = new ArrayList<>();
+            for (String elementsOfComic : comicsInFile) {
+                String[] arrayOfElements = elementsOfComic.split(DELIMITER);
+                if (newComicElements[NAME].equals(arrayOfElements[NAME])) {
+                    newComicsForFile.add(formComicForFile(newComicElements));
+                    continue;
+                }
+                newComicsForFile.add(elementsOfComic);
             }
-            newListOfComics.add(elementsOfComic);
-        }
+            comicsInFile = newComicsForFile;
 
-        comicsInFile = newListOfComics;
-        for (String newComic : newListOfComics) {
-            fileDao.saveToFile(newComic);
+            updateComicInShop();
         }
     }
 
     /**
-     * Удаление комикса из файла
-     * При совпадении имени комикс не перезаписывается
-     * (файл предварительно удаляется)
+     * Удаление одного комикса из файла
+     * Алгоритм:
+     * 1. Удаляется файл
+     * 2. Строки для файла обходятся циклом и по условию совпадения имени - переход к следующей
+     * итерации без записи.
+     * 3. Если имя не совпадает или уже был пропуск - то строка для файла записывается
+     * Тем самым происходит удаление одного комикса
      *
-     * @param nameOfComic - название комикса
+     * @param comicName название комикса
      */
-    public void deleteComic(String nameOfComic) {
-        if (comicsInFile.size() > 0) {
-            List<String> newListOfComics = new ArrayList<>();
-            fileDao.deleteFile();
+    public void deleteComic(String comicName) {
+        if (COMICS.size() > 0) {
+            List<String> newComicsForFile = new ArrayList<>();
             boolean wasAPass = false;
-            for (String comic : comicsInFile) {
-                String[] arrayOfElements = comic.split(DELIMITER);
-                if (arrayOfElements[0].equals(nameOfComic) && !wasAPass) {
+            for (String elementsOfComic : comicsInFile) {
+                String[] arrayOfElements = elementsOfComic.split(DELIMITER);
+                if (comicName.equals(arrayOfElements[NAME]) && !wasAPass) {
                     wasAPass = true;
                     continue;
                 }
-                newListOfComics.add(comic);
-                fileDao.saveToFile(comic);
+                newComicsForFile.add(elementsOfComic);
             }
-            comicsInFile = newListOfComics;
+
+            comicsInFile = newComicsForFile;
+
+            updateComicInShop();
+        }
+    }
+
+    private void updateComicInShop() {
+        fileDao.deleteFile();
+        COMICS.clear();
+        for (String comicElements : comicsInFile) {
+            fileDao.saveToFile(comicElements);
+            COMICS.add(formComicFromElements(comicElements));
         }
     }
 
     /**
      * Продажа комиксов
+     * Также происходит удаление и добавление комиксов в соответствующих коллекциях
      *
-     * @param cart - корзина комиксов
+     * @param date дата продажи
+     * @param cart корзина комиксов
      */
-    public void makePurchase(Cart cart) {
-        // todo проверить есть ли по скидкам
+    public void makePurchase(LocalDateTime date, Cart cart) {
+        deleteComicsFromFile(cart);
 
-        for (DiscountComic reserve : reserves) {
-            cart.addComic(reserve);
+        Sell sell = new Sell(date, cart);
+        for (CartItem cartItem : cart.getCartItems()) {
+            sellDao.saveToFile(formComicForFile(cartItem) + sell.getDate());
         }
-        reserves.clear();
-
-        for (CartItem item : cart.getComics()) {
-            deleteComic(item.getComic().getName());
-        }
-
-        SellDao sellDao = SellDao.INSTANCE;
-        for (CartItem comic : cart.getComics()) {
-            String buyItem = LocalDateTime.now() + DELIMITER + comic.getComic().getName() + DELIMITER
-                    + comic.getPrice();
-            sellDao.saveToFile(buyItem);
-        }
-        Sell sell = new Sell(cart);
         sell.makePurchase();
+        SELLS.add(sell);
     }
 
     /**
      * Списание комиксов
      *
-     * @param cart - корзина комиксов
+     * @param cart корзина c комиксами
      */
     public void writeOffComics(Cart cart) {
-        // todo проверить есть ли по скидкам
+        // предварительная проверка: если есть списываемые комиксы в резерве, отменить списание
+        // также если списывается больше чем есть в магазине
+        if (reserveCheck(cart)) {
+            return;
+        }
 
-        getAll();
-        getReserves();
-        List<CartItem> cartItems = new ArrayList<>(cart.getComics());
-        for (CartItem comic : cartItems) {
-            int countInFile = 0;
-            int countInReserve = 0;
-            int countForWriteOff = 0;
-            for (DiscountComic comicInFile : allComics) {
-                if (comic.getName().equals(comicInFile.getName())) {
-                    countInFile++;
+        deleteComicsFromFile(cart);
+
+        for (CartItem cartItem : cart.getCartItems()) {
+            writeOffDao.saveToFile(formComicForFile(cartItem));
+        }
+        cart.clear();
+    }
+
+    /**
+     * Резервирование комиксов
+     *
+     * @param cart         корзина с комиксами
+     * @param customerName имя клиента
+     */
+    public void reserveComics(Cart cart, String customerName) {
+        Reservation reservation = new Reservation(new Customer(customerName), cart);
+        for (CartItem cartItem : cart.getCartItems()) {
+            reservationDao.saveToFile(formComicForFile(cartItem) + customerName);
+        }
+        RESERVATIONS.add(reservation);
+        reservation.makeReserve();
+    }
+
+    /**
+     * Получение резервированных комиксов клиента
+     *
+     * @param customerName имя клиента
+     * @return корзина с резервированными комиксами
+     */
+    public Cart getCustomersReservedComics(String customerName) {
+        Cart cart = new Cart();
+        RESERVATIONS.stream().filter(reservation -> reservation.getCustomer().getName().equals(customerName)).forEach(reservation -> {
+            for (CartItem cartItem : reservation.getCart().getCartItems()) {
+                cart.addItem(cartItem);
+            }
+        });
+
+        RESERVATIONS.removeIf(x -> x.getCustomer().getName().equals(customerName));
+
+        if (cart.getCartItems().size() > 0) {
+            reservationDao.deleteFile();
+            for (Reservation reservation : RESERVATIONS) {
+                for (CartItem cartItem : reservation.getCart().getCartItems()) {
+                    reservationDao.saveToFile(formComicForFile(cartItem) + reservation.getCustomer().getName());
                 }
             }
-            for (DiscountComic comicInReserve : reserves) {
-                if (comic.getName().equals(comicInReserve.getName())) {
+        }
+        return cart;
+    }
+
+    /**
+     * Запись акции
+     *
+     * @param name      наименование акции
+     * @param dateBegin дата начала
+     * @param dateEnd   дата окончания
+     * @param cart      корзина с комиксами
+     */
+    public void saveDiscounts(LocalDateTime dateTime,
+                              String name,
+                              LocalDate dateBegin,
+                              LocalDate dateEnd,
+                              Cart cart,
+                              int percent) {
+        Discount discount = new Discount(name, dateTime, dateBegin, dateEnd, cart);
+        discount.getCart().setCartItems(cart.getCartItems());
+        discount.calculateDiscounts(percent);
+        DISCOUNTS.add(discount);
+
+        for (CartItem cartItem : discount.getCart().getCartItems()) {
+            discountDao.saveToFile(formComicForFile(cartItem) +
+                    dateTime + DELIMITER + name + DELIMITER + dateBegin + DELIMITER + dateEnd);
+        }
+    }
+
+    private void createComicsFromFile() {
+        for (String comicElements : comicsInFile) {
+            Comic comic = formComicFromElements(comicElements);
+            COMICS.add(comic);
+        }
+    }
+
+    private void createComicsFromSoldFile() {
+        Map<String, List<CartItem>> structure = new HashMap<>();
+        for (String comicElements : comicsInSalesFile) {
+            String[] elementsOfComic = comicElements.split(DELIMITER);
+
+            String param = elementsOfComic[STRING_PARAM];
+
+            List<CartItem> comics;
+            if (structure.containsKey(param)) {
+                comics = structure.get(param);
+            } else {
+                comics = new ArrayList<>();
+                structure.put(param, comics);
+            }
+            comics.add(new CartItem(formComicFromElements(comicElements), Double.parseDouble(elementsOfComic[PRICE]), elementsOfComic[NAME]));
+        }
+
+        for (Map.Entry<String, List<CartItem>> entry : structure.entrySet()) {
+            Cart cart = new Cart();
+            cart.setCartItems(entry.getValue());
+            Sell sell = new Sell(LocalDateTime.parse(entry.getKey()), cart);
+            SELLS.add(sell);
+        }
+    }
+
+    private void createComicsFromReservationsFile() {
+        Map<String, List<CartItem>> structure = new HashMap<>();
+        for (String comicElements : reservationsInFile) {
+            String[] elementsOfComic = comicElements.split(DELIMITER);
+
+            String param = elementsOfComic[STRING_PARAM];
+
+            List<CartItem> comics;
+            if (structure.containsKey(param)) {
+                comics = structure.get(param);
+            } else {
+                comics = new ArrayList<>();
+                structure.put(param, comics);
+            }
+            comics.add(new CartItem(formComicFromElements(comicElements), Double.parseDouble(elementsOfComic[PRICE]), elementsOfComic[NAME]));
+        }
+
+        for (Map.Entry<String, List<CartItem>> entry : structure.entrySet()) {
+            Cart cart = new Cart();
+            cart.setCartItems(entry.getValue());
+            Reservation reservation = new Reservation(new Customer(entry.getKey()), cart);
+            RESERVATIONS.add(reservation);
+        }
+    }
+
+    private void createDiscountsFromDiscountsFile() {
+        Map<String, List<String>> structure = new HashMap<>();
+        for (String comicElements : discountsInFile) {
+            String[] elementsOfComic = comicElements.split(DELIMITER);
+
+            String param = elementsOfComic[STRING_PARAM];
+
+            List<String> comics;
+            if (structure.containsKey(param)) {
+                comics = structure.get(param);
+            } else {
+                comics = new ArrayList<>();
+                structure.put(param, comics);
+            }
+            comics.add(comicElements);
+        }
+
+        for (Map.Entry<String, List<String>> entry : structure.entrySet()) {
+            Cart cart = new Cart();
+            for (String discountComics : entry.getValue()) {
+                String[] elementsOfComic = discountComics.split(DELIMITER);
+                cart.addItem(new CartItem(formComicFromElements(elementsOfComic), Double.parseDouble(elementsOfComic[PRICE]), elementsOfComic[NAME]));
+            }
+            String[] elementsOfComic = entry.getValue().get(0).split(DELIMITER);
+            Discount discount = new Discount(
+                    elementsOfComic[NAME_OF_DISCOUNTS],
+                    LocalDateTime.parse(entry.getKey()),
+                    LocalDate.parse(elementsOfComic[DATE_BEGIN]),
+                    LocalDate.parse(elementsOfComic[DATE_END]),
+                    cart);
+            DISCOUNTS.add(discount);
+        }
+    }
+
+    private Comic formComicFromElements(String comicElements) {
+        String[] elementsOfComic = comicElements.split(DELIMITER);
+        return new Comic(
+                elementsOfComic[NAME], // наименование
+                new Author(elementsOfComic[AUTHOR]), // автор
+                new Publishing(elementsOfComic[PUBLISHING]), // издательство
+                Integer.parseInt(elementsOfComic[NUMBER_OF_PAGES]), // количество страниц
+                new Genre(elementsOfComic[GENRE]), // жанр
+                Integer.parseInt(elementsOfComic[YEAR]), // год издательства
+                Double.parseDouble(elementsOfComic[COST_PRICE]), // себестоимость
+                Double.parseDouble(elementsOfComic[PRICE]), // цена продажи
+                Boolean.parseBoolean(elementsOfComic[IS_CONTINUE])); // является продолжением
+    }
+
+    private Comic formComicFromElements(String[] elementsOfComic) {
+        return new Comic(
+                elementsOfComic[NAME], // наименование
+                new Author(elementsOfComic[AUTHOR]), // автор
+                new Publishing(elementsOfComic[PUBLISHING]), // издательство
+                Integer.parseInt(elementsOfComic[NUMBER_OF_PAGES]), // количество страниц
+                new Genre(elementsOfComic[GENRE]), // жанр
+                Integer.parseInt(elementsOfComic[YEAR]), // год издательства
+                Double.parseDouble(elementsOfComic[COST_PRICE]), // себестоимость
+                Double.parseDouble(elementsOfComic[PRICE]), // цена продажи
+                Boolean.parseBoolean(elementsOfComic[IS_CONTINUE])); // является продолжением
+    }
+
+    /**
+     * Формирование строки проданного комикса из массива элементов каждого поля комикса
+     *
+     * @param comic массив из элементов комикса
+     * @return строка для записи продажи
+     */
+    private String formComicForFile(String[] comic) {
+        return comic[NAME] + DELIMITER + // наименование
+                comic[AUTHOR] + DELIMITER + // автор
+                comic[PUBLISHING] + DELIMITER + // издательство
+                comic[NUMBER_OF_PAGES] + DELIMITER + // количество страниц
+                comic[GENRE] + DELIMITER + // жанр
+                comic[YEAR] + DELIMITER + // год издательства
+                comic[COST_PRICE] + DELIMITER + // себестоимость
+                comic[PRICE] + DELIMITER + // цена продажи
+                comic[IS_CONTINUE] + DELIMITER; // является продолжением
+    }
+
+    /**
+     * Формирование строки проданного комикса
+     *
+     * @param cartItem элемент корзины
+     * @return строка для записи продажи
+     */
+    private String formComicForFile(CartItem cartItem) {
+        return cartItem.getComic().getName() + DELIMITER + // наименование
+                cartItem.getComic().getAuthor().getName() + DELIMITER + // автор
+                cartItem.getComic().getPublishing().getName() + DELIMITER + // издательство
+                cartItem.getComic().getNumberOfPages() + DELIMITER + // количество страниц
+                cartItem.getComic().getGenre().getName() + DELIMITER + // жанр
+                cartItem.getComic().getYearOfPublishing() + DELIMITER + // год издательства
+                cartItem.getComic().getComicPrice().getCostPrice() + DELIMITER + // себестоимость
+                cartItem.getComic().getComicPrice().getSellingPrice() + DELIMITER + // цена продажи
+                cartItem.getComic().isContinuation() + DELIMITER; // является продолжением
+    }
+
+    private void deleteComicsFromFile(Cart cart) {
+        for (CartItem cartItem : cart.getCartItems()) {
+            deleteComic(cartItem.getComic().getName());
+        }
+    }
+
+    private boolean reserveCheck(Cart cart) {
+        Collections.sort(cart.getCartItems());
+
+        Map<String, List<CartItem>> structureOfWriteOff = new HashMap<>();
+        for (CartItem cartItem : cart.getCartItems()) {
+            String comicName = cartItem.getName();
+            List<CartItem> cartItems;
+            if (structureOfWriteOff.containsKey(comicName)) {
+                cartItems = structureOfWriteOff.get(comicName);
+            } else {
+                cartItems = new ArrayList<>();
+                structureOfWriteOff.put(comicName, cartItems);
+            }
+            cartItems.add(cartItem);
+        }
+
+        for (Map.Entry<String, List<CartItem>> entry : structureOfWriteOff.entrySet()) {
+            int countWriteOff = entry.getValue().size();
+            int countInShop = 0;
+            int countInReserve = 0;
+
+            for (Comic comicInShop : COMICS) {
+                if (entry.getKey().equals(comicInShop.getName())) {
+                    countInShop++;
+                }
+            }
+            for (Reservation reservation : RESERVATIONS) {
+                if (entry.getKey().equals(reservation.getName())) {
                     countInReserve++;
                 }
             }
-            for (CartItem cartItem : cart.getComics()) {
-                if (comic.getName().equals(cartItem.getComic().getName())) {
-                    countForWriteOff++;
-                }
-            }
-            if (countForWriteOff > (countInFile - countInReserve)) {
-                // нельзя списать больше чем разность между в файле и резерве
-                return;
+
+            if (countWriteOff > (countInShop - countInReserve)) {
+                return true;
             }
         }
-
-        for (CartItem comic : cart.getComics()) {
-            deleteComic(comic.getComic().getName());
-        }
-
-        WriteOffDao writeOffDao = new WriteOffDao();
-        for (CartItem comic : cart.getComics()) {
-            String buyItem = LocalDateTime.now() + DELIMITER + comic.getComic().getName();
-            writeOffDao.saveToFile(buyItem);
-        }
-
-        cart.clear();
-    }
-
-    /**
-     * Резервация комиксов
-     *
-     * @param cart     - корзина комиксов
-     * @param customer - имя клиента
-     */
-    public void reservationComics(Cart cart, String customer) {
-        ReservationDao reservationDao = ReservationDao.INSTANCE;
-        for (CartItem comic : cart.getComics()) {
-            String reservationElement = LocalDateTime.now() + DELIMITER + customer + DELIMITER +
-                    comic.getComic().getName() + DELIMITER +
-                    comic.getComic().getAuthor().getName() + DELIMITER +
-                    comic.getComic().getPublishing().getName() + DELIMITER +
-                    comic.getComic().getNumberOfPages() + DELIMITER +
-                    comic.getComic().getGenre().getName() + DELIMITER +
-                    comic.getComic().getYearOfPublishing() + DELIMITER +
-                    comic.getComic().getComicPrice().getCostPrice() + DELIMITER +
-                    comic.getComic().getComicPrice().getSellingPrice() + DELIMITER +
-                    comic.getComic().isContinuation();
-            reservationDao.saveToFile(reservationElement);
-        }
-
-        cart.clear();
-    }
-
-    /**
-     * Получение резервированных комиксов
-     *
-     * @param customerName - имя клиента
-     * @return коллекцию элементов корзины с комиксами
-     */
-    public List<CartItem> reservedComics(String customerName) {
-        List<String> reservationsInFile = reservationDao.readFromFile();
-
-        ReservationDao reservationDao = ReservationDao.INSTANCE;
-        reservationDao.deleteFile();
-
-        List<CartItem> items = new ArrayList<>();
-        for (String reserve : reservationsInFile) {
-            String[] elementsOfReserve = reserve.split(DELIMITER);
-            if (elementsOfReserve[1].equals(customerName)) {
-                DiscountComic comic = new DiscountComic(
-                        elementsOfReserve[2], // наименование
-                        new Author(elementsOfReserve[3]), // автор
-                        new Publishing(elementsOfReserve[4]), // издательство
-                        Integer.parseInt(elementsOfReserve[5]), // количество страниц
-                        new Genre(elementsOfReserve[6]), // жанр
-                        Integer.parseInt(elementsOfReserve[7]), // год издательства
-                        Double.parseDouble(elementsOfReserve[8]), // себестоимость
-                        Double.parseDouble(elementsOfReserve[9]), // цена продажи
-                        Boolean.parseBoolean(elementsOfReserve[10])); // является продолжением
-
-                items.add(new CartItem(comic, comic.getComicPrice().getSellingPrice(), elementsOfReserve[1]));
-                reserves.add(comic);
-            } else {
-                reservationDao.saveToFile(reserve);
-            }
-
-        }
-        return items;
-    }
-
-    /**
-     * Запись скидок
-     *
-     * @param name      - наименование акции
-     * @param percent   - процент скидки
-     * @param dateBegin - дата начала
-     * @param dateEnd   - дата окончания
-     * @param cart      - корзина с комиксами
-     */
-    public void setDiscounts(String date,
-                             String name,
-                             int percent,
-                             String dateBegin,
-                             String dateEnd,
-                             Cart cart) {
-        DiscountDao discountDao = DiscountDao.INSTANCE;
-        for (CartItem comic : cart.getComics()) {
-            comic.getComic().setComicPrice(
-                    new ComicPrice(
-                            comic.getComic().getComicPrice().getCostPrice(),
-                            comic.getComic().getComicPrice().getSellingPrice() -
-                                    (comic.getComic().getComicPrice().getSellingPrice() * percent / 100)));
-            String discount = date + DELIMITER + name + DELIMITER + percent + DELIMITER +
-                    dateBegin + DELIMITER + dateEnd + DELIMITER +
-                    comic.getComic().getName() + DELIMITER +
-                    comic.getComic().getAuthor().getName() + DELIMITER +
-                    comic.getComic().getPublishing().getName() + DELIMITER +
-                    comic.getComic().getNumberOfPages() + DELIMITER +
-                    comic.getComic().getGenre().getName() + DELIMITER +
-                    comic.getComic().getYearOfPublishing() + DELIMITER +
-                    comic.getComic().getComicPrice().getCostPrice() + DELIMITER +
-                    comic.getComic().getComicPrice().getSellingPrice() + DELIMITER +
-                    comic.getComic().isContinuation();
-
-            discountDao.saveToFile(discount);
-        }
-
-        cart.clear();
-    }
-
-    /**
-     * Получение акций
-     *
-     * @return - коллекция акций
-     */
-    public List<Discount> getDiscounts() {
-        List<Discount> discounts = new ArrayList<>();
-        Discount discount = new Discount();
-        String previousDate = "";
-        for (String discountComic : discountDao.readFromFile()) {
-            String[] elementsOfDiscountComic = discountComic.split(DELIMITER);
-            String currentDate = elementsOfDiscountComic[0];
-            if (!currentDate.equals(previousDate)) {
-                discount = new Discount();
-            }
-            DiscountComic comic = new DiscountComic(
-                    elementsOfDiscountComic[5], // наименование
-                    new Author(elementsOfDiscountComic[6]), // автор
-                    new Publishing(elementsOfDiscountComic[7]), // издательство
-                    Integer.parseInt(elementsOfDiscountComic[8]), // количество страниц
-                    new Genre(elementsOfDiscountComic[9]), // жанр
-                    Integer.parseInt(elementsOfDiscountComic[10]), // год издательства
-                    Double.parseDouble(elementsOfDiscountComic[11]), // себестоимость
-                    Double.parseDouble(elementsOfDiscountComic[12]), // цена продажи
-                    Boolean.parseBoolean(elementsOfDiscountComic[13])); // является продолжением
-            // elementsOfDiscountComic[1] - наименование акции
-            // elementsOfDiscountComic[3] - начало акции
-            // elementsOfDiscountComic[4] - окончание акции
-            discount.add(new CartItem(comic, comic.getComicPrice().getSellingPrice(), elementsOfDiscountComic[1]),
-                    elementsOfDiscountComic[3], elementsOfDiscountComic[4]);
-            if (!currentDate.equals(previousDate)) {
-                discounts.add(discount);
-            }
-            previousDate = currentDate;
-        }
-        return discounts;
-    }
-
-    private StringBuilder formComicFromElements(String[] comic) {
-        StringBuilder data = new StringBuilder();
-        data
-                .append(comic[0]).append(DELIMITER) // наименование
-                .append(comic[1]).append(DELIMITER) // автор
-                .append(comic[2]).append(DELIMITER) // издательство
-                .append(comic[3]).append(DELIMITER) // количество страниц
-                .append(comic[4]).append(DELIMITER) // жанр
-                .append(comic[5]).append(DELIMITER) // год издательства
-                .append(comic[6]).append(DELIMITER) // себестоимость
-                .append(comic[7]).append(DELIMITER) // цена продажи
-                .append(comic[8]).append(DELIMITER); // является продолжением
-        return data;
-    }
-
-    private void getReserves() {
-        List<String> reservationsInFile = reservationDao.readFromFile();
-        List<CartItem> items = new ArrayList<>();
-        for (String reserve : reservationsInFile) {
-            String[] elementsOfReserve = reserve.split(DELIMITER);
-            DiscountComic comic = new DiscountComic(
-                    elementsOfReserve[2], // наименование
-                    new Author(elementsOfReserve[3]), // автор
-                    new Publishing(elementsOfReserve[4]), // издательство
-                    Integer.parseInt(elementsOfReserve[5]), // количество страниц
-                    new Genre(elementsOfReserve[6]), // жанр
-                    Integer.parseInt(elementsOfReserve[7]), // год издательства
-                    Double.parseDouble(elementsOfReserve[8]), // себестоимость
-                    Double.parseDouble(elementsOfReserve[9]), // цена продажи
-                    Boolean.parseBoolean(elementsOfReserve[10])); // является продолжением
-
-            items.add(new CartItem(comic, comic.getComicPrice().getSellingPrice(), elementsOfReserve[1]));
-            reserves.add(comic);
-        }
-    }
-
-    private void getAll() {
-        List<CartItem> items = new ArrayList<>();
-        for (String comic : comicsInFile) {
-            String[] elementsOfComic = comic.split(DELIMITER);
-            DiscountComic discountComic = new DiscountComic(
-                    elementsOfComic[0], // наименование
-                    new Author(elementsOfComic[1]), // автор
-                    new Publishing(elementsOfComic[2]), // издательство
-                    Integer.parseInt(elementsOfComic[3]), // количество страниц
-                    new Genre(elementsOfComic[4]), // жанр
-                    Integer.parseInt(elementsOfComic[5]), // год издательства
-                    Double.parseDouble(elementsOfComic[6]), // себестоимость
-                    Double.parseDouble(elementsOfComic[7]), // цена продажи
-                    Boolean.parseBoolean(elementsOfComic[8])); // является продолжением
-
-            items.add(new CartItem(discountComic, discountComic.getComicPrice().getSellingPrice(), elementsOfComic[1]));
-            allComics.add(discountComic);
-        }
+        return false;
     }
 }

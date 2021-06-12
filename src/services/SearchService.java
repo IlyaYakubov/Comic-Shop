@@ -1,60 +1,67 @@
 package services;
 
-import domain.Author;
 import domain.Comic;
-import domain.Genre;
-import domain.Publishing;
 import domain.sell.Cart;
 import domain.sell.CartItem;
-import repository.FileDao;
 
 import java.util.List;
 
+/**
+ * Сервис по поиску комикса
+ * Комиксы лежат в корзине
+ */
 public class SearchService {
 
     public static SearchService INSTANCE = new SearchService();
-    private static final String DELIMITER = ";";
-
-    private FileDao fileDao = FileDao.INSTANCE;
-    private Cart cart = new Cart();
+    private final Cart CART = new Cart();
+    private ComicService COMIC_SERVICE = ComicService.INSTANCE;
 
     private SearchService() {
     }
 
     /**
-     * Получить все комиксы
+     * Получить все элементы комикса корзины
      *
-     * @return список комиксов в форме элемента корзины
+     * @return элементы корзины
      */
-    public List<CartItem> getAllComics() {
-        return cart.getComics();
+    public List<CartItem> getAllCartItems() {
+        updateComicsFromFile();
+        return CART.getCartItems();
+    }
+
+    /**
+     * Получить элементы комикса корзины определенного наименования
+     *
+     * @return элементы корзины
+     */
+    public List<CartItem> getAllCartItems(String comicName) {
+        updateComicsFromFile();
+        CART.getCartItems().removeIf(cartItem -> !cartItem.getComic().getName().equals(comicName));
+        return CART.getCartItems();
+    }
+
+    /**
+     * Получить отфильтрованные элементы комикса корзины
+     *
+     * @return элементы корзины
+     */
+    public List<CartItem> getAllCartItems(List<CartItem> cartItems) {
+        updateComicsFromFile();
+        cartItems.forEach(cartItemFilter -> CART.getCartItems().removeIf(cartItem -> cartItemFilter.getComic().equals(cartItem.getComic())));
+        return CART.getCartItems();
     }
 
     /**
      * Получение комикса по наименованию
      *
-     * @param comicHashCode - хэш код комикса
-     * @return - комикс из коллекции
+     * @param comicName наименование комикса
+     * @return комикс из коллекции
      */
-    public CartItem getComicByHashCode(String comicHashCode) {
-        for (CartItem cartItem : cart.getComics()) {
-            if (comicHashCode.equals(String.valueOf(cartItem.getComic().hashCode()))) {
-                return cartItem;
-            }
-        }
-        return null;
-    }
-
-    /**
-     * Получение комикса по наименованию
-     *
-     * @param comicName - наименование комикса
-     * @return - комикс из коллекции
-     */
-    public CartItem getComicByName(String comicName) {
-        for (CartItem cartItem : cart.getComics()) {
+    public Comic getComicByName(String comicName) {
+        updateComicsFromFile();
+        for (CartItem cartItem : CART.getCartItems()) {
             if (comicName.equals(cartItem.getComic().getName())) {
-                return cartItem;
+                return cartItem.getComic();
             }
         }
         return null;
@@ -63,50 +70,31 @@ public class SearchService {
     /**
      * Получение комикса по автору
      *
-     * @param comicAuthor - автор комикса
-     * @return - комикс из коллекции
+     * @param comicAuthor автор комикса
+     * @return комикс из коллекции
      */
-    public CartItem getComicByAuthor(String comicAuthor) {
-        for (CartItem cartItem : cart.getComics()) {
-            if (comicAuthor.equals(cartItem.getComic().getAuthor().getName())) {
-                return cartItem;
-            }
-        }
-        return null;
+    public List<CartItem> getComicByAuthor(String comicAuthor) {
+        updateComicsFromFile();
+        CART.getCartItems().removeIf(cartItem -> !cartItem.getComic().getAuthor().getName().equals(comicAuthor));
+        return CART.getCartItems();
     }
 
     /**
      * Получение комикса по жанру
      *
-     * @param comicGenre - жанр комикса
-     * @return - комикс из коллекции
+     * @param comicGenre жанр комикса
+     * @return комикс из коллекции
      */
-    public CartItem getComicByGenre(String comicGenre) {
-        for (CartItem cartItem : cart.getComics()) {
-            if (comicGenre.equals(cartItem.getComic().getGenre().getName())) {
-                return cartItem;
-            }
-        }
-        return null;
+    public List<CartItem> getComicByGenre(String comicGenre) {
+        updateComicsFromFile();
+        CART.getCartItems().removeIf(cartItem -> !cartItem.getComic().getGenre().getName().equals(comicGenre));
+        return CART.getCartItems();
     }
 
-    private void getComicsFromFile() {
-        cart.clear();
-        List<String> stringsComics = fileDao.readFromFile();
-        for (String stringComic : stringsComics) {
-            String[] elementsOfComic = stringComic.split(DELIMITER);
-            Comic comic = new Comic(
-                    elementsOfComic[0], // наименование
-                    new Author(elementsOfComic[1]), // автор
-                    new Publishing(elementsOfComic[2]), // издательство
-                    Integer.parseInt(elementsOfComic[3]), // количество страниц
-                    new Genre(elementsOfComic[4]), // жанр
-                    Integer.parseInt(elementsOfComic[5]), // год издания
-                    Double.parseDouble(elementsOfComic[6]), // себестоимость
-                    Double.parseDouble(elementsOfComic[7]), // цена продажи
-                    Boolean.parseBoolean(elementsOfComic[8]) // является ли продолжением
-            );
-            cart.addComic(comic);
+    private void updateComicsFromFile() {
+        CART.clear();
+        for (Comic comic : COMIC_SERVICE.getComics()) {
+            CART.addComic(comic);
         }
     }
 }

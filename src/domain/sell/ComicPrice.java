@@ -5,8 +5,8 @@ package domain.sell;
  */
 public class ComicPrice {
 
-    private final double costPrice;
-    private final double sellingPrice;
+    private double costPrice;
+    private double sellingPrice;
 
     public ComicPrice(double costPrice, double sellingPrice) {
         this.costPrice = costPrice;
@@ -17,7 +17,15 @@ public class ComicPrice {
         return costPrice;
     }
 
+    public void setCostPrice(double costPrice) {
+        this.costPrice = costPrice;
+    }
+
     public double getSellingPrice() {
         return sellingPrice;
+    }
+
+    public void setSellingPrice(double sellingPrice) {
+        this.sellingPrice = sellingPrice;
     }
 }

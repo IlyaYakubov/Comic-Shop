@@ -2,7 +2,7 @@ package ui;
 
 import domain.sell.CartItem;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -12,6 +12,8 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import presenters.WriteOffPresenter;
+
+import java.util.List;
 
 /**
  * Окно списания
@@ -23,7 +25,7 @@ public class WriteOffUI extends Application {
     /**
      * Отображает окно списания
      *
-     * @param stage - окно
+     * @param stage окно
      */
     @Override
     public void start(Stage stage) {
@@ -81,7 +83,6 @@ public class WriteOffUI extends Application {
 
         Scene scene = new Scene(vBox, 800, 600);
         stage.setScene(scene);
-        stage.setAlwaysOnTop(true);
         stage.setResizable(false);
         stage.show();
     }
@@ -89,10 +90,10 @@ public class WriteOffUI extends Application {
     /**
      * Установка контента в элементы окна
      *
-     * @param comics - список комиксов
+     * @param cartItems список комиксов
      */
-    public void setContent(ObservableList<CartItem> comics) {
-        table.setItems(comics);
+    public void setContent(List<CartItem> cartItems) {
+        table.setItems(FXCollections.observableArrayList(cartItems));
     }
 
     private boolean checkComicName(TextField textFieldComicName) {

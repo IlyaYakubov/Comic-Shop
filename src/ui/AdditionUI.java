@@ -22,7 +22,7 @@ public class AdditionUI extends Application {
     /**
      * Отображает окно создания комикса
      *
-     * @param stage - окно
+     * @param stage окно
      */
     @Override
     public void start(Stage stage) {

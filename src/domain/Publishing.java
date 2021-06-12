@@ -5,7 +5,7 @@ package domain;
  */
 public class Publishing {
 
-    private final String name;
+    private String name;
 
     public Publishing(String name) {
         this.name = name;
@@ -13,5 +13,9 @@ public class Publishing {
 
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

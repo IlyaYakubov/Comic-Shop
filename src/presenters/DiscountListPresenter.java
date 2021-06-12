@@ -11,18 +11,18 @@ import ui.discount.DiscountListUI;
  */
 public class DiscountListPresenter {
 
-    private final DiscountListUI discountListUI;
-    private final ComicService comicService = ComicService.INSTANCE;
+    private final DiscountListUI DISCOUNT_LIST_UI;
+    private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
 
     public DiscountListPresenter(DiscountListUI discountListUI) {
-        this.discountListUI = discountListUI;
+        DISCOUNT_LIST_UI = discountListUI;
     }
 
     /**
      * Обновление отображения скидок в таблице
      */
     public void updateTableDiscounts() {
-        ObservableList<Discount> comicsList = FXCollections.observableArrayList(comicService.getDiscounts());
-        discountListUI.setContent(comicsList);
+        ObservableList<Discount> comicsList = FXCollections.observableArrayList(COMIC_SERVICE.getDiscounts());
+        DISCOUNT_LIST_UI.setContent(comicsList);
     }
 }

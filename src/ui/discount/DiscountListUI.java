@@ -22,14 +22,10 @@ public class DiscountListUI extends Application {
 
     private TableView<Discount> table;
 
-    public TableView<Discount> getTable() {
-        return table;
-    }
-
     /**
      * Отображает окно акций
      *
-     * @param stage - окно
+     * @param stage окно
      */
     @Override
     public void start(Stage stage) {
@@ -66,7 +62,6 @@ public class DiscountListUI extends Application {
 
         Scene scene = new Scene(vBox, 800, 600);
         stage.setScene(scene);
-        stage.setAlwaysOnTop(true);
         stage.setResizable(false);
         stage.show();
     }
@@ -74,7 +69,7 @@ public class DiscountListUI extends Application {
     /**
      * Установка контента в элементы окна
      *
-     * @param comics - список комиксов
+     * @param comics список комиксов
      */
     public void setContent(ObservableList<Discount> comics) {
         table.setItems(comics);

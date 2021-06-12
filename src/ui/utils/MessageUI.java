@@ -23,7 +23,7 @@ public class MessageUI extends Application {
     /**
      * Отображает сообщение
      *
-     * @param stage - окно
+     * @param stage окно
      */
     @Override
     public void start(Stage stage) {
@@ -42,14 +42,11 @@ public class MessageUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        buttonOK.setOnMouseClicked(mouseEvent -> {
-            stage.close();
-        });
+        buttonOK.setOnMouseClicked(mouseEvent -> stage.close());
 
         Scene scene = new Scene(vBox, 250, 100);
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.setAlwaysOnTop(true);
         stage.show();
     }
 }

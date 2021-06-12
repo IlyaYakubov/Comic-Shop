@@ -1,20 +1,41 @@
 package domain.sell;
 
+import java.time.LocalDateTime;
+
 /**
  * Продажа
  */
 public class Sell {
 
-    private final Cart cart;
+    private LocalDateTime date;
+    private Cart cart;
 
-    public Sell(Cart cart) {
+    public Sell(LocalDateTime date, Cart cart) {
+        this.date = date;
+        this.cart = cart;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public Cart getCart() {
+        return cart;
+    }
+
+    public void setCart(Cart cart) {
         this.cart = cart;
     }
 
     /**
-     * Совершить продажу
+     * Продажа
      */
     public void makePurchase() {
+        date = null;
         cart.clear();
     }
 }

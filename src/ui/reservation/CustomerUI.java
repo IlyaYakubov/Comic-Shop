@@ -27,7 +27,7 @@ public class CustomerUI extends Application {
     /**
      * Отображает окно клиента
      *
-     * @param stage - окно
+     * @param stage окно
      */
     @Override
     public void start(Stage stage) {
@@ -62,7 +62,6 @@ public class CustomerUI extends Application {
         Scene scene = new Scene(vBox, 300, 170);
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.setAlwaysOnTop(true);
         stage.show();
     }
 }

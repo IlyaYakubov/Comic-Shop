@@ -2,7 +2,6 @@ package ui.discount;
 
 import domain.sell.CartItem;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -19,12 +18,12 @@ import ui.utils.MessageUI;
  */
 public class DiscountUI extends Application {
 
+    private final DiscountPresenter DISCOUNT_PRESENTER = new DiscountPresenter(this);
     private int percent;
     private TextField textFieldDiscountName;
     private DatePicker datePickerBegin;
     private DatePicker datePickerEnd;
     private TableView<CartItem> table;
-    private final DiscountPresenter discountPresenter = new DiscountPresenter(this);
 
     public int getPercent() {
         return percent;
@@ -46,14 +45,10 @@ public class DiscountUI extends Application {
         return table;
     }
 
-    public DiscountPresenter getDiscountPresenter() {
-        return discountPresenter;
-    }
-
     /**
      * Отображает окно создания акции
      *
-     * @param stage - окно
+     * @param stage окно
      */
     @Override
     public void start(Stage stage) {
@@ -118,7 +113,7 @@ public class DiscountUI extends Application {
             if (!percentString.isEmpty()) {
                 try {
                     percent = Integer.parseInt(percentString);
-                    discountPresenter.updateTableDiscounts();
+                    DISCOUNT_PRESENTER.updateTableDiscounts(percent);
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
@@ -140,13 +135,12 @@ public class DiscountUI extends Application {
                 new MessageUI("Дата начала не может быть больше даты окончания").start(new Stage());
                 return;
             }
-            discountPresenter.onClickCreate();
+            DISCOUNT_PRESENTER.onClickCreate();
             stage.close();
         });
 
         Scene scene = new Scene(vBox, 1200, 800);
         stage.setScene(scene);
-        stage.setAlwaysOnTop(true);
         stage.setResizable(false);
         stage.show();
     }
@@ -154,10 +148,10 @@ public class DiscountUI extends Application {
     /**
      * Установка контента в элементы окна
      *
-     * @param comics - список комиксов
+     * @param cartItem список комиксов
      */
-    public void setContent(ObservableList<CartItem> comics) {
-        table.getItems().addAll(comics);
-        discountPresenter.updateTableDiscounts();
+    public void setContent(CartItem cartItem) {
+        table.getItems().addAll(cartItem);
+        DISCOUNT_PRESENTER.updateTableDiscounts(percent);
     }
 }

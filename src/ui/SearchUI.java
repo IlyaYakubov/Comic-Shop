@@ -1,4 +1,4 @@
-package ui.search;
+package ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +17,7 @@ public class SearchUI extends Application {
     /**
      * Отображает окно поиска
      *
-     * @param stage - окно
+     * @param stage окно
      */
     @Override
     public void start(Stage stage) {
@@ -32,6 +32,7 @@ public class SearchUI extends Application {
         stage.setScene(new Scene(root));
         stage.setMinWidth(500);
         stage.setMinHeight(500);
+        stage.setResizable(false);
         stage.show();
     }
 }

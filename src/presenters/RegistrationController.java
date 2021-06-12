@@ -1,4 +1,4 @@
-package ui.registration;
+package presenters;
 
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;

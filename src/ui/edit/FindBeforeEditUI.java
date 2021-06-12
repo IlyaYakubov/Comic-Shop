@@ -19,7 +19,7 @@ public class FindBeforeEditUI extends Application {
     /**
      * Отображает окно поиска перед редактированием
      *
-     * @param stage - окно
+     * @param stage окно
      */
     @Override
     public void start(Stage stage) {
@@ -53,7 +53,6 @@ public class FindBeforeEditUI extends Application {
         Scene scene = new Scene(vBox, 300, 170);
         stage.setScene(scene);
         stage.setResizable(false);
-        stage.setAlwaysOnTop(true);
         stage.show();
     }
 }

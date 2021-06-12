@@ -2,7 +2,7 @@ package ui;
 
 import domain.sell.CartItem;
 import javafx.application.Application;
-import javafx.collections.ObservableList;
+import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -14,6 +14,8 @@ import javafx.stage.Stage;
 import presenters.SellPresenter;
 import ui.reservation.CustomerUI;
 
+import java.util.List;
+
 /**
  * Окно продажи
  */
@@ -22,10 +24,18 @@ public class SellUI extends Application {
     private TableView<CartItem> table;
     private Label labelAmount;
 
+    public TableView<CartItem> getTable() {
+        return table;
+    }
+
+    public String getLabelAmount() {
+        return labelAmount.getText();
+    }
+
     /**
      * Отображает окно продажи
      *
-     * @param stage - окно
+     * @param stage окно
      */
     @Override
     public void start(Stage stage) {
@@ -107,7 +117,6 @@ public class SellUI extends Application {
 
         Scene scene = new Scene(vBox, 800, 600);
         stage.setScene(scene);
-        stage.setAlwaysOnTop(true);
         stage.setResizable(false);
         stage.show();
     }
@@ -115,11 +124,11 @@ public class SellUI extends Application {
     /**
      * Установка контента в элементы окна
      *
-     * @param comics - список комиксов
-     * @param amount - сумма
+     * @param cartItems список комиксов
+     * @param amount    сумма
      */
-    public void setContent(ObservableList<CartItem> comics, double amount) {
-        table.setItems(comics);
+    public void setContent(List<CartItem> cartItems, double amount) {
+        table.setItems(FXCollections.observableArrayList(cartItems));
         labelAmount.setText(String.valueOf(amount));
     }
 

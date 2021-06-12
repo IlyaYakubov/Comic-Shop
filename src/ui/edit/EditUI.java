@@ -20,6 +20,7 @@ import ui.utils.MessageUI;
  */
 public class EditUI extends Application {
 
+    private final String COMIC_NAME;
     private TextField textFieldNameComic;
     private TextField textFieldNumberOfPagesComic;
     private TextField textFieldYearOfPublishingComic;
@@ -30,16 +31,14 @@ public class EditUI extends Application {
     private TextField textFieldSellingPriceComic;
     private CheckBox checkBoxIsContinuation;
 
-    private final String comicName;
-
     public EditUI(String comicName) {
-        this.comicName = comicName;
+        this.COMIC_NAME = comicName;
     }
 
     /**
      * Отображает окно редактирования комикса
      *
-     * @param stage - окно
+     * @param stage окно
      */
     @Override
     public void start(Stage stage) {
@@ -99,7 +98,7 @@ public class EditUI extends Application {
         vBox.setPadding(new Insets(20));
 
         EditPresenter editPresenter = new EditPresenter(this);
-        if (!editPresenter.findComicForEdit(comicName)) {
+        if (!editPresenter.findComicForEdit(COMIC_NAME)) {
             stage.close();
             return;
         }
@@ -136,7 +135,7 @@ public class EditUI extends Application {
     /**
      * Установка контента в элементы окна
      *
-     * @param comic - комикс
+     * @param comic комикс
      */
     public void setContent(Comic comic) {
         textFieldNameComic.setText(comic.getName());

@@ -17,6 +17,7 @@ public class UserDao {
         FILE_WITH_USERS = new File(FILE_NAME_USERS);
         if (!FILE_WITH_USERS.exists()) {
             try {
+                //noinspection ResultOfMethodCallIgnored
                 FILE_WITH_USERS.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -27,7 +28,7 @@ public class UserDao {
     /**
      * Запись пользователя в файл
      *
-     * @param user - пользователь с паролем
+     * @param user пользователь с паролем
      */
     public void saveToFile(String user) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_USERS, true))) {
@@ -40,7 +41,7 @@ public class UserDao {
     /**
      * Чтение файла с пользователями
      *
-     * @return - коллекция пользователей с паролями
+     * @return коллекция пользователей с паролями
      */
     public List<String> readFromFile() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_WITH_USERS))) {

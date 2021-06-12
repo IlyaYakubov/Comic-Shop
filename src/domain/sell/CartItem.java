@@ -5,7 +5,7 @@ import domain.Comic;
 /**
  * Элемент корзины
  */
-public class CartItem {
+public class CartItem implements Comparable<CartItem> {
 
     private String name;
     private double price;
@@ -39,5 +39,10 @@ public class CartItem {
 
     public void setComic(Comic comic) {
         this.comic = comic;
+    }
+
+    @Override
+    public int compareTo(CartItem cartItem) {
+        return this.name.compareTo(cartItem.name);
     }
 }

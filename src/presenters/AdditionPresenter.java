@@ -8,7 +8,7 @@ import services.ComicService;
 public class AdditionPresenter {
 
     public static AdditionPresenter INSTANCE = new AdditionPresenter();
-    private final ComicService comicService = ComicService.INSTANCE;
+    private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
 
     private AdditionPresenter() {
     }
@@ -16,9 +16,9 @@ public class AdditionPresenter {
     /**
      * При нажатии на кнопку добавления элементов комикса
      *
-     * @param elementsOfComic - массив с элементами комикса
+     * @param elementsOfComic массив с элементами комикса
      */
     public void onClickAdd(String[] elementsOfComic) {
-        comicService.addComic(elementsOfComic);
+        COMIC_SERVICE.addComic(elementsOfComic);
     }
 }

@@ -10,15 +10,15 @@ import java.util.stream.Collectors;
  */
 public class FileDao {
 
-    public static FileDao INSTANCE = new FileDao();
-
     private static final String FILE_NAME_COMICS = "comics.txt";
     private static final File FILE_WITH_COMICS;
+    public static FileDao INSTANCE = new FileDao();
 
     static {
         FILE_WITH_COMICS = new File(FILE_NAME_COMICS);
         if (!FILE_WITH_COMICS.exists()) {
             try {
+                //noinspection ResultOfMethodCallIgnored
                 FILE_WITH_COMICS.createNewFile();
             } catch (IOException e) {
                 e.printStackTrace();
@@ -32,7 +32,7 @@ public class FileDao {
     /**
      * Запись комикса в файл
      *
-     * @param comic - комикс из элементов
+     * @param comic комикс из элементов
      */
     public void saveToFile(String comic) {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(FILE_WITH_COMICS, true))) {
@@ -45,7 +45,7 @@ public class FileDao {
     /**
      * Чтение строки (элементов) комикса
      *
-     * @return - коллекция комиксов
+     * @return коллекция комиксов
      */
     public List<String> readFromFile() {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(FILE_NAME_COMICS))) {

@@ -13,7 +13,7 @@ public class ComicsDao implements IFileDao {
     public static ComicsDao INSTANCE = new ComicsDao("comics.txt");
     private final String FILE_NAME;
 
-    private ComicsDao(String fileName) {
+    protected ComicsDao(String fileName) {
         FILE_NAME = fileName;
     }
 

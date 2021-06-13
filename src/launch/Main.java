@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import ui.old.MainUI;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -25,10 +26,12 @@ public class Main extends Application {
      */
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui/resources/login.fxml")));
+        MainUI mainUI = new MainUI();
+        mainUI.start(new Stage());
+        /*Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui/resources/login.fxml")));
         stage.setTitle("Вход");
         stage.setScene(new Scene(root, 240, 145));
         stage.setResizable(false);
-        stage.show();
+        stage.show();*/
     }
 }

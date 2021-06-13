@@ -23,7 +23,7 @@ public class SearchUI extends Application {
     public void start(Stage stage) {
         Parent root = null;
         try {
-            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui/resources/search.fxml")));
+            root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/ui/resources/main.fxml")));
         } catch (IOException e) {
             e.printStackTrace();
         }

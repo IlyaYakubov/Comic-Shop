@@ -97,8 +97,8 @@ public class EditUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        EditPresenter editPresenter = new EditPresenter(this);
-        if (!editPresenter.findComicForEdit(COMIC_NAME)) {
+        EditPresenter editPresenter = new EditPresenter();
+        if (editPresenter.findComicForEdit(COMIC_NAME) == null) {
             stage.close();
             return;
         }

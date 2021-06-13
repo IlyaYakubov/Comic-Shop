@@ -41,13 +41,12 @@ public class DeleteUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        DeletePresenter deletePresenter = DeletePresenter.INSTANCE;
-
         buttonDelete.setOnMouseClicked(mouseEvent -> {
             if (textFieldComic.getText().isEmpty()) {
                 new MessageUI("Введите название комикса").start(new Stage());
                 return;
             }
+            DeletePresenter deletePresenter = DeletePresenter.INSTANCE;
             deletePresenter.onClickEdit(textFieldComic.getText());
             stage.close();
         });

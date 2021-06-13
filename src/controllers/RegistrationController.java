@@ -9,24 +9,30 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import services.UserService;
+import presenters.RegistrationPresenter;
 
 import java.io.IOException;
 
-public class LoginController {
+/**
+ * Окно регистрации
+ */
+public class RegistrationController {
 
     private final int MIN_WIDTH = 700;
     private final int MIN_HEIGHT = 500;
 
     @FXML
-    private TextField textFieldLogin;
+    private TextField textFieldName;
 
     @FXML
     private PasswordField textFieldPassword;
 
     @FXML
-    void onClickButtonOK() {
-        if (textFieldLogin.getText().trim().equals("") && textFieldPassword.getText().trim().equals("")) {
+    private PasswordField textFieldPasswordConfirmation;
+
+    @FXML
+    void onClickOk() {
+        if (textFieldName.getText().trim().isEmpty()) {
             if (Stage.getWindows().size() > 1) {
                 ObservableList<Window> windows = Stage.getWindows();
                 windows.get(1).requestFocus();
@@ -42,7 +48,7 @@ public class LoginController {
             }
 
             MessageController messageController = loader.getController();
-            messageController.setMessage("Заполните логин или пароль");
+            messageController.setMessage("Заполните логин");
 
             Parent root = loader.getRoot();
             Stage stage = new Stage();
@@ -53,11 +59,13 @@ public class LoginController {
             return;
         }
 
-        UserService userService = new UserService(
-                textFieldLogin.getText().trim(),
-                textFieldPassword.getText().trim());
-
-        if (!userService.userInTheSystem()) {
+        if (!textFieldPassword.getText().trim().equals(textFieldPasswordConfirmation.getText().trim())) {
+            if (Stage.getWindows().size() > 1) {
+                ObservableList<Window> windows = Stage.getWindows();
+                windows.get(1).requestFocus();
+                windows.get(1).centerOnScreen();
+                return;
+            }
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
             try {
@@ -67,7 +75,7 @@ public class LoginController {
             }
 
             MessageController messageController = loader.getController();
-            messageController.setMessage("Пользователь не найден");
+            messageController.setMessage("Пароли не совпадают");
 
             Parent root = loader.getRoot();
             Stage stage = new Stage();
@@ -78,7 +86,13 @@ public class LoginController {
             return;
         }
 
-        textFieldLogin.getScene().getWindow().hide();
+        RegistrationPresenter registrationPresenter = new RegistrationPresenter(
+                textFieldName.getText().trim(),
+                textFieldPassword.getText().trim());
+        registrationPresenter.saveUser();
+
+        textFieldName.getScene().getWindow().hide();
+
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/ui/resources/main.fxml"));
         try {
@@ -86,7 +100,6 @@ public class LoginController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
         Parent root = loader.getRoot();
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
@@ -97,11 +110,11 @@ public class LoginController {
     }
 
     @FXML
-    void onClickButtonRegistration() {
-        textFieldLogin.getScene().getWindow().hide();
+    void onClickCancel() {
+        textFieldName.getScene().getWindow().hide();
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/ui/resources/registration.fxml"));
+        loader.setLocation(getClass().getResource("/ui/resources/login.fxml"));
         try {
             loader.load();
         } catch (IOException e) {
@@ -110,6 +123,8 @@ public class LoginController {
         Parent root = loader.getRoot();
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
         stage.show();
     }
 }

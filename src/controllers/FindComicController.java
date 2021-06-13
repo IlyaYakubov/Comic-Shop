@@ -1,56 +1,31 @@
 package controllers;
 
-import domain.sell.CartItem;
+import domain.Comic;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import presenters.WriteOffPresenter;
+import javafx.stage.Window;
+import presenters.EditPresenter;
 
 import java.io.IOException;
 
-public class WriteOffController {
+public class FindComicController {
 
     private final int MIN_WIDTH = 700;
     private final int MIN_HEIGHT = 500;
 
-    private final WriteOffPresenter WRITE_OFF_PRESENTER = new WriteOffPresenter();
-
     @FXML
     private TextField editTextComicName;
-
-    @FXML
-    private TableView<CartItem> tableComics;
 
     @FXML
     void onClickAdd() {
         editTextComicName.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/ui/resources/add.fxml"));
-        try {
-            loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Parent root = loader.getRoot();
-        Stage stage = new Stage();
-        stage.setScene(new Scene(root));
-        stage.setMinWidth(MIN_WIDTH);
-        stage.setMinHeight(MIN_HEIGHT);
-        stage.setMaximized(true);
-        stage.show();
-    }
-
-    @FXML
-    void onClickEdit() {
-        editTextComicName.getScene().getWindow().hide();
-        FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/ui/resources/find_customer.fxml"));
         try {
             loader.load();
         } catch (IOException e) {
@@ -89,6 +64,25 @@ public class WriteOffController {
         editTextComicName.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(getClass().getResource("/ui/resources/sell.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
+    }
+
+    @FXML
+    void onClickWriteOff() {
+        editTextComicName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/write_off.fxml"));
         try {
             loader.load();
         } catch (IOException e) {
@@ -180,26 +174,82 @@ public class WriteOffController {
     }
 
     @FXML
-    void buttonAddInCart() {
-        WRITE_OFF_PRESENTER.onClickAdd(editTextComicName.getText().trim());
-    }
-
-    @FXML
     void onClickOk() {
-        if (tableComics.getItems().size() == 0) {
+        if (editTextComicName.getText().trim().isEmpty()) {
+            if (Stage.getWindows().size() > 1) {
+                ObservableList<Window> windows = Stage.getWindows();
+                windows.get(1).requestFocus();
+                windows.get(1).centerOnScreen();
+                return;
+            }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            MessageController messageController = loader.getController();
+            messageController.setMessage("Введите название комикса");
+
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setMinWidth(MIN_WIDTH);
+            stage.setMinHeight(MIN_HEIGHT);
+            stage.show();
             return;
         }
-        WRITE_OFF_PRESENTER.onClickWriteOff();
-        tableComics.getItems().clear();
-        tableComics.refresh();
-    }
 
-    @FXML
-    void initialize() {
-        WRITE_OFF_PRESENTER.setTable(tableComics);
-        TableColumn<CartItem, String> nameColumn = new TableColumn<>("Наименование");
-        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        nameColumn.setPrefWidth(350.0);
-        tableComics.getColumns().add(nameColumn);
+        EditPresenter editPresenter = new EditPresenter();
+        Comic comic = editPresenter.findComicForEdit(editTextComicName.getText().trim());
+        if (comic == null) {
+            if (Stage.getWindows().size() > 1) {
+                ObservableList<Window> windows = Stage.getWindows();
+                windows.get(1).requestFocus();
+                windows.get(1).centerOnScreen();
+                return;
+            }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            MessageController messageController = loader.getController();
+            messageController.setMessage("Комикс не найден");
+
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setMinWidth(MIN_WIDTH);
+            stage.setMinHeight(MIN_HEIGHT);
+            stage.show();
+            return;
+        }
+
+        editTextComicName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/edit.fxml"));
+
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        EditController editController = loader.getController();
+        editController.setComic(comic);
+
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 }

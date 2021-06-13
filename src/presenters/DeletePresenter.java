@@ -1,6 +1,8 @@
 package presenters;
 
+import domain.Comic;
 import services.ComicService;
+import services.SearchService;
 
 /**
  * Контроллер удаления комиксов
@@ -8,9 +10,21 @@ import services.ComicService;
 public class DeletePresenter {
 
     public static DeletePresenter INSTANCE = new DeletePresenter();
-    private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
+    private final ComicService COMIC_SERVICE;
+    private final SearchService SEARCH_SERVICE;
 
     private DeletePresenter() {
+        SEARCH_SERVICE = SearchService.INSTANCE;
+        COMIC_SERVICE = ComicService.INSTANCE;
+    }
+
+    /**
+     * Поиск комикса
+     *
+     * @param comicName наименование комикса
+     */
+    public Comic findComicForDelete(String comicName) {
+        return SEARCH_SERVICE.getComicByName(comicName);
     }
 
     /**

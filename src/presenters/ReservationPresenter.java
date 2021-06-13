@@ -2,9 +2,13 @@ package presenters;
 
 import domain.Comic;
 import domain.sell.Cart;
+import domain.sell.CartItem;
+import javafx.collections.FXCollections;
+import javafx.scene.control.TableView;
 import services.ComicService;
 import services.SearchService;
-import ui.old.reservation.ReservationUI;
+
+import java.util.List;
 
 /**
  * Контроллер резервирования комиксов
@@ -13,13 +17,12 @@ public class ReservationPresenter {
 
     private final ComicService COMIC_SERVICE;
     private final SearchService SEARCH_SERVICE;
-    private final ReservationUI RESERVATION_UI;
     private final Cart CART = new Cart();
+    private TableView<CartItem> tableComics;
 
-    public ReservationPresenter(ReservationUI reservationUI) {
+    public ReservationPresenter() {
         COMIC_SERVICE = ComicService.INSTANCE;
         SEARCH_SERVICE = SearchService.INSTANCE;
-        RESERVATION_UI = reservationUI;
     }
 
     /**
@@ -33,7 +36,7 @@ public class ReservationPresenter {
             return;
         }
         CART.addComic(comic);
-        RESERVATION_UI.setContent(CART.getCartItems());
+        setContent(CART.getCartItems());
     }
 
     /**
@@ -43,6 +46,20 @@ public class ReservationPresenter {
      */
     public void onClickReservation(String customer) {
         COMIC_SERVICE.reserveComics(CART, customer);
-        RESERVATION_UI.getTable().refresh();
+        tableComics.refresh();
+    }
+
+    public void setTable(TableView<CartItem> tableComics) {
+        this.tableComics = tableComics;
+    }
+
+    /**
+     * Установка контента в элементы окна
+     *
+     * @param cartItems список комиксов
+     */
+    public void setContent(List<CartItem> cartItems) {
+        tableComics.setItems(FXCollections.observableArrayList(cartItems));
+        tableComics.refresh();
     }
 }

@@ -1,75 +1,63 @@
 package controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import presenters.SellPresenter;
+
+import java.io.IOException;
 
 public class FindCustomerController {
 
-    @FXML
-    private ResourceBundle resources;
+    private final int MIN_WIDTH = 700;
+    private final int MIN_HEIGHT = 500;
 
-    @FXML
-    private URL location;
+    private SellPresenter sellPresenter;
 
     @FXML
     private TextField editTextCustomerName;
 
     @FXML
-    void onClickAdd(ActionEvent event) {
+    void onClickOk() {
+        if (editTextCustomerName.getText().trim().equals("")) {
+            if (Stage.getWindows().size() > 1) {
+                ObservableList<Window> windows = Stage.getWindows();
+                windows.get(1).requestFocus();
+                windows.get(1).centerOnScreen();
+                return;
+            }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
+            MessageController messageController = loader.getController();
+            messageController.setMessage("Заполните имя клиента");
+
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setMinWidth(MIN_WIDTH);
+            stage.setMinHeight(MIN_HEIGHT);
+            stage.show();
+            return;
+        }
+
+        if (sellPresenter != null) {
+            sellPresenter.onClickReserve(editTextCustomerName.getText().trim());
+            editTextCustomerName.getScene().getWindow().hide();
+        }
     }
 
-    @FXML
-    void onClickDelete(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onClickDiscounts(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onClickEdit(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onClickOk(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onClickReports(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onClickReserve(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onClickSearch(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onClickSell(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onClickWriteOff(ActionEvent event) {
-
-    }
-
-    @FXML
-    void initialize() {
-        assert editTextCustomerName != null : "fx:id=\"editTextCustomerName\" was not injected: check your FXML file 'findcustomer.fxml'.";
-
+    public void setPresenter(SellPresenter sell_presenter) {
+        this.sellPresenter = sell_presenter;
     }
 }

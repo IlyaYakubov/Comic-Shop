@@ -1,16 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="679.0" prefWidth="1095.0"
-            xmlns="http://javafx.com/javafx/11" fx:controller="ui.RegistrationController">
-    <AnchorPane prefHeight="201.0" prefWidth="752.0" style="-fx-background-color: #99AA22;"
-                AnchorPane.bottomAnchor="435.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+            xmlns="http://javafx.com/javafx/11" fx:controller="controllers.RegistrationController">
+    <AnchorPane prefHeight="200.0" prefWidth="1095.0" style="-fx-background-color: #99AA22;"
+                AnchorPane.bottomAnchor="479.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                 AnchorPane.topAnchor="0.0">
-        <HBox alignment="CENTER" prefHeight="244.0" prefWidth="1095.0" AnchorPane.bottomAnchor="0.0"
+        <HBox alignment="CENTER" prefHeight="200.0" prefWidth="1095.0" AnchorPane.bottomAnchor="0.0"
               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Label text="Регистрация">
                 <font>
@@ -19,15 +18,17 @@
                 <padding>
                     <Insets bottom="50.0"/>
                 </padding>
+                <HBox.margin>
+                    <Insets top="30.0"/>
+                </HBox.margin>
             </Label>
         </HBox>
     </AnchorPane>
     <AnchorPane layoutY="199.0" prefHeight="437.0" prefWidth="752.0" AnchorPane.bottomAnchor="0.0"
                 AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="199.0">
-        <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
-              minWidth="-Infinity" prefHeight="230.0" prefWidth="367.0" style="-fx-background-color: #ffffff;"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
-              AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+              prefHeight="230.0" prefWidth="367.0" style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <HBox alignment="CENTER" prefHeight="50.0" prefWidth="200.0">
                 <Label prefWidth="320.0" text="Имя пользователя">
                     <HBox.margin>
@@ -95,9 +96,17 @@
                 </VBox.margin>
             </HBox>
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
-                <Button mnemonicParsing="false" onAction="#onClickOK" prefHeight="39.0" prefWidth="485.0"
-                        style="-fx-background-color: #ffffff; -fx-border-style: solid;"
-                        text="Зарегистрироваться">
+                <Button mnemonicParsing="false" onAction="#onClickOk" prefHeight="39.0" prefWidth="485.0"
+                        style="-fx-background-color: #006644;" text="Зарегистрироваться" textFill="WHITE">
+                    <font>
+                        <Font name="Book Antiqua" size="36.0"/>
+                    </font>
+                    <HBox.margin>
+                        <Insets right="30.0"/>
+                    </HBox.margin>
+                </Button>
+                <Button mnemonicParsing="false" onAction="#onClickCancel" prefHeight="39.0" prefWidth="485.0"
+                        style="-fx-background-color: #ffffff; -fx-border-style: solid;" text="Отмена">
                     <font>
                         <Font name="Book Antiqua" size="36.0"/>
                     </font>

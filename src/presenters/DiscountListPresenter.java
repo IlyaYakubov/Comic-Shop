@@ -3,19 +3,19 @@ package presenters;
 import domain.discounts.Discount;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 import services.ComicService;
-import ui.old.discount.DiscountListUI;
 
 /**
  * Контроллер списка акций на комиксы
  */
 public class DiscountListPresenter {
 
-    private final DiscountListUI DISCOUNT_LIST_UI;
     private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
+    private TableView<Discount> table;
 
-    public DiscountListPresenter(DiscountListUI discountListUI) {
-        DISCOUNT_LIST_UI = discountListUI;
+    public void setTable(TableView<Discount> table) {
+        this.table = table;
     }
 
     /**
@@ -23,6 +23,15 @@ public class DiscountListPresenter {
      */
     public void updateTableDiscounts() {
         ObservableList<Discount> comicsList = FXCollections.observableArrayList(COMIC_SERVICE.getDiscounts());
-        DISCOUNT_LIST_UI.setContent(comicsList);
+        setContent(comicsList);
+    }
+
+    /**
+     * Установка контента в элементы окна
+     *
+     * @param discounts список акций
+     */
+    public void setContent(ObservableList<Discount> discounts) {
+        table.setItems(discounts);
     }
 }

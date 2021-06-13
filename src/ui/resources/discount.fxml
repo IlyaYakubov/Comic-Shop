@@ -4,7 +4,8 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.29797979797979796" minWidth="500.0" prefHeight="800.0"
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.29797979797979796" minWidth="500.0"
+           prefHeight="800.0"
            prefWidth="1100.0" xmlns="http://javafx.com/javafx/11"
            fx:controller="controllers.DiscountController">
     <AnchorPane maxWidth="310.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="100.0">
@@ -131,7 +132,7 @@
                 <padding>
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                 </padding>
-                <Label prefHeight="31.0" prefWidth="222.0" text="Название комикса">
+                <Label prefHeight="31.0" prefWidth="222.0" text="Название акции">
                     <HBox.margin>
                         <Insets left="10.0" right="10.0"/>
                     </HBox.margin>
@@ -177,13 +178,6 @@
                     AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="256.0">
             <TableView fx:id="tableComics" prefHeight="548.0" prefWidth="782.0" AnchorPane.bottomAnchor="0.0"
                        AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                <columns>
-                    <TableColumn prefWidth="531.0" text="Комикс"/>
-                    <TableColumn prefWidth="531.0" text="Стоимость"/>
-                </columns>
-                <columnResizePolicy>
-                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
-                </columnResizePolicy>
             </TableView>
         </AnchorPane>
         <AnchorPane prefHeight="69.0" prefWidth="782.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"

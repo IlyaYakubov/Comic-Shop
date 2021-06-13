@@ -79,7 +79,8 @@ public class ReservationUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        ReservationPresenter reservationPresenter = new ReservationPresenter(this);
+        ReservationPresenter reservationPresenter = new ReservationPresenter();
+        reservationPresenter.setTable(table);
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
             if (checkComicName(textFieldComicName)) {

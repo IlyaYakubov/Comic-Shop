@@ -3,7 +3,6 @@ package presenters;
 import domain.Comic;
 import services.ComicService;
 import services.SearchService;
-import ui.old.edit.EditUI;
 
 /**
  * Контроллер редактирования комикса
@@ -12,12 +11,10 @@ public class EditPresenter {
 
     private final ComicService COMIC_SERVICE;
     private final SearchService SEARCH_SERVICE;
-    private final EditUI EDITUI;
 
-    public EditPresenter(EditUI editUI) {
+    public EditPresenter() {
         COMIC_SERVICE = ComicService.INSTANCE;
         SEARCH_SERVICE = SearchService.INSTANCE;
-        EDITUI = editUI;
     }
 
     /**
@@ -25,13 +22,8 @@ public class EditPresenter {
      *
      * @param comicName наименование комикса
      */
-    public boolean findComicForEdit(String comicName) {
-        Comic comic = SEARCH_SERVICE.getComicByName(comicName);
-        if (comic == null) {
-            return false;
-        }
-        EDITUI.setContent(comic);
-        return true;
+    public Comic findComicForEdit(String comicName) {
+        return SEARCH_SERVICE.getComicByName(comicName);
     }
 
     /**

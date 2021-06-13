@@ -52,7 +52,8 @@ public class DiscountListUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        DiscountListPresenter discountListPresenter = new DiscountListPresenter(this);
+        DiscountListPresenter discountListPresenter = new DiscountListPresenter();
+        discountListPresenter.setTable(table);
         discountListPresenter.updateTableDiscounts();
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {

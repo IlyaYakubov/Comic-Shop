@@ -4,13 +4,14 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.29797979797979796" minWidth="500.0" prefHeight="800.0"
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.29797979797979796" minWidth="500.0"
+           prefHeight="800.0"
            prefWidth="1100.0" xmlns="http://javafx.com/javafx/11"
            fx:controller="controllers.AddController">
     <AnchorPane maxWidth="310.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="100.0">
         <VBox prefHeight="798.0" prefWidth="324.0" style="-fx-background-color: #006644;" AnchorPane.bottomAnchor="0.0"
               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <Button mnemonicParsing="false" onAction="#onClickAdd" prefHeight="50.0" prefWidth="300.0"
+            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0"
                     style="-fx-background-color: #FFFFDD;" text="Добавление">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
@@ -121,7 +122,7 @@
                             <Font name="Book Antiqua" size="24.0"/>
                         </font>
                     </Label>
-                    <TextField fx:id="editTextName" prefHeight="25.0" prefWidth="400.0">
+                    <TextField fx:id="textFieldName" prefHeight="25.0" prefWidth="400.0">
                         <HBox.margin>
                             <Insets bottom="5.0" right="20.0" top="5.0"/>
                         </HBox.margin>
@@ -142,7 +143,7 @@
                             <Font name="Book Antiqua" size="24.0"/>
                         </font>
                     </Label>
-                    <TextField fx:id="editTextNumberOfPages" prefHeight="25.0" prefWidth="400.0">
+                    <TextField fx:id="textFieldNumberOfPages" prefHeight="25.0" prefWidth="400.0">
                         <HBox.margin>
                             <Insets bottom="5.0" right="20.0" top="5.0"/>
                         </HBox.margin>
@@ -163,7 +164,7 @@
                             <Font name="Book Antiqua" size="24.0"/>
                         </font>
                     </Label>
-                    <TextField fx:id="editTextYear" prefHeight="25.0" prefWidth="400.0">
+                    <TextField fx:id="textFieldYear" prefHeight="25.0" prefWidth="400.0">
                         <HBox.margin>
                             <Insets bottom="5.0" right="20.0" top="5.0"/>
                         </HBox.margin>
@@ -184,7 +185,7 @@
                             <Font name="Book Antiqua" size="24.0"/>
                         </font>
                     </Label>
-                    <TextField fx:id="editTextAuthor" prefHeight="25.0" prefWidth="400.0">
+                    <TextField fx:id="textFieldAuthor" prefHeight="25.0" prefWidth="400.0">
                         <HBox.margin>
                             <Insets bottom="5.0" right="20.0" top="5.0"/>
                         </HBox.margin>
@@ -205,7 +206,7 @@
                             <Font name="Book Antiqua" size="24.0"/>
                         </font>
                     </Label>
-                    <TextField fx:id="editTextPublishing" prefHeight="25.0" prefWidth="400.0">
+                    <TextField fx:id="textFieldPublishing" prefHeight="25.0" prefWidth="400.0">
                         <HBox.margin>
                             <Insets bottom="5.0" right="20.0" top="5.0"/>
                         </HBox.margin>
@@ -226,7 +227,7 @@
                             <Font name="Book Antiqua" size="24.0"/>
                         </font>
                     </Label>
-                    <TextField fx:id="editTextGenre" prefHeight="25.0" prefWidth="400.0">
+                    <TextField fx:id="textFieldGenre" prefHeight="25.0" prefWidth="400.0">
                         <HBox.margin>
                             <Insets bottom="5.0" right="20.0" top="5.0"/>
                         </HBox.margin>
@@ -247,7 +248,7 @@
                             <Font name="Book Antiqua" size="24.0"/>
                         </font>
                     </Label>
-                    <TextField fx:id="editTextCostPrice" prefHeight="25.0" prefWidth="400.0">
+                    <TextField fx:id="textFieldCostPrice" prefHeight="25.0" prefWidth="400.0">
                         <HBox.margin>
                             <Insets bottom="5.0" right="20.0" top="5.0"/>
                         </HBox.margin>
@@ -268,7 +269,7 @@
                             <Font name="Book Antiqua" size="24.0"/>
                         </font>
                     </Label>
-                    <TextField fx:id="editTextSellPrice" prefHeight="25.0" prefWidth="400.0">
+                    <TextField fx:id="textFieldSellPrice" prefHeight="25.0" prefWidth="400.0">
                         <HBox.margin>
                             <Insets bottom="5.0" right="20.0" top="5.0"/>
                         </HBox.margin>

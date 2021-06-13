@@ -1,8 +1,9 @@
 package presenters;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.scene.control.TableView;
 import services.ReportService;
-import ui.old.ReportUI;
 
 /**
  * Контроллер отчетов
@@ -10,11 +11,7 @@ import ui.old.ReportUI;
 public class ReportPresenter {
 
     private final ReportService REPORT_SERVICE = ReportService.INSTANCE;
-    private final ReportUI REPORT_UI;
-
-    public ReportPresenter(ReportUI reportUI) {
-        this.REPORT_UI = reportUI;
-    }
+    private TableView<String> table;
 
     /**
      * Формирование отчета
@@ -23,11 +20,24 @@ public class ReportPresenter {
      */
     public void onClick(String checkBoxValue) {
         switch (checkBoxValue) {
-            case "продаваемые" -> REPORT_UI.setContent(FXCollections.observableList(REPORT_SERVICE.getTopSold()));
-            case "новинки" -> REPORT_UI.setContent(FXCollections.observableList(REPORT_SERVICE.getTopNew()));
-            case "топ авторов" -> REPORT_UI.setContent(FXCollections.observableList(REPORT_SERVICE.getTopAuthor()));
-            case "топ жанров" -> REPORT_UI.setContent(FXCollections.observableList(REPORT_SERVICE.getTopGenre()));
+            case "продаваемые" -> setContent(FXCollections.observableList(REPORT_SERVICE.getTopSold()));
+            case "новинки" -> setContent(FXCollections.observableList(REPORT_SERVICE.getTopNew()));
+            case "топ авторов" -> setContent(FXCollections.observableList(REPORT_SERVICE.getTopAuthor()));
+            case "топ жанров" -> setContent(FXCollections.observableList(REPORT_SERVICE.getTopGenre()));
         }
 
+    }
+
+    public void setTable(TableView<String> table) {
+        this.table = table;
+    }
+
+    /**
+     * Установка контента в элементы окна
+     *
+     * @param comics список комиксов
+     */
+    public void setContent(ObservableList<String> comics) {
+        table.setItems(comics);
     }
 }

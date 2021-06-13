@@ -55,8 +55,8 @@ public class ReportUI extends Application {
         vBox.getChildren().add(hBox);
         vBox.getChildren().add(table);
 
-        ReportPresenter reportPresenter = new ReportPresenter(this);
-
+        ReportPresenter reportPresenter = new ReportPresenter();
+        reportPresenter.setTable(table);
         buttonAdd.setOnMouseClicked(mouseEvent -> reportPresenter.onClick(checkBoxOptions.getValue()));
 
         Scene scene = new Scene(vBox, 800, 600);

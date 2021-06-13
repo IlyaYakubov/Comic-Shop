@@ -48,7 +48,7 @@ public class CustomerUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        SellPresenter sellPresenter = new SellPresenter(sellUI);
+        SellPresenter sellPresenter = new SellPresenter();
 
         buttonFind.setOnMouseClicked(mouseEvent -> {
             if (textFieldCustomer.getText().isEmpty()) {

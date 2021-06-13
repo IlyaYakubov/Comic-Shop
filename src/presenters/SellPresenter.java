@@ -4,9 +4,11 @@ import domain.Comic;
 import domain.discounts.Discount;
 import domain.sell.Cart;
 import domain.sell.CartItem;
+import javafx.collections.FXCollections;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableView;
 import services.ComicService;
 import services.SearchService;
-import ui.old.SellUI;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -19,13 +21,21 @@ public class SellPresenter {
 
     private final ComicService COMIC_SERVICE;
     private final SearchService SEARCH_SERVICE;
-    private final SellUI SELL_UI;
     private final Cart CART = new Cart();
+    private TableView<CartItem> table;
+    private Label labelAmount;
 
-    public SellPresenter(SellUI sellUI) {
+    public SellPresenter() {
         COMIC_SERVICE = ComicService.INSTANCE;
         SEARCH_SERVICE = SearchService.INSTANCE;
-        SELL_UI = sellUI;
+    }
+
+    public void setTable(TableView<CartItem> table) {
+        this.table = table;
+    }
+
+    public void setLabelAmount(Label labelAmount) {
+        this.labelAmount = labelAmount;
     }
 
     /**
@@ -38,7 +48,7 @@ public class SellPresenter {
         if (comic == null) {
             return;
         }
-        CART.setCartItems(SELL_UI.getTable().getItems());
+        CART.setCartItems(table.getItems());
         List<Discount> discounts = COMIC_SERVICE.getDiscounts();
         if (discounts.size() == 0) {
             CART.addComic(comic);
@@ -63,7 +73,7 @@ public class SellPresenter {
             CART.addComic(comic);
         }
 
-        SELL_UI.setContent(CART.getCartItems(), CART.getAmount());
+        setContent(CART.getCartItems(), CART.getAmount());
         CART.clear();
     }
 
@@ -71,7 +81,7 @@ public class SellPresenter {
      * При нажатии на кнопку "Продажа"
      */
     public void onClickSale() {
-        CART.setCartItems(SELL_UI.getTable().getItems());
+        CART.setCartItems(table.getItems());
         COMIC_SERVICE.makePurchase(LocalDateTime.now(), CART);
     }
 
@@ -81,13 +91,25 @@ public class SellPresenter {
      * @param customerName имя клиента
      */
     public void onClickReserve(String customerName) {
-        CART.setCartItems(SELL_UI.getTable().getItems());
+        CART.setCartItems(table.getItems());
         Cart cartWithReserves = COMIC_SERVICE.getCustomersReservedComics(customerName);
         for (CartItem cartItem : cartWithReserves.getCartItems()) {
             CART.addItem(cartItem);
         }
-        SELL_UI.setContent(CART.getCartItems(), CART.getAmount());
+        setContent(CART.getCartItems(), CART.getAmount());
         cartWithReserves.clear();
         CART.clear();
+    }
+
+    /**
+     * Установка контента в элементы окна
+     *
+     * @param cartItems список комиксов
+     * @param amount    сумма
+     */
+    public void setContent(List<CartItem> cartItems, double amount) {
+        table.setItems(FXCollections.observableArrayList(cartItems));
+        table.refresh();
+        labelAmount.setText(String.valueOf(amount));
     }
 }

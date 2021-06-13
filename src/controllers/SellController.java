@@ -1,95 +1,246 @@
 package controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+import domain.sell.CartItem;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import presenters.SellPresenter;
+
+import java.io.IOException;
 
 public class SellController {
 
-    @FXML
-    private ResourceBundle resources;
+    private final int MIN_WIDTH = 700;
+    private final int MIN_HEIGHT = 500;
 
-    @FXML
-    private URL location;
+    private final SellPresenter SELL_PRESENTER = new SellPresenter();
 
     @FXML
     private TextField editTextComicName;
 
     @FXML
-    private TableView<?> tableResult;
+    private TableView<CartItem> tableResult;
 
     @FXML
     private Label labelAmount;
 
     @FXML
-    void onClickAdd(ActionEvent event) {
-
+    void onClickAdd() {
+        editTextComicName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/add.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickAddInCart(ActionEvent event) {
-
+    void onClickEdit() {
+        editTextComicName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/find_customer.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickDelete(ActionEvent event) {
-
+    void onClickDelete() {
+        editTextComicName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/delete.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickDiscounts(ActionEvent event) {
-
+    void onClickWriteOff() {
+        editTextComicName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/write_off.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickEdit(ActionEvent event) {
-
+    void onClickReserve() {
+        editTextComicName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/reservation.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickOk(ActionEvent event) {
-
+    void onClickDiscounts() {
+        editTextComicName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/discounts.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickReports(ActionEvent event) {
-
+    void onClickSearch() {
+        editTextComicName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/main.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickReserve(ActionEvent event) {
-
+    void onClickReports() {
+        editTextComicName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/report.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickReserved(ActionEvent event) {
-
+    void onClickAddInCart() {
+        SELL_PRESENTER.onClickAdd(editTextComicName.getText().trim());
     }
 
     @FXML
-    void onClickSearch(ActionEvent event) {
+    void onClickReserved() {
+        if (Stage.getWindows().size() > 1) {
+            ObservableList<Window> windows = Stage.getWindows();
+            windows.get(1).requestFocus();
+            windows.get(1).centerOnScreen();
+            return;
+        }
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/find_customer.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
+        FindCustomerController findCustomerController = loader.getController();
+        findCustomerController.setPresenter(SELL_PRESENTER);
+
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.show();
     }
 
     @FXML
-    void onClickSell(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onClickWriteOff(ActionEvent event) {
-
+    void onClickOk() {
+        if (tableResult.getItems().size() == 0) {
+            return;
+        }
+        SELL_PRESENTER.onClickSale();
+        tableResult.getItems().clear();
+        tableResult.refresh();
+        labelAmount.setText("0.0");
     }
 
     @FXML
     void initialize() {
-        assert editTextComicName != null : "fx:id=\"editTextComicName\" was not injected: check your FXML file 'sell.fxml'.";
-        assert tableResult != null : "fx:id=\"tableResult\" was not injected: check your FXML file 'sell.fxml'.";
-        assert labelAmount != null : "fx:id=\"labelAmount\" was not injected: check your FXML file 'sell.fxml'.";
+        TableColumn<CartItem, String> nameColumn = new TableColumn<>("Комикс");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        nameColumn.setPrefWidth(350.0);
+        tableResult.getColumns().add(nameColumn);
 
+        TableColumn<CartItem, Double> priceColumn = new TableColumn<>("Стоимость");
+        priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        priceColumn.setPrefWidth(150.0);
+        tableResult.getColumns().add(priceColumn);
+
+        SELL_PRESENTER.setTable(tableResult);
+        SELL_PRESENTER.setLabelAmount(labelAmount);
     }
 }

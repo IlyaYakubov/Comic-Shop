@@ -18,28 +18,12 @@ import ui.old.utils.MessageUI;
  */
 public class DiscountUI extends Application {
 
-    private final DiscountPresenter DISCOUNT_PRESENTER = new DiscountPresenter(this);
+    private final DiscountPresenter DISCOUNT_PRESENTER = new DiscountPresenter();
     private int percent;
     private TextField textFieldDiscountName;
     private DatePicker datePickerBegin;
     private DatePicker datePickerEnd;
     private TableView<CartItem> table;
-
-    public int getPercent() {
-        return percent;
-    }
-
-    public TextField getTextFieldDiscountName() {
-        return textFieldDiscountName;
-    }
-
-    public DatePicker getDatePickerBegin() {
-        return datePickerBegin;
-    }
-
-    public DatePicker getDatePickerEnd() {
-        return datePickerEnd;
-    }
 
     public TableView<CartItem> getTable() {
         return table;
@@ -113,7 +97,7 @@ public class DiscountUI extends Application {
             if (!percentString.isEmpty()) {
                 try {
                     percent = Integer.parseInt(percentString);
-                    DISCOUNT_PRESENTER.updateTableDiscounts(percent);
+                    DISCOUNT_PRESENTER.updateTableDiscounts();
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
@@ -152,6 +136,6 @@ public class DiscountUI extends Application {
      */
     public void setContent(CartItem cartItem) {
         table.getItems().addAll(cartItem);
-        DISCOUNT_PRESENTER.updateTableDiscounts(percent);
+        DISCOUNT_PRESENTER.updateTableDiscounts();
     }
 }

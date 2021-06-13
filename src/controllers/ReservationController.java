@@ -1,19 +1,27 @@
 package controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+import domain.sell.CartItem;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
+import javafx.stage.Window;
+import presenters.ReservationPresenter;
+
+import java.io.IOException;
 
 public class ReservationController {
 
-    @FXML
-    private ResourceBundle resources;
+    private final int MIN_WIDTH = 700;
+    private final int MIN_HEIGHT = 500;
 
-    @FXML
-    private URL location;
+    private final ReservationPresenter RESERVATION_PRESENTER = new ReservationPresenter();
 
     @FXML
     private TextField editTextCustomerName;
@@ -22,68 +30,209 @@ public class ReservationController {
     private TextField editTextComicName;
 
     @FXML
-    private TableView<?> tableComics;
+    private TableView<CartItem> tableComics;
 
     @FXML
-    void onClickAdd(ActionEvent event) {
-
+    void onClickAdd() {
+        editTextCustomerName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/add.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickAddInCart(ActionEvent event) {
-
+    void onClickEdit() {
+        editTextCustomerName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/find_customer.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickDelete(ActionEvent event) {
-
+    void onClickDelete() {
+        editTextCustomerName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/delete.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickDiscounts(ActionEvent event) {
-
+    void onClickSell() {
+        editTextCustomerName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/sell.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickEdit(ActionEvent event) {
-
+    void onClickWriteOff() {
+        editTextCustomerName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/write_off.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickOk(ActionEvent event) {
-
+    void onClickDiscounts() {
+        editTextCustomerName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/discounts.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickReports(ActionEvent event) {
-
+    void onClickSearch() {
+        editTextCustomerName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/main.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickReserve(ActionEvent event) {
-
+    void onClickReports() {
+        editTextCustomerName.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/report.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickSearch(ActionEvent event) {
-
+    void onClickAddInCart() {
+        RESERVATION_PRESENTER.onClickAdd(editTextComicName.getText().trim());
     }
 
     @FXML
-    void onClickSell(ActionEvent event) {
+    void onClickOk() {
+        if (tableComics.getItems().size() == 0) {
+            return;
+        }
+        if (editTextCustomerName.getText().trim().isEmpty()) {
+            if (Stage.getWindows().size() > 1) {
+                ObservableList<Window> windows = Stage.getWindows();
+                windows.get(1).requestFocus();
+                windows.get(1).centerOnScreen();
+                return;
+            }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            try {
+                loader.load();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-    }
+            MessageController messageController = loader.getController();
+            messageController.setMessage("Заполните имя клиента");
 
-    @FXML
-    void onClickWriteOff(ActionEvent event) {
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setMinWidth(MIN_WIDTH);
+            stage.setMinHeight(MIN_HEIGHT);
+            stage.show();
+            return;
+        }
 
+        RESERVATION_PRESENTER.onClickReservation(editTextCustomerName.getText().trim());
+        tableComics.getItems().clear();
+        tableComics.refresh();
     }
 
     @FXML
     void initialize() {
-        assert editTextCustomerName != null : "fx:id=\"editTextCustomerName\" was not injected: check your FXML file 'reservation.fxml'.";
-        assert editTextComicName != null : "fx:id=\"editTextComicName\" was not injected: check your FXML file 'reservation.fxml'.";
-        assert tableComics != null : "fx:id=\"tableComics\" was not injected: check your FXML file 'reservation.fxml'.";
+        TableColumn<CartItem, String> nameColumn = new TableColumn<>("Комикс");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        nameColumn.setPrefWidth(350.0);
+        tableComics.getColumns().add(nameColumn);
 
+        RESERVATION_PRESENTER.setTable(tableComics);
     }
 }

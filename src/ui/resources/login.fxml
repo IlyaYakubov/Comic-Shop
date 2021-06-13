@@ -4,11 +4,13 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
-      prefHeight="493.0" prefWidth="817.0" xmlns="http://javafx.com/javafx/11"
-      fx:controller="controllers.LoginController">
-    <AnchorPane prefHeight="120.0" prefWidth="817.0" style="-fx-background-color: #99AA22;">
-        <HBox alignment="CENTER" prefHeight="107.0" prefWidth="817.0" AnchorPane.bottomAnchor="0.0"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity"
+            minWidth="-Infinity" xmlns="http://javafx.com/javafx/11"
+            fx:controller="controllers.LoginController">
+    <AnchorPane layoutX="10.0" layoutY="10.0" prefHeight="199.0" prefWidth="817.0"
+                style="-fx-background-color: #99AA22;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                AnchorPane.topAnchor="0.0">
+        <HBox alignment="CENTER" prefHeight="200.0" prefWidth="817.0" AnchorPane.bottomAnchor="0.0"
               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Label text="Авторизация">
                 <font>
@@ -17,11 +19,9 @@
             </Label>
         </HBox>
     </AnchorPane>
-    <AnchorPane prefHeight="400.0" prefWidth="817.0">
-        <VBox.margin>
-            <Insets/>
-        </VBox.margin>
-        <VBox alignment="CENTER" prefHeight="200.0" prefWidth="817.0" style="-fx-background-color: #ffffff;"
+    <AnchorPane layoutX="10.0" layoutY="197.0" prefHeight="503.0" prefWidth="817.0" AnchorPane.bottomAnchor="0.0"
+                AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="200.0">
+        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="817.0" style="-fx-background-color: #ffffff;"
               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
               AnchorPane.topAnchor="0.0">
             <HBox alignment="CENTER" prefHeight="47.0" prefWidth="583.0">
@@ -61,8 +61,8 @@
                 </PasswordField>
             </HBox>
             <HBox alignment="CENTER" prefHeight="64.0" prefWidth="264.0">
-                <Button maxWidth="-Infinity" mnemonicParsing="false" onAction="#onClickButtonOK"
-                        prefWidth="300.0" style="-fx-background-color: #006644;" text="ОК" textFill="WHITE">
+                <Button maxWidth="-Infinity" mnemonicParsing="false" onAction="#onClickButtonOK" prefWidth="300.0"
+                        style="-fx-background-color: #006644;" text="ОК" textFill="WHITE">
                     <font>
                         <Font name="Book Antiqua" size="36.0"/>
                     </font>
@@ -83,4 +83,4 @@
             </HBox>
         </VBox>
     </AnchorPane>
-</VBox>
+</AnchorPane>

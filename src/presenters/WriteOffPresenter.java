@@ -2,9 +2,13 @@ package presenters;
 
 import domain.Comic;
 import domain.sell.Cart;
+import domain.sell.CartItem;
+import javafx.collections.FXCollections;
+import javafx.scene.control.TableView;
 import services.ComicService;
 import services.SearchService;
-import ui.old.WriteOffUI;
+
+import java.util.List;
 
 /**
  * Контроллер списания комиксов
@@ -13,13 +17,16 @@ public class WriteOffPresenter {
 
     private final ComicService COMIC_SERVICE;
     private final SearchService SEARCH_SERVICE;
-    private final WriteOffUI WRITE_OFF_UI;
     private final Cart CART = new Cart();
+    private TableView<CartItem> table;
 
-    public WriteOffPresenter(WriteOffUI writeOffUI) {
+    public WriteOffPresenter() {
         COMIC_SERVICE = ComicService.INSTANCE;
         SEARCH_SERVICE = SearchService.INSTANCE;
-        WRITE_OFF_UI = writeOffUI;
+    }
+
+    public void setTable(TableView<CartItem> table) {
+        this.table = table;
     }
 
     /**
@@ -33,7 +40,7 @@ public class WriteOffPresenter {
             return;
         }
         CART.addComic(comic);
-        WRITE_OFF_UI.setContent(CART.getCartItems());
+        setContent(CART.getCartItems());
     }
 
     /**
@@ -41,5 +48,15 @@ public class WriteOffPresenter {
      */
     public void onClickWriteOff() {
         COMIC_SERVICE.writeOffComics(CART);
+    }
+
+    /**
+     * Установка контента в элементы окна
+     *
+     * @param cartItems список комиксов
+     */
+    public void setContent(List<CartItem> cartItems) {
+        table.setItems(FXCollections.observableArrayList(cartItems));
+        table.refresh();
     }
 }

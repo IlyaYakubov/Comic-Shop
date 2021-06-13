@@ -2,7 +2,6 @@ package ui.old;
 
 import domain.sell.CartItem;
 import javafx.application.Application;
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -13,8 +12,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import presenters.SellPresenter;
 import ui.old.reservation.CustomerUI;
-
-import java.util.List;
 
 /**
  * Окно продажи
@@ -91,7 +88,7 @@ public class SellUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        SellPresenter sellPresenter = new SellPresenter(this);
+        SellPresenter sellPresenter = new SellPresenter();
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
             if (checkComicName(textFieldComicName)) {
@@ -119,17 +116,6 @@ public class SellUI extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
-    }
-
-    /**
-     * Установка контента в элементы окна
-     *
-     * @param cartItems список комиксов
-     * @param amount    сумма
-     */
-    public void setContent(List<CartItem> cartItems, double amount) {
-        table.setItems(FXCollections.observableArrayList(cartItems));
-        labelAmount.setText(String.valueOf(amount));
     }
 
     private boolean checkComicName(TextField textFieldComicName) {

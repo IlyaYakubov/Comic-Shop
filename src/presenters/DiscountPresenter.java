@@ -1,8 +1,11 @@
 package presenters;
 
 import domain.sell.Cart;
+import domain.sell.CartItem;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import services.ComicService;
-import ui.old.discount.DiscountUI;
 
 import java.time.LocalDateTime;
 
@@ -12,10 +15,30 @@ import java.time.LocalDateTime;
 public class DiscountPresenter {
 
     private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
-    private final DiscountUI DISCOUNT_UI;
+    private TableView<CartItem> table;
+    private TextField textFieldDiscountName;
+    private DatePicker datePickerBegin;
+    private DatePicker datePickerEnd;
+    private int percent;
 
-    public DiscountPresenter(DiscountUI discountUI) {
-        DISCOUNT_UI = discountUI;
+    public void setTable(TableView<CartItem> table) {
+        this.table = table;
+    }
+
+    public void setTextFieldDiscountName(TextField textFieldDiscountName) {
+        this.textFieldDiscountName = textFieldDiscountName;
+    }
+
+    public void setDatePickerBegin(DatePicker datePickerBegin) {
+        this.datePickerBegin = datePickerBegin;
+    }
+
+    public void setDatePickerEnd(DatePicker datePickerEnd) {
+        this.datePickerEnd = datePickerEnd;
+    }
+
+    public void setPercent(int percent) {
+        this.percent = percent;
     }
 
     /**
@@ -23,26 +46,24 @@ public class DiscountPresenter {
      */
     public void onClickCreate() {
         Cart cart = new Cart();
-        cart.setCartItems(DISCOUNT_UI.getTable().getItems());
+        cart.setCartItems(table.getItems());
         COMIC_SERVICE.saveDiscounts(LocalDateTime.now(),
-                DISCOUNT_UI.getTextFieldDiscountName().getText(),
-                DISCOUNT_UI.getDatePickerBegin().getValue(),
-                DISCOUNT_UI.getDatePickerEnd().getValue(),
+                textFieldDiscountName.getText(),
+                datePickerBegin.getValue(),
+                datePickerEnd.getValue(),
                 cart,
-                DISCOUNT_UI.getPercent());
+                percent);
     }
 
     /**
      * Обновление скидок
-     *
-     * @param percent процент скидки
      */
-    public void updateTableDiscounts(int percent) {
-        DISCOUNT_UI.getTable().getItems().forEach(cartItem ->
+    public void updateTableDiscounts() {
+        table.getItems().forEach(cartItem ->
                 cartItem.setPrice(cartItem.getComic().getComicPrice().getSellingPrice()));
-        DISCOUNT_UI.getTable().getItems().forEach(cartItem -> cartItem.setPrice(
+        table.getItems().forEach(cartItem -> cartItem.setPrice(
                 cartItem.getComic().getComicPrice().getSellingPrice() -
                         cartItem.getComic().getComicPrice().getSellingPrice() * percent / 100));
-        DISCOUNT_UI.getTable().refresh();
+        table.refresh();
     }
 }

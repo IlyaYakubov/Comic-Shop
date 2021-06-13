@@ -63,7 +63,8 @@ public class WriteOffUI extends Application {
         vBox.setSpacing(20.0);
         vBox.setPadding(new Insets(20));
 
-        WriteOffPresenter writeOffPresenter = new WriteOffPresenter(this);
+        WriteOffPresenter writeOffPresenter = new WriteOffPresenter();
+        writeOffPresenter.setTable(table);
 
         buttonAdd.setOnMouseClicked(mouseEvent -> {
             if (checkComicName(textFieldComicName)) {

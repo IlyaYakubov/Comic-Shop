@@ -1,80 +1,198 @@
 package controllers;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.stage.Stage;
+import presenters.ReportPresenter;
+
+import java.io.IOException;
 
 public class ReportController {
 
-    @FXML
-    private ResourceBundle resources;
+    private final int MIN_WIDTH = 700;
+    private final int MIN_HEIGHT = 500;
 
     @FXML
-    private URL location;
+    private ChoiceBox<String> choiceBoxType;
 
     @FXML
-    private ChoiceBox<?> choiceBoxType;
+    private TableView<String> tableComics;
 
     @FXML
-    private TableView<?> tableComics;
-
-    @FXML
-    void onClickAdd(ActionEvent event) {
-
+    void onClickAdd() {
+        choiceBoxType.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/add.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickDelete(ActionEvent event) {
-
+    void onClickEdit() {
+        choiceBoxType.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/find_customer.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickDiscounts(ActionEvent event) {
-
+    void onClickDelete() {
+        choiceBoxType.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/delete.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickEdit(ActionEvent event) {
-
+    void onClickSell() {
+        choiceBoxType.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/sell.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickOk(ActionEvent event) {
-
+    void onClickWriteOff() {
+        choiceBoxType.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/write_off.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickReports(ActionEvent event) {
-
+    void onClickReserve() {
+        choiceBoxType.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/reservation.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickReserve(ActionEvent event) {
-
+    void onClickDiscounts() {
+        choiceBoxType.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/discounts.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickSearch(ActionEvent event) {
-
+    void onClickSearch() {
+        choiceBoxType.getScene().getWindow().hide();
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(getClass().getResource("/ui/resources/main.fxml"));
+        try {
+            loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Parent root = loader.getRoot();
+        Stage stage = new Stage();
+        stage.setScene(new Scene(root));
+        stage.setMinWidth(MIN_WIDTH);
+        stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
+        stage.show();
     }
 
     @FXML
-    void onClickSell(ActionEvent event) {
-
-    }
-
-    @FXML
-    void onClickWriteOff(ActionEvent event) {
-
+    void onClickOk() {
+        ReportPresenter reportPresenter = new ReportPresenter();
+        reportPresenter.setTable(tableComics);
+        reportPresenter.onClick(choiceBoxType.getValue());
+        tableComics.refresh();
     }
 
     @FXML
     void initialize() {
-        assert choiceBoxType != null : "fx:id=\"choiceBoxType\" was not injected: check your FXML file 'report.fxml'.";
-        assert tableComics != null : "fx:id=\"tableComics\" was not injected: check your FXML file 'report.fxml'.";
+        TableColumn<String, String> nameColumn = new TableColumn<>("Наименование");
+        nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
+        nameColumn.setPrefWidth(350.0);
+        tableComics.getColumns().add(nameColumn);
 
+        choiceBoxType.setItems(FXCollections.observableArrayList("продаваемые", "новинки", "топ авторов", "топ жанров"));
+        choiceBoxType.setValue("продаваемые");
     }
 }

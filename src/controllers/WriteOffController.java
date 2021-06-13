@@ -50,7 +50,7 @@ public class WriteOffController {
     void onClickEdit() {
         editTextComicName.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/ui/resources/find_customer.fxml"));
+        loader.setLocation(getClass().getResource("/ui/resources/find_comic.fxml"));
         try {
             loader.load();
         } catch (IOException e) {
@@ -197,7 +197,7 @@ public class WriteOffController {
     @FXML
     void initialize() {
         WRITE_OFF_PRESENTER.setTable(tableComics);
-        TableColumn<CartItem, String> nameColumn = new TableColumn<>("Наименование");
+        TableColumn<CartItem, String> nameColumn = new TableColumn<>("Комикс");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setPrefWidth(350.0);
         tableComics.getColumns().add(nameColumn);

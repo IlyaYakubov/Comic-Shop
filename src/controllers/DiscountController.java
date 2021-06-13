@@ -62,7 +62,7 @@ public class DiscountController {
     void onClickEdit() {
         editTextName.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/ui/resources/find_customer.fxml"));
+        loader.setLocation(getClass().getResource("/ui/resources/find_comic.fxml"));
         try {
             loader.load();
         } catch (IOException e) {

@@ -48,7 +48,7 @@ public class ReportController {
     void onClickEdit() {
         choiceBoxType.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/ui/resources/find_customer.fxml"));
+        loader.setLocation(getClass().getResource("/ui/resources/find_comic.fxml"));
         try {
             loader.load();
         } catch (IOException e) {
@@ -187,7 +187,7 @@ public class ReportController {
 
     @FXML
     void initialize() {
-        TableColumn<String, String> nameColumn = new TableColumn<>("Наименование");
+        TableColumn<String, String> nameColumn = new TableColumn<>("Комикс");
         nameColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue()));
         nameColumn.setPrefWidth(350.0);
         tableComics.getColumns().add(nameColumn);

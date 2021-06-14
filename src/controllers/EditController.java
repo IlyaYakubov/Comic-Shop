@@ -249,6 +249,38 @@ public class EditController {
             return;
         }
 
+        try {
+            Double.parseDouble(editTextCostPrice.getText().trim());
+            Double.parseDouble(editTextSellPrice.getText().trim());
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+
+            if (Stage.getWindows().size() > 1) {
+                ObservableList<Window> windows = Stage.getWindows();
+                windows.get(1).requestFocus();
+                windows.get(1).centerOnScreen();
+                return;
+            }
+            FXMLLoader loader = new FXMLLoader();
+            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            try {
+                loader.load();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
+            MessageController messageController = loader.getController();
+            messageController.setMessage("Неверный формат суммы");
+
+            Parent root = loader.getRoot();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setMinWidth(MIN_WIDTH);
+            stage.setMinHeight(MIN_HEIGHT);
+            stage.show();
+            return;
+        }
+
         String[] elementsOfComic = elementsOfComic(
                 editTextName.getText(),
                 editTextAuthor.getText(),

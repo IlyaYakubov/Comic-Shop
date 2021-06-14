@@ -12,6 +12,16 @@ public class ReportPresenter {
 
     private final ReportService REPORT_SERVICE = ReportService.INSTANCE;
     private TableView<String> table;
+    private String dateBeginString;
+    private String dateEndString;
+
+    public void setDateBeginString(String dateBeginString) {
+        this.dateBeginString = dateBeginString;
+    }
+
+    public void setDateEndString(String dateEndString) {
+        this.dateEndString = dateEndString;
+    }
 
     /**
      * Формирование отчета
@@ -20,10 +30,14 @@ public class ReportPresenter {
      */
     public void onClick(String checkBoxValue) {
         switch (checkBoxValue) {
-            case "продаваемые" -> setContent(FXCollections.observableList(REPORT_SERVICE.getTopSold()));
-            case "новинки" -> setContent(FXCollections.observableList(REPORT_SERVICE.getTopNew()));
-            case "топ авторов" -> setContent(FXCollections.observableList(REPORT_SERVICE.getTopAuthor()));
-            case "топ жанров" -> setContent(FXCollections.observableList(REPORT_SERVICE.getTopGenre()));
+            case "продаваемые" -> setContent(FXCollections.observableList(
+                    REPORT_SERVICE.getTopSold(dateBeginString, dateEndString)));
+            case "новинки" -> setContent(FXCollections.observableList(
+                    REPORT_SERVICE.getTopNew(dateBeginString, dateEndString)));
+            case "топ авторов" -> setContent(FXCollections.observableList(
+                    REPORT_SERVICE.getTopAuthor(dateBeginString, dateEndString)));
+            case "топ жанров" -> setContent(FXCollections.observableList(
+                    REPORT_SERVICE.getTopGenre(dateBeginString, dateEndString)));
         }
 
     }

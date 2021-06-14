@@ -12,6 +12,7 @@ import javafx.stage.Window;
 import presenters.AdditionPresenter;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class AddController {
 
@@ -240,7 +241,8 @@ public class AddController {
                 textFieldYear.getText().trim(),
                 textFieldCostPrice.getText().trim(),
                 textFieldSellPrice.getText().trim(),
-                checkBoxIsContinue.isSelected());
+                checkBoxIsContinue.isSelected(),
+                LocalDateTime.now());
 
         additionPresenter.onClickAdd(elementsOfComic);
 
@@ -270,7 +272,8 @@ public class AddController {
                                      String textFieldYearOfPublishingComic,
                                      String textFieldCoastPriceComic,
                                      String textFieldSellingPriceComic,
-                                     boolean checkBoxIsContinuation) {
+                                     boolean checkBoxIsContinuation,
+                                     LocalDateTime dateTime) {
         return new String[]{
                 textFieldNameComic,
                 textFieldAuthorComic,
@@ -280,6 +283,7 @@ public class AddController {
                 textFieldYearOfPublishingComic,
                 textFieldCoastPriceComic,
                 textFieldSellingPriceComic,
-                checkBoxIsContinuation ? "true" : "false"};
+                checkBoxIsContinuation ? "true" : "false",
+                String.valueOf(dateTime)};
     }
 }

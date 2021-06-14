@@ -6,8 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.String?>
-<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.29797979797979796" minWidth="500.0"
-           prefHeight="800.0"
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.29797979797979796" minWidth="500.0" prefHeight="800.0"
            prefWidth="1100.0" xmlns="http://javafx.com/javafx/11"
            fx:controller="controllers.ReportController">
     <AnchorPane maxWidth="310.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="100.0">
@@ -85,8 +84,8 @@
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                 </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Отчеты">
+            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: #FFFFDD;"
+                    text="Отчеты">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -107,30 +106,59 @@
                     </font>
                 </Label>
             </HBox>
-            <HBox alignment="CENTER_LEFT" prefHeight="97.0" prefWidth="782.0">
-                <padding>
-                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
-                </padding>
-                <Button mnemonicParsing="false" onAction="#onClickOk" prefHeight="50.0" prefWidth="357.0"
-                        style="-fx-background-color: #FFFFFF;" text="Сформировать">
-                    <font>
-                        <Font name="Book Antiqua" size="24.0"/>
-                    </font>
-                    <HBox.margin>
-                        <Insets right="200.0"/>
-                    </HBox.margin>
-                </Button>
-                <ChoiceBox fx:id="choiceBoxType" prefHeight="50.0" prefWidth="205.0"
-                           style="-fx-background-color: #FFFFFF;">
-                    <items>
-                        <FXCollections fx:factory="observableArrayList">
-                            <String fx:value="по наименованию"/>
-                            <String fx:value="по автору"/>
-                            <String fx:value="по жанру"/>
-                        </FXCollections>
-                    </items>
-                </ChoiceBox>
-            </HBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                    <Label text="Период с начала">
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                        <HBox.margin>
+                            <Insets left="10.0" right="20.0"/>
+                        </HBox.margin>
+                    </Label>
+                    <DatePicker fx:id="dateBegin" prefHeight="50.0" prefWidth="200.0">
+                        <HBox.margin>
+                            <Insets right="20.0"/>
+                        </HBox.margin>
+                    </DatePicker>
+                    <Label text="по">
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                        <HBox.margin>
+                            <Insets right="20.0"/>
+                        </HBox.margin>
+                    </Label>
+                    <DatePicker fx:id="dateEnd" prefHeight="50.0" prefWidth="200.0"/>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="97.0" prefWidth="782.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <ChoiceBox fx:id="choiceBoxType" prefHeight="47.0" prefWidth="207.0"
+                               style="-fx-background-color: #FFFFFF;">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="по наименованию"/>
+                                <String fx:value="по автору"/>
+                                <String fx:value="по жанру"/>
+                            </FXCollections>
+                        </items>
+                        <HBox.margin>
+                            <Insets right="50.0"/>
+                        </HBox.margin>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" onAction="#onClickOk" prefHeight="47.0" prefWidth="401.0"
+                            style="-fx-background-color: #FFFFFF;" text="Сформировать">
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                        <HBox.margin>
+                            <Insets left="10.0"/>
+                        </HBox.margin>
+                    </Button>
+                </HBox>
+            </VBox>
             <TableView fx:id="tableComics" prefHeight="798.0" prefWidth="768.0">
             </TableView>
         </VBox>

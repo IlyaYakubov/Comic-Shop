@@ -283,7 +283,7 @@ public class DiscountController {
             }
 
             MessageController messageController = loader.getController();
-            messageController.setMessage("Дата начала не может быть больше даты окончания");
+            messageController.setMessage("Начало не может быть больше окончания");
 
             Parent root = loader.getRoot();
             Stage stage = new Stage();

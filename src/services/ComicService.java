@@ -1,9 +1,6 @@
 package services;
 
-import domain.Author;
-import domain.Comic;
-import domain.Genre;
-import domain.Publishing;
+import domain.*;
 import domain.discounts.Discount;
 import domain.reservation.Customer;
 import domain.reservation.Reservation;
@@ -342,7 +339,7 @@ public class ComicService {
 
     private Comic formComicFromElements(String comicElements) {
         String[] elementsOfComic = comicElements.split(DELIMITER);
-        return new Comic(
+        ReportingComic reportingComic = new ReportingComic(
                 elementsOfComic[NAME], // наименование
                 new Author(elementsOfComic[AUTHOR]), // автор
                 new Publishing(elementsOfComic[PUBLISHING]), // издательство
@@ -351,11 +348,13 @@ public class ComicService {
                 Integer.parseInt(elementsOfComic[YEAR]), // год издательства
                 Double.parseDouble(elementsOfComic[COST_PRICE]), // себестоимость
                 Double.parseDouble(elementsOfComic[PRICE]), // цена продажи
-                Boolean.parseBoolean(elementsOfComic[IS_CONTINUE])); // является продолжением
+                Boolean.parseBoolean(elementsOfComic[IS_CONTINUE]));  // является продолжением
+        reportingComic.setReceiptDate(LocalDateTime.parse(elementsOfComic[STRING_PARAM])); // дата
+        return reportingComic;
     }
 
     private Comic formComicFromElements(String[] elementsOfComic) {
-        return new Comic(
+        ReportingComic reportingComic = new ReportingComic(
                 elementsOfComic[NAME], // наименование
                 new Author(elementsOfComic[AUTHOR]), // автор
                 new Publishing(elementsOfComic[PUBLISHING]), // издательство
@@ -365,6 +364,8 @@ public class ComicService {
                 Double.parseDouble(elementsOfComic[COST_PRICE]), // себестоимость
                 Double.parseDouble(elementsOfComic[PRICE]), // цена продажи
                 Boolean.parseBoolean(elementsOfComic[IS_CONTINUE])); // является продолжением
+        reportingComic.setReceiptDate(LocalDateTime.parse(elementsOfComic[STRING_PARAM])); // дата
+        return reportingComic;
     }
 
     private String formComicForFile(String[] comic) {
@@ -376,7 +377,9 @@ public class ComicService {
                 comic[YEAR] + DELIMITER + // год издательства
                 comic[COST_PRICE] + DELIMITER + // себестоимость
                 comic[PRICE] + DELIMITER + // цена продажи
-                comic[IS_CONTINUE] + DELIMITER; // является продолжением
+                comic[IS_CONTINUE] + DELIMITER + // является продолжением
+                LocalDateTime.now() + DELIMITER; // дата добавления в магазин
+
     }
 
     private String formComicForFile(CartItem cartItem) {

@@ -5,7 +5,8 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="200.0" minWidth="200.0"
+<AnchorPane xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="200.0"
+            minWidth="200.0"
             prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11"
             fx:controller="controllers.MessageController">
     <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="200.0" minWidth="200.0" prefHeight="199.0" prefWidth="817.0"

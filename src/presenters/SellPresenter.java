@@ -12,6 +12,7 @@ import services.SearchService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -82,6 +83,8 @@ public class SellPresenter {
      */
     public void onClickSale() {
         CART.setCartItems(table.getItems());
+        List<CartItem> cartItems = new ArrayList<>(table.getItems());
+        CART.setCartItems(cartItems);
         COMIC_SERVICE.makePurchase(LocalDateTime.now(), CART);
     }
 

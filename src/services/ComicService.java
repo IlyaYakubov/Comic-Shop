@@ -149,7 +149,7 @@ public class ComicService {
         Sell sell = new Sell(date, cart);
         for (CartItem cartItem : cart.getCartItems()) {
             DOMAIN_DAO.setFileDao(SELL_DAO);
-            DOMAIN_DAO.saveToFile(formComicForFile(cartItem) + sell.getDate());
+            DOMAIN_DAO.saveToFile(formComicForFile(cartItem) + LocalDateTime.now());
         }
         sell.makePurchase();
         SELLS.add(sell);

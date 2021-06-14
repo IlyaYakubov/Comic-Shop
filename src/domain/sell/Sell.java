@@ -35,7 +35,6 @@ public class Sell {
      * Продажа
      */
     public void makePurchase() {
-        date = null;
-        cart.clear();
+        date = LocalDateTime.now();
     }
 }

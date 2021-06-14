@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.collections.FXCollections?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.collections.FXCollections?>
 <?import java.lang.String?>
 <SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.29797979797979796" minWidth="500.0"
            prefHeight="800.0"

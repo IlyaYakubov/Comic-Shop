@@ -1,6 +1,9 @@
 package controllers;
 
+import domain.Comic;
+import domain.sell.Cart;
 import domain.sell.CartItem;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -10,7 +13,8 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import presenters.WriteOffPresenter;
+import services.ComicService;
+import services.SearchService;
 
 import java.io.IOException;
 
@@ -19,7 +23,9 @@ public class WriteOffController {
     private final int MIN_WIDTH = 700;
     private final int MIN_HEIGHT = 500;
 
-    private final WriteOffPresenter WRITE_OFF_PRESENTER = new WriteOffPresenter();
+    private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
+    private final SearchService SEARCH_SERVICE = SearchService.INSTANCE;
+    private final Cart CART = new Cart();
 
     @FXML
     private TextField editTextComicName;
@@ -29,47 +35,53 @@ public class WriteOffController {
 
     @FXML
     void onClickAdd() {
-        openWindow("/ui/resources/add.fxml");
+        openWindow("/ui/add.fxml");
     }
 
     @FXML
     void onClickEdit() {
-        openWindow("/ui/resources/find_comic.fxml");
+        openWindow("/ui/find_comic.fxml");
     }
 
     @FXML
     void onClickDelete() {
-        openWindow("/ui/resources/delete.fxml");
+        openWindow("/ui/delete.fxml");
     }
 
     @FXML
     void onClickSell() {
-        openWindow("/ui/resources/sell.fxml");
+        openWindow("/ui/sell.fxml");
     }
 
     @FXML
     void onClickReserve() {
-        openWindow("/ui/resources/reservation.fxml");
+        openWindow("/ui/reservation.fxml");
     }
 
     @FXML
     void onClickDiscounts() {
-        openWindow("/ui/resources/discounts.fxml");
+        openWindow("/ui/discounts.fxml");
     }
 
     @FXML
     void onClickSearch() {
-        openWindow("/ui/resources/main.fxml");
+        openWindow("/ui/main.fxml");
     }
 
     @FXML
     void onClickReports() {
-        openWindow("/ui/resources/report.fxml");
+        openWindow("/ui/report.fxml");
     }
 
     @FXML
     void buttonAddInCart() {
-        WRITE_OFF_PRESENTER.onClickAdd(editTextComicName.getText().trim());
+        Comic comic = SEARCH_SERVICE.getComicByName(editTextComicName.getText().trim());
+        if (comic == null) {
+            return;
+        }
+        CART.addComic(comic);
+        tableComics.setItems(FXCollections.observableArrayList(CART.getCartItems()));
+        tableComics.refresh();
     }
 
     @FXML
@@ -77,14 +89,13 @@ public class WriteOffController {
         if (tableComics.getItems().size() == 0) {
             return;
         }
-        WRITE_OFF_PRESENTER.onClickWriteOff();
+        COMIC_SERVICE.writeOffComics(CART);
         tableComics.getItems().clear();
         tableComics.refresh();
     }
 
     @FXML
     void initialize() {
-        WRITE_OFF_PRESENTER.setTable(tableComics);
         TableColumn<CartItem, String> nameColumn = new TableColumn<>("Комикс");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setPrefWidth(350.0);

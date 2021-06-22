@@ -1,5 +1,6 @@
 package controllers;
 
+import domain.sell.Cart;
 import domain.sell.CartItem;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -13,15 +14,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import presenters.DiscountPresenter;
+import services.ComicService;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class DiscountController {
+
     private final int MIN_WIDTH = 700;
     private final int MIN_HEIGHT = 500;
 
-    private final DiscountPresenter discountPresenter = new DiscountPresenter();
+    private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
     private int percent;
 
     @FXML
@@ -41,47 +44,47 @@ public class DiscountController {
 
     @FXML
     void onClickAdd() {
-        openWindow("/ui/resources/add.fxml");
+        openWindow("/ui/add.fxml");
     }
 
     @FXML
     void onClickEdit() {
-        openWindow("/ui/resources/find_comic.fxml");
+        openWindow("/ui/find_comic.fxml");
     }
 
     @FXML
     void onClickDelete() {
-        openWindow("/ui/resources/delete.fxml");
+        openWindow("/ui/delete.fxml");
     }
 
     @FXML
     void onClickSell() {
-        openWindow("/ui/resources/sell.fxml");
+        openWindow("/ui/sell.fxml");
     }
 
     @FXML
     void onClickWriteOff() {
-        openWindow("/ui/resources/write_off.fxml");
+        openWindow("/ui/write_off.fxml");
     }
 
     @FXML
     void onClickReserve() {
-        openWindow("/ui/resources/reservation.fxml");
+        openWindow("/ui/reservation.fxml");
     }
 
     @FXML
     void onClickDiscounts() {
-        openWindow("/ui/resources/discounts.fxml");
+        openWindow("/ui/discounts.fxml");
     }
 
     @FXML
     void onClickSearch() {
-        openWindow("/ui/resources/main.fxml");
+        openWindow("/ui/main.fxml");
     }
 
     @FXML
     void onClickReports() {
-        openWindow("/ui/resources/report.fxml");
+        openWindow("/ui/report.fxml");
     }
 
     @FXML
@@ -93,7 +96,7 @@ public class DiscountController {
             return;
         }
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/ui/resources/comics.fxml"));
+        loader.setLocation(getClass().getResource("/ui/comics.fxml"));
         try {
             loader.load();
         } catch (IOException e) {
@@ -123,7 +126,7 @@ public class DiscountController {
                 return;
             }
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            loader.setLocation(getClass().getResource("/ui/message.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
@@ -149,7 +152,7 @@ public class DiscountController {
                 return;
             }
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            loader.setLocation(getClass().getResource("/ui/message.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
@@ -168,16 +171,18 @@ public class DiscountController {
             return;
         }
 
-        discountPresenter.setTextFieldDiscountName(editTextName);
-        discountPresenter.setDatePickerBegin(dataPickerBegin);
-        discountPresenter.setDatePickerEnd(dataPickerEnd);
-        discountPresenter.setPercent(percent);
-        discountPresenter.setTable(tableComics);
-        discountPresenter.onClickCreate();
+        Cart cart = new Cart();
+        cart.setCartItems(tableComics.getItems());
+        COMIC_SERVICE.saveDiscounts(LocalDateTime.now(),
+                editTextName.getText().trim(),
+                dataPickerBegin.getValue(),
+                dataPickerEnd.getValue(),
+                cart,
+                percent);
 
         editTextName.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/ui/resources/main.fxml"));
+        loader.setLocation(getClass().getResource("/ui/main.fxml"));
         try {
             loader.load();
         } catch (IOException e) {
@@ -209,12 +214,8 @@ public class DiscountController {
             if (!percentString.isEmpty()) {
                 try {
                     percent = Integer.parseInt(percentString);
-                    discountPresenter.setTable(tableComics);
-                    discountPresenter.setDatePickerBegin(dataPickerBegin);
-                    discountPresenter.setPercent(percent);
-                    discountPresenter.setDatePickerEnd(dataPickerEnd);
-                    discountPresenter.setTextFieldDiscountName(editTextName);
-                    discountPresenter.updateTableDiscounts();
+
+                    updateTableDiscounts();
                 } catch (NumberFormatException e) {
                     e.printStackTrace();
                 }
@@ -238,5 +239,17 @@ public class DiscountController {
         stage.setMinHeight(MIN_HEIGHT);
         stage.setMaximized(true);
         stage.show();
+    }
+
+    /**
+     * Обновление скидок
+     */
+    public void updateTableDiscounts() {
+        tableComics.getItems().forEach(cartItem ->
+                cartItem.setPrice(cartItem.getComic().getComicPrice().getSellingPrice()));
+        tableComics.getItems().forEach(cartItem -> cartItem.setPrice(
+                cartItem.getComic().getComicPrice().getSellingPrice() -
+                        cartItem.getComic().getComicPrice().getSellingPrice() * percent / 100));
+        tableComics.refresh();
     }
 }

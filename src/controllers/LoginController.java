@@ -34,7 +34,7 @@ public class LoginController {
                 return;
             }
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            loader.setLocation(getClass().getResource("/ui/message.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
@@ -59,7 +59,7 @@ public class LoginController {
 
         if (!userService.userInTheSystem()) {
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            loader.setLocation(getClass().getResource("/ui/message.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
@@ -80,7 +80,7 @@ public class LoginController {
 
         textFieldLogin.getScene().getWindow().hide();
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/ui/resources/main.fxml"));
+        loader.setLocation(getClass().getResource("/ui/main.fxml"));
         try {
             loader.load();
         } catch (IOException e) {
@@ -101,7 +101,7 @@ public class LoginController {
         textFieldLogin.getScene().getWindow().hide();
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/ui/resources/registration.fxml"));
+        loader.setLocation(getClass().getResource("/ui/registration.fxml"));
         try {
             loader.load();
         } catch (IOException e) {

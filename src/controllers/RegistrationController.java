@@ -9,7 +9,7 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import presenters.RegistrationPresenter;
+import services.UserService;
 
 import java.io.IOException;
 
@@ -40,7 +40,7 @@ public class RegistrationController {
                 return;
             }
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            loader.setLocation(getClass().getResource("/ui/message.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
@@ -67,7 +67,7 @@ public class RegistrationController {
                 return;
             }
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            loader.setLocation(getClass().getResource("/ui/message.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
@@ -86,15 +86,13 @@ public class RegistrationController {
             return;
         }
 
-        RegistrationPresenter registrationPresenter = new RegistrationPresenter(
-                textFieldName.getText().trim(),
-                textFieldPassword.getText().trim());
-        registrationPresenter.saveUser();
+        UserService userService = new UserService(textFieldName.getText().trim(), textFieldPassword.getText().trim());
+        userService.saveUser();
 
         textFieldName.getScene().getWindow().hide();
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/ui/resources/main.fxml"));
+        loader.setLocation(getClass().getResource("/ui/main.fxml"));
         try {
             loader.load();
         } catch (IOException e) {
@@ -114,7 +112,7 @@ public class RegistrationController {
         textFieldName.getScene().getWindow().hide();
 
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/ui/resources/login.fxml"));
+        loader.setLocation(getClass().getResource("/ui/login.fxml"));
         try {
             loader.load();
         } catch (IOException e) {

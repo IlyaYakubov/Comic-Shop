@@ -34,42 +34,42 @@ public class MainController {
 
     @FXML
     void onClickAdd() {
-        openWindow("/ui/resources/add.fxml");
+        openWindow("/ui/add.fxml");
     }
 
     @FXML
     void onClickEdit() {
-        openWindow("/ui/resources/find_comic.fxml");
+        openWindow("/ui/find_comic.fxml");
     }
 
     @FXML
     void onClickDelete() {
-        openWindow("/ui/resources/delete.fxml");
+        openWindow("/ui/delete.fxml");
     }
 
     @FXML
     void onClickSell() {
-        openWindow("/ui/resources/sell.fxml");
+        openWindow("/ui/sell.fxml");
     }
 
     @FXML
     void onClickWriteOff() {
-        openWindow("/ui/resources/write_off.fxml");
+        openWindow("/ui/write_off.fxml");
     }
 
     @FXML
     void onClickReserve() {
-        openWindow("/ui/resources/reservation.fxml");
+        openWindow("/ui/reservation.fxml");
     }
 
     @FXML
     void onClickDiscounts() {
-        openWindow("/ui/resources/discounts.fxml");
+        openWindow("/ui/discounts.fxml");
     }
 
     @FXML
     void onClickReports() {
-        openWindow("/ui/resources/report.fxml");
+        openWindow("/ui/report.fxml");
     }
 
     @FXML

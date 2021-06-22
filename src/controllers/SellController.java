@@ -1,6 +1,10 @@
 package controllers;
 
+import domain.Comic;
+import domain.discounts.Discount;
+import domain.sell.Cart;
 import domain.sell.CartItem;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,16 +17,23 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import presenters.SellPresenter;
+import services.ComicService;
+import services.SearchService;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class SellController {
 
     private final int MIN_WIDTH = 700;
     private final int MIN_HEIGHT = 500;
 
-    private final SellPresenter SELL_PRESENTER = new SellPresenter();
+    private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
+    private final SearchService SEARCH_SERVICE = SearchService.INSTANCE;
+    private final Cart CART = new Cart();
 
     @FXML
     private TextField editTextComicName;
@@ -35,47 +46,78 @@ public class SellController {
 
     @FXML
     void onClickAdd() {
-        openWindow("/ui/resources/add.fxml");
+        openWindow("/ui/add.fxml");
     }
 
     @FXML
     void onClickEdit() {
-        openWindow("/ui/resources/find_comic.fxml");
+        openWindow("/ui/find_comic.fxml");
     }
 
     @FXML
     void onClickDelete() {
-        openWindow("/ui/resources/delete.fxml");
+        openWindow("/ui/delete.fxml");
     }
 
     @FXML
     void onClickWriteOff() {
-        openWindow("/ui/resources/write_off.fxml");
+        openWindow("/ui/write_off.fxml");
     }
 
     @FXML
     void onClickReserve() {
-        openWindow("/ui/resources/reservation.fxml");
+        openWindow("/ui/reservation.fxml");
     }
 
     @FXML
     void onClickDiscounts() {
-        openWindow("/ui/resources/discounts.fxml");
+        openWindow("/ui/discounts.fxml");
     }
 
     @FXML
     void onClickSearch() {
-        openWindow("/ui/resources/main.fxml");
+        openWindow("/ui/main.fxml");
     }
 
     @FXML
     void onClickReports() {
-        openWindow("/ui/resources/report.fxml");
+        openWindow("/ui/report.fxml");
     }
 
     @FXML
     void onClickAddInCart() {
-        SELL_PRESENTER.onClickAdd(editTextComicName.getText().trim());
+        String comicName = editTextComicName.getText().trim();
+        Comic comic = SEARCH_SERVICE.getComicByName(comicName);
+        if (comic == null) {
+            return;
+        }
+        CART.setCartItems(tableResult.getItems());
+        List<Discount> discounts = COMIC_SERVICE.getDiscounts();
+        if (discounts.size() == 0) {
+            CART.addComic(comic);
+        }
+
+        // проверка: если комикс с данным наименованием присутсвует в акции - добавляем его
+        boolean wasReplacement = false;
+        outer:
+        for (Discount discount : discounts) {
+            for (CartItem cartItem : discount.getCart().getCartItems()) {
+                if (cartItem.getComic().getName().equals(comicName)
+                        && discount.getDateBegin().isBefore(LocalDate.now())
+                        && discount.getDateEnd().isAfter(LocalDate.now())) {
+                    CART.addComic(cartItem.getComic());
+                    wasReplacement = true;
+                    break outer;
+                }
+            }
+        }
+
+        if (discounts.size() > 0 && !wasReplacement) {
+            CART.addComic(comic);
+        }
+
+        setContent(CART.getCartItems(), CART.getAmount());
+        CART.clear();
     }
 
     @FXML
@@ -87,7 +129,7 @@ public class SellController {
             return;
         }
         FXMLLoader loader = new FXMLLoader();
-        loader.setLocation(getClass().getResource("/ui/resources/find_customer.fxml"));
+        loader.setLocation(getClass().getResource("/ui/find_customer.fxml"));
         try {
             loader.load();
         } catch (IOException e) {
@@ -95,7 +137,7 @@ public class SellController {
         }
 
         FindCustomerController findCustomerController = loader.getController();
-        findCustomerController.setPresenter(SELL_PRESENTER);
+        findCustomerController.setPresenter(this);
 
         Parent root = loader.getRoot();
         Stage stage = new Stage();
@@ -110,7 +152,10 @@ public class SellController {
         if (tableResult.getItems().size() == 0) {
             return;
         }
-        SELL_PRESENTER.onClickSale();
+        CART.setCartItems(tableResult.getItems());
+        List<CartItem> cartItems = new ArrayList<>(tableResult.getItems());
+        CART.setCartItems(cartItems);
+        COMIC_SERVICE.makePurchase(LocalDateTime.now(), CART);
         tableResult.getItems().clear();
         tableResult.refresh();
         labelAmount.setText("0.0");
@@ -127,9 +172,6 @@ public class SellController {
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         priceColumn.setPrefWidth(150.0);
         tableResult.getColumns().add(priceColumn);
-
-        SELL_PRESENTER.setTable(tableResult);
-        SELL_PRESENTER.setLabelAmount(labelAmount);
     }
 
     private void openWindow(String path) {
@@ -148,5 +190,33 @@ public class SellController {
         stage.setMinHeight(MIN_HEIGHT);
         stage.setMaximized(true);
         stage.show();
+    }
+
+    /**
+     * Установка контента в элементы окна
+     *
+     * @param cartItems список комиксов
+     * @param amount    сумма
+     */
+    public void setContent(List<CartItem> cartItems, double amount) {
+        tableResult.setItems(FXCollections.observableArrayList(cartItems));
+        tableResult.refresh();
+        labelAmount.setText(String.valueOf(amount));
+    }
+
+    /**
+     * При нажатии на кнопку "Резерв"
+     *
+     * @param customerName имя клиента
+     */
+    public void onClickReserve(String customerName) {
+        CART.setCartItems(tableResult.getItems());
+        Cart cartWithReserves = COMIC_SERVICE.getCustomersReservedComics(customerName);
+        for (CartItem cartItem : cartWithReserves.getCartItems()) {
+            CART.addItem(cartItem);
+        }
+        setContent(CART.getCartItems(), CART.getAmount());
+        cartWithReserves.clear();
+        CART.clear();
     }
 }

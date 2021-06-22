@@ -9,7 +9,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import presenters.AdditionPresenter;
+import services.ComicService;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -18,6 +18,8 @@ public class AddController {
 
     private final int MIN_WIDTH = 700;
     private final int MIN_HEIGHT = 500;
+
+    private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
 
     @FXML
     private TextField textFieldName;
@@ -48,42 +50,42 @@ public class AddController {
 
     @FXML
     void onClickEdit() {
-        openWindow("/ui/resources/find_comic.fxml");
+        openWindow("/ui/find_comic.fxml");
     }
 
     @FXML
     void onClickDelete() {
-        openWindow("/ui/resources/delete.fxml");
+        openWindow("/ui/delete.fxml");
     }
 
     @FXML
     void onClickSell() {
-        openWindow("/ui/resources/sell.fxml");
+        openWindow("/ui/sell.fxml");
     }
 
     @FXML
     void onClickWriteOff() {
-        openWindow("/ui/resources/write_off.fxml");
+        openWindow("/ui/write_off.fxml");
     }
 
     @FXML
     void onClickReserve() {
-        openWindow("/ui/resources/reservation.fxml");
+        openWindow("/ui/reservation.fxml");
     }
 
     @FXML
     void onClickDiscounts() {
-        openWindow("/ui/resources/discounts.fxml");
+        openWindow("/ui/discounts.fxml");
     }
 
     @FXML
     void onClickSearch() {
-        openWindow("/ui/resources/main.fxml");
+        openWindow("/ui/main.fxml");
     }
 
     @FXML
     void onClickReports() {
-        openWindow("/ui/resources/report.fxml");
+        openWindow("/ui/report.fxml");
     }
 
     @FXML
@@ -99,7 +101,7 @@ public class AddController {
                 return;
             }
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            loader.setLocation(getClass().getResource("/ui/message.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
@@ -131,7 +133,7 @@ public class AddController {
                 return;
             }
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            loader.setLocation(getClass().getResource("/ui/message.fxml"));
             try {
                 loader.load();
             } catch (IOException ioException) {
@@ -150,8 +152,6 @@ public class AddController {
             return;
         }
 
-        AdditionPresenter additionPresenter = AdditionPresenter.INSTANCE;
-
         String[] elementsOfComic = elementsOfComic(
                 textFieldName.getText().trim(),
                 textFieldAuthor.getText().trim(),
@@ -164,9 +164,9 @@ public class AddController {
                 checkBoxIsContinue.isSelected(),
                 LocalDateTime.now());
 
-        additionPresenter.onClickAdd(elementsOfComic);
+        COMIC_SERVICE.addComic(elementsOfComic);
 
-        openWindow("/ui/resources/main.fxml");
+        openWindow("/ui/main.fxml");
     }
 
     private String[] elementsOfComic(String textFieldNameComic,

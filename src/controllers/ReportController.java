@@ -13,7 +13,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import presenters.ReportPresenter;
+import services.ReportService;
 
 import java.io.IOException;
 
@@ -21,6 +21,8 @@ public class ReportController {
 
     private final int MIN_WIDTH = 700;
     private final int MIN_HEIGHT = 500;
+
+    private final ReportService REPORT_SERVICE = ReportService.INSTANCE;
 
     @FXML
     private ChoiceBox<String> choiceBoxType;
@@ -36,42 +38,42 @@ public class ReportController {
 
     @FXML
     void onClickAdd() {
-        openWindow("/ui/resources/add.fxml");
+        openWindow("/ui/add.fxml");
     }
 
     @FXML
     void onClickEdit() {
-        openWindow("/ui/resources/find_comic.fxml");
+        openWindow("/ui/find_comic.fxml");
     }
 
     @FXML
     void onClickDelete() {
-        openWindow("/ui/resources/delete.fxml");
+        openWindow("/ui/delete.fxml");
     }
 
     @FXML
     void onClickSell() {
-        openWindow("/ui/resources/sell.fxml");
+        openWindow("/ui/sell.fxml");
     }
 
     @FXML
     void onClickWriteOff() {
-        openWindow("/ui/resources/write_off.fxml");
+        openWindow("/ui/write_off.fxml");
     }
 
     @FXML
     void onClickReserve() {
-        openWindow("/ui/resources/reservation.fxml");
+        openWindow("/ui/reservation.fxml");
     }
 
     @FXML
     void onClickDiscounts() {
-        openWindow("/ui/resources/discounts.fxml");
+        openWindow("/ui/discounts.fxml");
     }
 
     @FXML
     void onClickSearch() {
-        openWindow("/ui/resources/main.fxml");
+        openWindow("/ui/main.fxml");
     }
 
     @FXML
@@ -84,7 +86,7 @@ public class ReportController {
                 return;
             }
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            loader.setLocation(getClass().getResource("/ui/message.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
@@ -110,7 +112,7 @@ public class ReportController {
                 return;
             }
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            loader.setLocation(getClass().getResource("/ui/message.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
@@ -129,11 +131,16 @@ public class ReportController {
             return;
         }
 
-        ReportPresenter reportPresenter = new ReportPresenter();
-        reportPresenter.setTable(tableComics);
-        reportPresenter.setDateBeginString(dateBegin.getValue().toString());
-        reportPresenter.setDateEndString(dateEnd.getValue().toString());
-        reportPresenter.onClick(choiceBoxType.getValue());
+        switch (choiceBoxType.getValue()) {
+            case "продаваемые" -> tableComics.setItems(FXCollections.observableList(
+                    REPORT_SERVICE.getTopSold(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
+            case "новинки" -> tableComics.setItems(FXCollections.observableList(
+                    REPORT_SERVICE.getTopNew(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
+            case "топ авторов" -> tableComics.setItems(FXCollections.observableList(
+                    REPORT_SERVICE.getTopAuthor(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
+            case "топ жанров" -> tableComics.setItems(FXCollections.observableList(
+                    REPORT_SERVICE.getTopGenre(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
+        }
         tableComics.refresh();
     }
 

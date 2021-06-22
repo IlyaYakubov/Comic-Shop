@@ -8,7 +8,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.stage.Window;
-import presenters.SellPresenter;
 
 import java.io.IOException;
 
@@ -17,7 +16,7 @@ public class FindCustomerController {
     private final int MIN_WIDTH = 700;
     private final int MIN_HEIGHT = 500;
 
-    private SellPresenter sellPresenter;
+    private SellController sellController;
 
     @FXML
     private TextField editTextCustomerName;
@@ -32,7 +31,7 @@ public class FindCustomerController {
                 return;
             }
             FXMLLoader loader = new FXMLLoader();
-            loader.setLocation(getClass().getResource("/ui/resources/message.fxml"));
+            loader.setLocation(getClass().getResource("/ui/message.fxml"));
             try {
                 loader.load();
             } catch (IOException e) {
@@ -51,13 +50,13 @@ public class FindCustomerController {
             return;
         }
 
-        if (sellPresenter != null) {
-            sellPresenter.onClickReserve(editTextCustomerName.getText().trim());
+        if (sellController != null) {
+            sellController.onClickReserve(editTextCustomerName.getText().trim());
             editTextCustomerName.getScene().getWindow().hide();
         }
     }
 
-    public void setPresenter(SellPresenter sell_presenter) {
-        this.sellPresenter = sell_presenter;
+    public void setPresenter(SellController sellController) {
+        this.sellController = sellController;
     }
 }

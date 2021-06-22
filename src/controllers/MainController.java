@@ -18,6 +18,10 @@ import java.util.List;
 
 public class MainController {
 
+    private static final String BY_NAME = "по наименованию";
+    private static final String BY_AUTHOR = "по автору";
+    private static final String BY_GENRE = "по жанру";
+
     private final int MIN_WIDTH = 1000;
     private final int MIN_HEIGHT = 800;
 
@@ -79,11 +83,11 @@ public class MainController {
             tableResult.setItems(FXCollections.observableList(allComics));
         } else {
             switch (choiceBoxSearchOptions.getValue()) {
-                case "по наименованию" -> tableResult.setItems(FXCollections.observableList(
+                case BY_NAME -> tableResult.setItems(FXCollections.observableList(
                         SEARCH_SERVICE.getAllCartItems(textFieldFind.getText())));
-                case "по автору" -> tableResult.setItems(FXCollections.observableList(
+                case BY_AUTHOR -> tableResult.setItems(FXCollections.observableList(
                         SEARCH_SERVICE.getComicByAuthor(textFieldFind.getText())));
-                case "по жанру" -> tableResult.setItems(FXCollections.observableList(
+                case BY_GENRE -> tableResult.setItems(FXCollections.observableList(
                         SEARCH_SERVICE.getComicByGenre(textFieldFind.getText())));
                 default -> refreshTable();
             }

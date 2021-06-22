@@ -19,6 +19,11 @@ import java.io.IOException;
 
 public class ReportController {
 
+    private static final String FOR_SALE = "продаваемые";
+    private static final String NEW_COMICS = "новинки";
+    private static final String TOP_AUTHORS = "топ авторов";
+    private static final String TOP_GENRES = "топ жанров";
+
     private final int MIN_WIDTH = 700;
     private final int MIN_HEIGHT = 500;
 
@@ -132,13 +137,13 @@ public class ReportController {
         }
 
         switch (choiceBoxType.getValue()) {
-            case "продаваемые" -> tableComics.setItems(FXCollections.observableList(
+            case FOR_SALE -> tableComics.setItems(FXCollections.observableList(
                     REPORT_SERVICE.getTopSold(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
-            case "новинки" -> tableComics.setItems(FXCollections.observableList(
+            case NEW_COMICS -> tableComics.setItems(FXCollections.observableList(
                     REPORT_SERVICE.getTopNew(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
-            case "топ авторов" -> tableComics.setItems(FXCollections.observableList(
+            case TOP_AUTHORS -> tableComics.setItems(FXCollections.observableList(
                     REPORT_SERVICE.getTopAuthor(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
-            case "топ жанров" -> tableComics.setItems(FXCollections.observableList(
+            case TOP_GENRES -> tableComics.setItems(FXCollections.observableList(
                     REPORT_SERVICE.getTopGenre(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
         }
         tableComics.refresh();
@@ -151,8 +156,8 @@ public class ReportController {
         nameColumn.setPrefWidth(350.0);
         tableComics.getColumns().add(nameColumn);
 
-        choiceBoxType.setItems(FXCollections.observableArrayList("продаваемые", "новинки", "топ авторов", "топ жанров"));
-        choiceBoxType.setValue("продаваемые");
+        choiceBoxType.setItems(FXCollections.observableArrayList(FOR_SALE, NEW_COMICS, TOP_AUTHORS, TOP_GENRES));
+        choiceBoxType.setValue(FOR_SALE);
     }
 
     private void openWindow(String path) {

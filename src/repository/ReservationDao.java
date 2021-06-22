@@ -3,7 +3,7 @@ package repository;
 /**
  * Работа с файлом
  */
-public class ReservationDao extends ComicsDao implements IFileDao {
+public class ReservationDao extends FileDao implements IFileDao {
 
     public static ReservationDao INSTANCE = new ReservationDao("reservations.txt");
 

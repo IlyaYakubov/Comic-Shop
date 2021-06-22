@@ -34,7 +34,7 @@ public class ComicService {
     private static final String DELIMITER = ";";
 
     public static ComicService INSTANCE = new ComicService();
-    private final ComicsDao COMIC_DAO = ComicsDao.INSTANCE;
+    private final FileDao COMIC_DAO = FileDao.INSTANCE;
     private final SellDao SELL_DAO = SellDao.INSTANCE;
     private final WriteOffDao WRITE_OFF_DAO = WriteOffDao.INSTANCE;
     private final ReservationDao RESERVATION_DAO = ReservationDao.INSTANCE;

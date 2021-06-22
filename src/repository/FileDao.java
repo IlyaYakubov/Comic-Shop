@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 /**
  * Работа с файлом
  */
-public class ComicsDao implements IFileDao {
+public class FileDao implements IFileDao {
 
-    public static ComicsDao INSTANCE = new ComicsDao("comics.txt");
+    public static FileDao INSTANCE = new FileDao("comics.txt");
     private final String FILE_NAME;
 
-    protected ComicsDao(String fileName) {
+    protected FileDao(String fileName) {
         FILE_NAME = fileName;
     }
 

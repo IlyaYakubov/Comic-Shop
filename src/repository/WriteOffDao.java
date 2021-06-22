@@ -3,7 +3,7 @@ package repository;
 /**
  * Работа с файлом
  */
-public class WriteOffDao extends ComicsDao implements IFileDao {
+public class WriteOffDao extends FileDao implements IFileDao {
 
     public static WriteOffDao INSTANCE = new WriteOffDao("offs.txt");
 

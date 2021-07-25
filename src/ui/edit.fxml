@@ -1,0 +1,307 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.29797979797979796" minWidth="500.0"
+           prefHeight="800.0"
+           prefWidth="1100.0" xmlns="http://javafx.com/javafx/11"
+           fx:controller="controllers.EditController">
+    <AnchorPane maxWidth="310.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="100.0">
+        <VBox prefHeight="798.0" prefWidth="324.0" style="-fx-background-color: #006644;" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Button mnemonicParsing="false" onAction="#onClickAdd" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Добавление">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickEdit" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Редактирование">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickDelete" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Удаление">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickSell" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Продажа">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickWriteOff" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Списание">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickReserve" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Резервирование">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickDiscounts" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Акции">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickSearch" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Поиск">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickReports" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Отчеты">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+        </VBox>
+    </AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+        <AnchorPane prefHeight="78.0" prefWidth="782.0" style="-fx-background-color: #99AA22;"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="782.0" AnchorPane.bottomAnchor="0.0"
+                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <Label text="Редактирование">
+                    <font>
+                        <Font name="Book Antiqua" size="48.0"/>
+                    </font>
+                </Label>
+            </HBox>
+        </AnchorPane>
+        <AnchorPane layoutY="77.0" prefHeight="721.0" prefWidth="782.0" AnchorPane.bottomAnchor="0.0"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="77.0">
+            <VBox style="-fx-background-color: #ffffff;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+                  AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="768.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <Label prefWidth="300.0" text="Наименование">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="30.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="editTextName" prefHeight="25.0" prefWidth="400.0">
+                        <HBox.margin>
+                            <Insets bottom="5.0" right="20.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </TextField>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="768.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <Label prefWidth="300.0" text="Количество страниц">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="30.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="editTextNumberOfPages" prefHeight="25.0" prefWidth="400.0">
+                        <HBox.margin>
+                            <Insets bottom="5.0" right="20.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </TextField>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="768.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <Label prefWidth="300.0" text="Год издания">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="30.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="editTextYear" prefHeight="25.0" prefWidth="400.0">
+                        <HBox.margin>
+                            <Insets bottom="5.0" right="20.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </TextField>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="768.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <Label prefWidth="300.0" text="ФИО художника / автора">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="30.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="editTextAuthor" prefHeight="25.0" prefWidth="400.0">
+                        <HBox.margin>
+                            <Insets bottom="5.0" right="20.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </TextField>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="768.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <Label prefWidth="300.0" text="Издательство">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="30.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="editTextPublishing" prefHeight="25.0" prefWidth="400.0">
+                        <HBox.margin>
+                            <Insets bottom="5.0" right="20.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </TextField>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="768.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <Label prefWidth="300.0" text="Жанр">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="30.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="editTextGenre" prefHeight="25.0" prefWidth="400.0">
+                        <HBox.margin>
+                            <Insets bottom="5.0" right="20.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </TextField>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="768.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <Label prefWidth="300.0" text="Себестоимость">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="30.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="editTextCostPrice" prefHeight="25.0" prefWidth="400.0">
+                        <HBox.margin>
+                            <Insets bottom="5.0" right="20.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </TextField>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="768.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <Label prefWidth="300.0" text="Цена продажи">
+                        <HBox.margin>
+                            <Insets bottom="5.0" left="30.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                    </Label>
+                    <TextField fx:id="editTextSellPrice" prefHeight="25.0" prefWidth="400.0">
+                        <HBox.margin>
+                            <Insets bottom="5.0" right="20.0" top="5.0"/>
+                        </HBox.margin>
+                        <font>
+                            <Font size="18.0"/>
+                        </font>
+                    </TextField>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="768.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <CheckBox fx:id="checkBoxIsContinue" mnemonicParsing="false"
+                              text="Комикс является продолжением серии комиксов">
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                        <HBox.margin>
+                            <Insets bottom="10.0" left="70.0" right="10.0" top="10.0"/>
+                        </HBox.margin>
+                    </CheckBox>
+                </HBox>
+                <Button mnemonicParsing="false" onAction="#onClickOk" prefHeight="47.0" prefWidth="349.0"
+                        style="-fx-background-color: #ffffff; -fx-border-style: solid;" text="Завершить редактирование">
+                    <font>
+                        <Font name="Book Antiqua" size="24.0"/>
+                    </font>
+                    <VBox.margin>
+                        <Insets bottom="10.0" left="50.0" right="10.0" top="20.0"/>
+                    </VBox.margin>
+                </Button>
+            </VBox>
+        </AnchorPane>
+    </AnchorPane>
+</SplitPane>

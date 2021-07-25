@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.collections.FXCollections?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import java.lang.String?>
+<SplitPane xmlns:fx="http://javafx.com/fxml/1" dividerPositions="0.29797979797979796" minWidth="500.0"
+           prefHeight="800.0"
+           prefWidth="1100.0" xmlns="http://javafx.com/javafx/11"
+           fx:controller="controllers.ReportController">
+    <AnchorPane maxWidth="310.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="100.0">
+        <VBox prefHeight="798.0" prefWidth="324.0" style="-fx-background-color: #006644;" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Button mnemonicParsing="false" onAction="#onClickAdd" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Добавление">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickEdit" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Редактирование">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickDelete" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Удаление">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickSell" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Продажа">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickWriteOff" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Списание">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickReserve" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Резервирование">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickDiscounts" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Акции">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onAction="#onClickSearch" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFDD;" text="Поиск">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: #FFFFDD;"
+                    text="Отчеты">
+                <font>
+                    <Font name="Book Antiqua" size="24.0"/>
+                </font>
+                <VBox.margin>
+                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                </VBox.margin>
+            </Button>
+        </VBox>
+    </AnchorPane>
+    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0"
+                style="-fx-background-color: #99AA22;">
+        <VBox prefHeight="798.0" prefWidth="782.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="780.0">
+                <Label text="Отчет">
+                    <font>
+                        <Font name="Book Antiqua" size="48.0"/>
+                    </font>
+                </Label>
+            </HBox>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+                <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0">
+                    <Label text="Период с начала">
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                        <HBox.margin>
+                            <Insets left="10.0" right="20.0"/>
+                        </HBox.margin>
+                    </Label>
+                    <DatePicker fx:id="dateBegin" prefHeight="50.0" prefWidth="200.0">
+                        <HBox.margin>
+                            <Insets right="20.0"/>
+                        </HBox.margin>
+                    </DatePicker>
+                    <Label text="по">
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                        <HBox.margin>
+                            <Insets right="20.0"/>
+                        </HBox.margin>
+                    </Label>
+                    <DatePicker fx:id="dateEnd" prefHeight="50.0" prefWidth="200.0"/>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" prefHeight="97.0" prefWidth="782.0">
+                    <padding>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </padding>
+                    <ChoiceBox fx:id="choiceBoxType" prefHeight="47.0" prefWidth="207.0"
+                               style="-fx-background-color: #FFFFFF;">
+                        <items>
+                            <FXCollections fx:factory="observableArrayList">
+                                <String fx:value="по наименованию"/>
+                                <String fx:value="по автору"/>
+                                <String fx:value="по жанру"/>
+                            </FXCollections>
+                        </items>
+                        <HBox.margin>
+                            <Insets right="50.0"/>
+                        </HBox.margin>
+                    </ChoiceBox>
+                    <Button mnemonicParsing="false" onAction="#onClickOk" prefHeight="47.0" prefWidth="401.0"
+                            style="-fx-background-color: #FFFFFF;" text="Сформировать">
+                        <font>
+                            <Font name="Book Antiqua" size="24.0"/>
+                        </font>
+                        <HBox.margin>
+                            <Insets left="10.0"/>
+                        </HBox.margin>
+                    </Button>
+                </HBox>
+            </VBox>
+            <TableView fx:id="tableComics" prefHeight="798.0" prefWidth="768.0">
+            </TableView>
+        </VBox>
+    </AnchorPane>
+</SplitPane>

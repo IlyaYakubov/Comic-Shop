@@ -10,7 +10,7 @@
             prefHeight="500.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/11"
             fx:controller="controllers.MessageController">
     <AnchorPane layoutX="10.0" layoutY="10.0" minHeight="200.0" minWidth="200.0" prefHeight="199.0" prefWidth="817.0"
-                style="-fx-background-color: #99AA22;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                style="-fx-background-color: #FFFFFF;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                 AnchorPane.topAnchor="0.0">
         <HBox alignment="CENTER" prefHeight="200.0" prefWidth="817.0" AnchorPane.bottomAnchor="0.0"
               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -24,7 +24,7 @@
     <AnchorPane layoutX="10.0" layoutY="197.0" minHeight="200.0" minWidth="200.0" prefHeight="503.0" prefWidth="817.0"
                 AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                 AnchorPane.topAnchor="200.0">
-        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="817.0" style="-fx-background-color: #ffffff;"
+        <VBox alignment="CENTER" prefHeight="400.0" prefWidth="817.0" style="-fx-background-color: #FFFFFF;"
               AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
               AnchorPane.topAnchor="0.0">
             <HBox alignment="CENTER" prefHeight="48.0" prefWidth="600.0">

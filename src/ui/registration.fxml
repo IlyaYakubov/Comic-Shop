@@ -6,7 +6,7 @@
 <?import javafx.scene.text.*?>
 <AnchorPane xmlns:fx="http://javafx.com/fxml/1" prefHeight="679.0" prefWidth="1095.0"
             xmlns="http://javafx.com/javafx/11" fx:controller="controllers.RegistrationController">
-    <AnchorPane prefHeight="200.0" prefWidth="1095.0" style="-fx-background-color: #99AA22;"
+    <AnchorPane prefHeight="200.0" prefWidth="1095.0" style="-fx-background-color: #FFFFFF;"
                 AnchorPane.bottomAnchor="479.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
                 AnchorPane.topAnchor="0.0">
         <HBox alignment="CENTER" prefHeight="200.0" prefWidth="1095.0" AnchorPane.bottomAnchor="0.0"

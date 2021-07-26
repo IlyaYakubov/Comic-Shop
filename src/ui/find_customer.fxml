@@ -7,7 +7,7 @@
 <SplitPane xmlns:fx="http://javafx.com/fxml/1" minWidth="500.0" prefHeight="600.0" prefWidth="800.0"
            xmlns="http://javafx.com/javafx/11" fx:controller="controllers.FindCustomerController">
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0"
-                style="-fx-background-color: #99AA22;">
+                style="-fx-background-color: #FFFFFF;">
         <VBox prefHeight="798.0" prefWidth="782.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <HBox alignment="CENTER" prefHeight="202.0" prefWidth="782.0">

@@ -11,10 +11,10 @@
            prefWidth="1100.0" xmlns="http://javafx.com/javafx/11"
            fx:controller="controllers.ReportController">
     <AnchorPane maxWidth="310.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="100.0">
-        <VBox prefHeight="798.0" prefWidth="324.0" style="-fx-background-color: #006644;" AnchorPane.bottomAnchor="0.0"
+        <VBox prefHeight="798.0" prefWidth="324.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0"
               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Button mnemonicParsing="false" onAction="#onClickAdd" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Добавление">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Добавление">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -23,7 +23,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickEdit" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Редактирование">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Редактирование">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -32,7 +32,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickDelete" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Удаление">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Удаление">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -41,7 +41,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickSell" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Продажа">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Продажа">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -50,7 +50,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickWriteOff" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Списание">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Списание">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -59,7 +59,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickReserve" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Резервирование">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Резервирование">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -68,7 +68,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickDiscounts" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Акции">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Акции">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -77,7 +77,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickSearch" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Поиск">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Поиск">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -85,8 +85,8 @@
                     <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                 </VBox.margin>
             </Button>
-            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0" style="-fx-background-color: #FFFFDD;"
-                    text="Отчеты">
+            <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0"
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Отчеты">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -97,7 +97,7 @@
         </VBox>
     </AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0"
-                style="-fx-background-color: #99AA22;">
+                style="-fx-background-color: #FFFFFF;">
         <VBox prefHeight="798.0" prefWidth="782.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="780.0">
@@ -117,7 +117,8 @@
                             <Insets left="10.0" right="20.0"/>
                         </HBox.margin>
                     </Label>
-                    <DatePicker fx:id="dateBegin" prefHeight="50.0" prefWidth="200.0">
+                    <DatePicker fx:id="dateBegin" style="-fx-background-color: #FFFFFF; -fx-border-style: solid; -fx-font-size: 18px"
+                                prefHeight="50.0" prefWidth="200.0">
                         <HBox.margin>
                             <Insets right="20.0"/>
                         </HBox.margin>
@@ -130,14 +131,15 @@
                             <Insets right="20.0"/>
                         </HBox.margin>
                     </Label>
-                    <DatePicker fx:id="dateEnd" prefHeight="50.0" prefWidth="200.0"/>
+                    <DatePicker fx:id="dateEnd" style="-fx-background-color: #FFFFFF; -fx-border-style: solid; -fx-font-size: 18px"
+                                prefHeight="50.0" prefWidth="200.0"/>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" prefHeight="97.0" prefWidth="782.0">
                     <padding>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
                     </padding>
                     <ChoiceBox fx:id="choiceBoxType" prefHeight="47.0" prefWidth="207.0"
-                               style="-fx-background-color: #FFFFFF;">
+                               style="-fx-background-color: #FFFFFF; -fx-border-style: solid; -fx-font-size: 18px">
                         <items>
                             <FXCollections fx:factory="observableArrayList">
                                 <String fx:value="по наименованию"/>
@@ -150,7 +152,7 @@
                         </HBox.margin>
                     </ChoiceBox>
                     <Button mnemonicParsing="false" onAction="#onClickOk" prefHeight="47.0" prefWidth="401.0"
-                            style="-fx-background-color: #FFFFFF;" text="Сформировать">
+                            style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Сформировать">
                         <font>
                             <Font name="Book Antiqua" size="24.0"/>
                         </font>
@@ -160,7 +162,7 @@
                     </Button>
                 </HBox>
             </VBox>
-            <TableView fx:id="tableComics" prefHeight="798.0" prefWidth="768.0">
+            <TableView fx:id="tableComics" style="-fx-font-size: 18px" prefHeight="798.0" prefWidth="768.0">
             </TableView>
         </VBox>
     </AnchorPane>

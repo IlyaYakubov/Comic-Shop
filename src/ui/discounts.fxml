@@ -9,10 +9,10 @@
            prefWidth="1100.0" xmlns="http://javafx.com/javafx/11"
            fx:controller="controllers.DiscountsController">
     <AnchorPane maxWidth="310.0" minHeight="0.0" minWidth="300.0" prefHeight="160.0" prefWidth="100.0">
-        <VBox prefHeight="798.0" prefWidth="324.0" style="-fx-background-color: #006644;" AnchorPane.bottomAnchor="0.0"
+        <VBox prefHeight="798.0" prefWidth="324.0" style="-fx-background-color: #FFFFFF;" AnchorPane.bottomAnchor="0.0"
               AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Button mnemonicParsing="false" onAction="#onClickAdd" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Добавление">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Добавление">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -21,7 +21,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickEdit" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Редактирование">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Редактирование">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -30,7 +30,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickDelete" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Удаление">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Удаление">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -39,7 +39,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickSell" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Продажа">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Продажа">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -48,7 +48,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickWriteOff" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Списание">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Списание">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -57,7 +57,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickReserve" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Резервирование">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Резервирование">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -66,7 +66,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Акции">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Акции">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -75,7 +75,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickSearch" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Поиск">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Поиск">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -84,7 +84,7 @@
                 </VBox.margin>
             </Button>
             <Button mnemonicParsing="false" onAction="#onClickReports" prefHeight="50.0" prefWidth="300.0"
-                    style="-fx-background-color: #FFFFDD;" text="Отчеты">
+                    style="-fx-background-color: #FFFFFF; -fx-border-style: solid;" text="Отчеты">
                 <font>
                     <Font name="Book Antiqua" size="24.0"/>
                 </font>
@@ -95,7 +95,7 @@
         </VBox>
     </AnchorPane>
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0"
-                style="-fx-background-color: #99AA22;">
+                style="-fx-background-color: #FFFFFF;">
         <VBox prefHeight="798.0" prefWidth="782.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
               AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <HBox alignment="CENTER" prefHeight="100.0" prefWidth="780.0">
@@ -116,7 +116,7 @@
                     </font>
                 </Button>
             </HBox>
-            <TableView fx:id="tableComics" prefHeight="725.0" prefWidth="782.0">
+            <TableView fx:id="tableComics" style="-fx-font-size: 18px" prefHeight="725.0" prefWidth="782.0">
             </TableView>
         </VBox>
     </AnchorPane>

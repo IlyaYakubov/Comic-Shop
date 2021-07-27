@@ -1,3 +1,5 @@
+Скачать и запустить приложение можно по ссылке: https://drive.google.com/file/d/13ERNhWTWAzM6iaqCsVBpdpGsmbuZ34ZJ/view?usp=sharing
+
 0. Скачать библиотеку Java FX (https://gluonhq.com/products/javafx/)
    <hr>
 1. Копировать путь в буфер обмена:

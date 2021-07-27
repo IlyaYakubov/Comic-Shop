@@ -194,6 +194,7 @@ public class DiscountController {
         stage.setScene(new Scene(root));
         stage.setMinWidth(MIN_WIDTH);
         stage.setMinHeight(MIN_HEIGHT);
+        stage.setMaximized(true);
         stage.show();
     }
 

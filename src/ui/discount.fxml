@@ -117,7 +117,7 @@
                         <Font name="Book Antiqua" size="24.0"/>
                     </font>
                 </Label>
-                <DatePicker fx:id="dataPickerBegin"/>
+                <DatePicker fx:id="dataPickerBegin" style="-fx-background-color: #FFFFFF; -fx-border-style: solid; -fx-font-size: 18px"/>
                 <Label prefHeight="31.0" prefWidth="132.0" text="Окончание">
                     <HBox.margin>
                         <Insets left="50.0" right="10.0"/>
@@ -126,7 +126,7 @@
                         <Font name="Book Antiqua" size="24.0"/>
                     </font>
                 </Label>
-                <DatePicker fx:id="dataPickerEnd"/>
+                <DatePicker fx:id="dataPickerEnd" style="-fx-background-color: #FFFFFF; -fx-border-style: solid; -fx-font-size: 18px"/>
             </HBox>
             <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="768.0">
                 <padding>

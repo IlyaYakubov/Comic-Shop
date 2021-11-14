@@ -75,8 +75,7 @@ public class ComicService {
      * @param comic элементы комикса
      */
     public void addComic(String[] comic) {
-        Comic newComic = formComicFromElements(comic);
-        COMICS.add(newComic);
+        COMICS.add(formComicFromElements(comic));
         DOMAIN_DAO.setFileDao(COMIC_DAO);
         DOMAIN_DAO.saveToFile(formComicForFile(comic));
         comicsInFile = DOMAIN_DAO.readFromFile();
@@ -94,18 +93,22 @@ public class ComicService {
      */
     public void editComic(String[] newComicElements) {
         if (COMICS.size() > 0) {
-            List<String> newComicsForFile = new ArrayList<>();
-            for (String elementsOfComic : comicsInFile) {
-                String[] arrayOfElements = elementsOfComic.split(DELIMITER);
-                if (newComicElements[NAME].equals(arrayOfElements[NAME])) {
-                    newComicsForFile.add(formComicForFile(newComicElements));
-                    continue;
-                }
-                newComicsForFile.add(elementsOfComic);
-            }
-            comicsInFile = newComicsForFile;
-            updateComicInShop();
+            updateComic(newComicElements);
         }
+    }
+
+    private void updateComic(String[] newComicElements) {
+        List<String> newComicsForFile = new ArrayList<>();
+        for (String elementsOfComic : comicsInFile) {
+            String[] arrayOfElements = elementsOfComic.split(DELIMITER);
+            if (newComicElements[NAME].equals(arrayOfElements[NAME])) {
+                newComicsForFile.add(formComicForFile(newComicElements));
+                continue;
+            }
+            newComicsForFile.add(elementsOfComic);
+        }
+        comicsInFile = newComicsForFile;
+        updateComicInShop();
     }
 
     /**
@@ -121,19 +124,23 @@ public class ComicService {
      */
     public void deleteComic(String comicName) {
         if (COMICS.size() > 0) {
-            List<String> newComicsForFile = new ArrayList<>();
-            boolean wasAPass = false;
-            for (String elementsOfComic : comicsInFile) {
-                String[] arrayOfElements = elementsOfComic.split(DELIMITER);
-                if (comicName.equals(arrayOfElements[NAME]) && !wasAPass) {
-                    wasAPass = true;
-                    continue;
-                }
-                newComicsForFile.add(elementsOfComic);
-            }
-            comicsInFile = newComicsForFile;
-            updateComicInShop();
+            deleteComicFromFile(comicName);
         }
+    }
+
+    private void deleteComicFromFile(String comicName) {
+        List<String> newComicsForFile = new ArrayList<>();
+        boolean wasAPass = false;
+        for (String elementsOfComic : comicsInFile) {
+            String[] arrayOfElements = elementsOfComic.split(DELIMITER);
+            if (comicName.equals(arrayOfElements[NAME]) && !wasAPass) {
+                wasAPass = true;
+                continue;
+            }
+            newComicsForFile.add(elementsOfComic);
+        }
+        comicsInFile = newComicsForFile;
+        updateComicInShop();
     }
 
     /**
@@ -162,7 +169,7 @@ public class ComicService {
     public void writeOffComics(Cart cart) {
         // предварительная проверка: если есть списываемые комиксы в резерве, отменить списание
         // также если списывается больше чем есть в магазине
-        if (reserveCheck(cart)) {
+        if (reserveCheckIsFailed(cart)) {
             return;
         }
         deleteComicsFromFile(cart);
@@ -226,12 +233,12 @@ public class ComicService {
      * @param dateEnd   дата окончания
      * @param cart      корзина с комиксами
      */
-    public void saveDiscounts(LocalDateTime dateTime,
-                              String name,
-                              LocalDate dateBegin,
-                              LocalDate dateEnd,
-                              Cart cart,
-                              int percent) {
+    public void saveDiscount(LocalDateTime dateTime,
+                             String name,
+                             LocalDate dateBegin,
+                             LocalDate dateEnd,
+                             Cart cart,
+                             int percent) {
         Discount discount = new Discount(name, dateTime, dateBegin, dateEnd, cart);
         discount.getCart().setCartItems(cart.getCartItems());
         discount.calculateDiscounts(percent);
@@ -245,8 +252,7 @@ public class ComicService {
 
     private void createComicsFromFile() {
         for (String comicElements : comicsInFile) {
-            Comic comic = formComicFromElements(comicElements);
-            COMICS.add(comic);
+            COMICS.add(formComicFromElements(comicElements));
         }
     }
 
@@ -267,57 +273,20 @@ public class ComicService {
         }
         Map<String, List<CartItem>> comics = new HashMap<>();
         for (String comicElements : comicsAsElements) {
-            String[] elementsOfComic = comicElements.split(DELIMITER);
-            String dateOfCreation = elementsOfComic[DATE_OF_CREATION];
-            List<CartItem> cartItems;
-            if (comics.containsKey(dateOfCreation)) {
-                cartItems = comics.get(dateOfCreation);
-            } else {
-                cartItems = new ArrayList<>();
-                comics.put(dateOfCreation, cartItems);
-            }
-            cartItems.add(new CartItem(formComicFromElements(comicElements), Double.parseDouble(elementsOfComic[PRICE]), elementsOfComic[NAME]));
+            formAndPlaceInCart(comics, comicElements);
         }
         for (Map.Entry<String, List<CartItem>> cartItems : comics.entrySet()) {
-            Cart cart = new Cart();
-            cart.setCartItems(cartItems.getValue());
-            if (isSales) {
-                SALES.add(new Sale(LocalDateTime.parse(cartItems.getKey()), cart));
-            } else {
-                RESERVATIONS.add(new Reservation(new Customer(cartItems.getKey()), cart));
-            }
+            addInCollectionSalesOrReservations(isSales, cartItems);
         }
     }
 
-    private void createDiscountsFromDiscountsFile() {
-        Map<String, List<String>> comicsWithDates = new HashMap<>();
-        for (String comicElements : DISCOUNTS_IN_FILE) {
-            String[] elementsOfComic = comicElements.split(DELIMITER);
-            String dateOfCreation = elementsOfComic[DATE_OF_CREATION];
-            List<String> comics;
-            if (comicsWithDates.containsKey(dateOfCreation)) {
-                comics = comicsWithDates.get(dateOfCreation);
-            } else {
-                comics = new ArrayList<>();
-                comicsWithDates.put(dateOfCreation, comics);
-            }
-            comics.add(comicElements);
-        }
-
-        for (Map.Entry<String, List<String>> entry : comicsWithDates.entrySet()) {
-            Cart cart = new Cart();
-            for (String discountComics : entry.getValue()) {
-                String[] elementsOfComic = discountComics.split(DELIMITER);
-                cart.addItem(new CartItem(formComicFromElements(elementsOfComic), Double.parseDouble(elementsOfComic[PRICE]), elementsOfComic[NAME]));
-            }
-            String[] elementsOfComic = entry.getValue().get(0).split(DELIMITER);
-            Discount discount = new Discount(
-                    elementsOfComic[NAME_OF_DISCOUNTS],
-                    LocalDateTime.parse(entry.getKey()),
-                    LocalDate.parse(elementsOfComic[DATE_BEGIN]),
-                    LocalDate.parse(elementsOfComic[DATE_END]),
-                    cart);
-            DISCOUNTS.add(discount);
+    private void addInCollectionSalesOrReservations(boolean isSales, Map.Entry<String, List<CartItem>> cartItems) {
+        Cart cart = new Cart();
+        cart.setCartItems(cartItems.getValue());
+        if (isSales) {
+            SALES.add(new Sale(LocalDateTime.parse(cartItems.getKey()), cart));
+        } else {
+            RESERVATIONS.add(new Reservation(new Customer(cartItems.getKey()), cart));
         }
     }
 
@@ -329,6 +298,52 @@ public class ComicService {
             DOMAIN_DAO.saveToFile(comicElements);
             COMICS.add(formComicFromElements(comicElements));
         }
+    }
+
+    private void deleteComicsFromFile(Cart cart) {
+        for (CartItem cartItem : cart.getCartItems()) {
+            deleteComic(cartItem.getComic().getName());
+        }
+    }
+
+    private void createDiscountsFromDiscountsFile() {
+        Map<String, List<String>> comicsWithDates = new HashMap<>();
+        for (String comicElements : DISCOUNTS_IN_FILE) {
+            formDiscounts(comicsWithDates, comicElements);
+        }
+
+        for (Map.Entry<String, List<String>> discounts : comicsWithDates.entrySet()) {
+            addDiscountsInCollections(discounts);
+        }
+    }
+
+    private void formDiscounts(Map<String, List<String>> comicsWithDates, String comicElements) {
+        String[] elementsOfComic = comicElements.split(DELIMITER);
+        String dateOfCreation = elementsOfComic[DATE_OF_CREATION];
+        List<String> comics;
+        if (comicsWithDates.containsKey(dateOfCreation)) {
+            comics = comicsWithDates.get(dateOfCreation);
+        } else {
+            comics = new ArrayList<>();
+            comicsWithDates.put(dateOfCreation, comics);
+        }
+        comics.add(comicElements);
+    }
+
+    private void addDiscountsInCollections(Map.Entry<String, List<String>> discounts) {
+        Cart cart = new Cart();
+        for (String discountComics : discounts.getValue()) {
+            String[] elementsOfComic = discountComics.split(DELIMITER);
+            cart.addItem(new CartItem(formComicFromElements(elementsOfComic)
+                    , Double.parseDouble(elementsOfComic[PRICE]), elementsOfComic[NAME]));
+        }
+        String[] elementsOfComic = discounts.getValue().get(0).split(DELIMITER);
+        DISCOUNTS.add(new Discount(
+                elementsOfComic[NAME_OF_DISCOUNTS],
+                LocalDateTime.parse(discounts.getKey()),
+                LocalDate.parse(elementsOfComic[DATE_BEGIN]),
+                LocalDate.parse(elementsOfComic[DATE_END]),
+                cart));
     }
 
     private Comic formComicFromElements(String comicElements) {
@@ -366,49 +381,6 @@ public class ComicService {
                 cartItem.getComic().isContinuation() + DELIMITER; // является продолжением
     }
 
-    private void deleteComicsFromFile(Cart cart) {
-        for (CartItem cartItem : cart.getCartItems()) {
-            deleteComic(cartItem.getComic().getName());
-        }
-    }
-
-    private boolean reserveCheck(Cart cart) {
-        Collections.sort(cart.getCartItems());
-
-        Map<String, List<CartItem>> structureOfWriteOff = new HashMap<>();
-        for (CartItem cartItem : cart.getCartItems()) {
-            String comicName = cartItem.getName();
-            List<CartItem> cartItems;
-            if (structureOfWriteOff.containsKey(comicName)) {
-                cartItems = structureOfWriteOff.get(comicName);
-            } else {
-                cartItems = new ArrayList<>();
-                structureOfWriteOff.put(comicName, cartItems);
-            }
-            cartItems.add(cartItem);
-        }
-
-        for (Map.Entry<String, List<CartItem>> entry : structureOfWriteOff.entrySet()) {
-            int countWriteOff = entry.getValue().size();
-            int countInShop = 0;
-            int countInReserve = 0;
-            for (Comic comicInShop : COMICS) {
-                if (entry.getKey().equals(comicInShop.getName())) {
-                    countInShop++;
-                }
-            }
-            for (Reservation reservation : RESERVATIONS) {
-                if (entry.getKey().equals(reservation.getName())) {
-                    countInReserve++;
-                }
-            }
-            if (countWriteOff > (countInShop - countInReserve)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     private ReportingComic getReportingComic(String[] elementsOfComic) {
         ReportingComic reportingComic = new ReportingComic(
                 elementsOfComic[NAME], // наименование
@@ -422,5 +394,63 @@ public class ComicService {
                 Boolean.parseBoolean(elementsOfComic[IS_CONTINUE])); // является продолжением
         reportingComic.setReceiptDate(LocalDateTime.parse(elementsOfComic[DATE_OF_CREATION])); // дата
         return reportingComic;
+    }
+
+    private void formAndPlaceInCart(Map<String, List<CartItem>> comics, String comicElements) {
+        String[] elementsOfComic = comicElements.split(DELIMITER);
+        String dateOfCreation = elementsOfComic[DATE_OF_CREATION];
+        List<CartItem> cartItems;
+        if (comics.containsKey(dateOfCreation)) {
+            cartItems = comics.get(dateOfCreation);
+        } else {
+            cartItems = new ArrayList<>();
+            comics.put(dateOfCreation, cartItems);
+        }
+        cartItems.add(new CartItem(formComicFromElements(comicElements), Double.parseDouble(elementsOfComic[PRICE]), elementsOfComic[NAME]));
+    }
+
+    private void placeInCart(Map<String, List<CartItem>> comics, CartItem cartItem) {
+        String comicName = cartItem.getName();
+        List<CartItem> cartItems;
+        if (comics.containsKey(comicName)) {
+            cartItems = comics.get(comicName);
+        } else {
+            cartItems = new ArrayList<>();
+            comics.put(comicName, cartItems);
+        }
+        cartItems.add(cartItem);
+    }
+
+    private boolean reserveCheckIsFailed(Cart cart) {
+        Collections.sort(cart.getCartItems());
+
+        Map<String, List<CartItem>> comics = new HashMap<>();
+        for (CartItem cartItem : cart.getCartItems()) {
+            placeInCart(comics, cartItem);
+        }
+
+        for (Map.Entry<String, List<CartItem>> cartItems : comics.entrySet()) {
+            if (isMoreWrittenOffThanReservedAndInShop(cartItems)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isMoreWrittenOffThanReservedAndInShop(Map.Entry<String, List<CartItem>> cartItems) {
+        int countWriteOff = cartItems.getValue().size();
+        int countInShop = 0;
+        int countInReserve = 0;
+        for (Comic comic : COMICS) {
+            if (cartItems.getKey().equals(comic.getName())) {
+                countInShop++;
+            }
+        }
+        for (Reservation reservation : RESERVATIONS) {
+            if (cartItems.getKey().equals(reservation.getName())) {
+                countInReserve++;
+            }
+        }
+        return countWriteOff > (countInShop - countInReserve);
     }
 }

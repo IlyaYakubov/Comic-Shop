@@ -173,7 +173,7 @@ public class DiscountController {
 
         Cart cart = new Cart();
         cart.setCartItems(tableComics.getItems());
-        COMIC_SERVICE.saveDiscounts(LocalDateTime.now(),
+        COMIC_SERVICE.saveDiscount(LocalDateTime.now(),
                 editTextName.getText().trim(),
                 dataPickerBegin.getValue(),
                 dataPickerEnd.getValue(),

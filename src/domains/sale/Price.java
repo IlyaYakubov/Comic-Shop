@@ -1,14 +1,14 @@
-package domains.sell;
+package domains.sale;
 
 /**
  * Цены комикса
  */
-public class ComicPrice {
+public class Price {
 
     private double costPrice;
     private double sellingPrice;
 
-    public ComicPrice(double costPrice, double sellingPrice) {
+    public Price(double costPrice, double sellingPrice) {
         this.costPrice = costPrice;
         this.sellingPrice = sellingPrice;
     }

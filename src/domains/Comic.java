@@ -1,6 +1,6 @@
 package domains;
 
-import domains.sell.ComicPrice;
+import domains.sale.Price;
 
 import java.util.Objects;
 
@@ -17,7 +17,7 @@ public class Comic {
     private Author author;
     private Publishing publishing;
     private Genre genre;
-    private ComicPrice comicPrice;
+    private Price price;
 
     public Comic(String name,
                  Author author,
@@ -35,7 +35,7 @@ public class Comic {
         this.author = author;
         this.publishing = publishing;
         this.genre = genre;
-        this.comicPrice = new ComicPrice(costPrice, sellingPrice);
+        this.price = new Price(costPrice, sellingPrice);
     }
 
     public String getName() {
@@ -94,12 +94,12 @@ public class Comic {
         this.genre = genre;
     }
 
-    public ComicPrice getComicPrice() {
-        return comicPrice;
+    public Price getComicPrice() {
+        return price;
     }
 
-    public void setComicPrice(ComicPrice comicPrice) {
-        this.comicPrice = comicPrice;
+    public void setComicPrice(Price price) {
+        this.price = price;
     }
 
     @Override
@@ -116,7 +116,7 @@ public class Comic {
         if (!Objects.equals(author, comic.author)) return false;
         if (!Objects.equals(publishing, comic.publishing)) return false;
         if (!Objects.equals(genre, comic.genre)) return false;
-        return Objects.equals(comicPrice, comic.comicPrice);
+        return Objects.equals(price, comic.price);
     }
 
     @Override
@@ -128,7 +128,7 @@ public class Comic {
         result = 31 * result + (author != null ? author.hashCode() : 0);
         result = 31 * result + (publishing != null ? publishing.hashCode() : 0);
         result = 31 * result + (genre != null ? genre.hashCode() : 0);
-        result = 31 * result + (comicPrice != null ? comicPrice.hashCode() : 0);
+        result = 31 * result + (price != null ? price.hashCode() : 0);
         return result;
     }
 }

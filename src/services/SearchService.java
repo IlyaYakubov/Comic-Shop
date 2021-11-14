@@ -1,8 +1,8 @@
 package services;
 
 import domains.Comic;
-import domains.sell.Cart;
-import domains.sell.CartItem;
+import domains.sale.Cart;
+import domains.sale.CartItem;
 
 import java.util.List;
 

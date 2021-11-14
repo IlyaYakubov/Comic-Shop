@@ -1,16 +1,16 @@
-package domains.sell;
+package domains.sale;
 
 import java.time.LocalDateTime;
 
 /**
  * Продажа
  */
-public class Sell {
+public class Sale {
 
     private LocalDateTime date;
     private Cart cart;
 
-    public Sell(LocalDateTime date, Cart cart) {
+    public Sale(LocalDateTime date, Cart cart) {
         this.date = date;
         this.cart = cart;
     }

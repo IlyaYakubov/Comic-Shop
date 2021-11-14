@@ -1,4 +1,4 @@
-package domains.sell;
+package domains.sale;
 
 import domains.Comic;
 

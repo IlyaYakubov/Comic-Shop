@@ -1,6 +1,6 @@
 package domains.reservation;
 
-import domains.sell.Cart;
+import domains.sale.Cart;
 
 /**
  * Резервирование комиксов

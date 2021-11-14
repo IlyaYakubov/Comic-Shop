@@ -1,8 +1,8 @@
 package controllers;
 
 import domains.Comic;
-import domains.sell.Cart;
-import domains.sell.CartItem;
+import domains.sale.Cart;
+import domains.sale.CartItem;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

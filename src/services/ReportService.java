@@ -2,7 +2,7 @@ package services;
 
 import domains.Comic;
 import domains.ReportingComic;
-import domains.sell.Sell;
+import domains.sale.Sale;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -33,10 +33,10 @@ public class ReportService {
         LocalDateTime dateEnd = getDateEnd(dateEndString);
 
         List<ReportingComic> comics = new ArrayList<>();
-        List<Sell> allSells = COMIC_SERVICE.getSells();
-        allSells.stream()
-                .filter(sell -> sell.getDate().isAfter(dateBegin)).filter(sell -> sell.getDate().isBefore(dateEnd))
-                .forEach(sell -> sell.getCart().getCartItems().forEach(cartItem ->
+        List<Sale> allSales = COMIC_SERVICE.getSells();
+        allSales.stream()
+                .filter(sale -> sale.getDate().isAfter(dateBegin)).filter(sale -> sale.getDate().isBefore(dateEnd))
+                .forEach(sale -> sale.getCart().getCartItems().forEach(cartItem ->
                         comics.add((ReportingComic) cartItem.getComic())));
         Map<String, Long> countCartItems = comics.stream().collect(
                 Collectors.groupingBy(Comic::getName, Collectors.counting()));

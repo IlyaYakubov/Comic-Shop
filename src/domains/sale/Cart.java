@@ -1,4 +1,4 @@
-package domains.sell;
+package domains.sale;
 
 import domains.Comic;
 
@@ -65,8 +65,8 @@ public class Cart {
      * @param comic комикс
      */
     private void add(Comic comic) {
-        ComicPrice comicPrice = comic.getComicPrice();
-        cartItems.add(new CartItem(comic, comicPrice.getSellingPrice(), comic.getName()));
+        Price price = comic.getComicPrice();
+        cartItems.add(new CartItem(comic, price.getSellingPrice(), comic.getName()));
         updateAmount();
     }
 

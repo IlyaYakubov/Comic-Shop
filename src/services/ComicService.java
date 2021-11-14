@@ -1,12 +1,11 @@
 package services;
 
 import domains.*;
-import domains.Discount;
 import domains.reservation.Customer;
 import domains.reservation.Reservation;
-import domains.sell.Cart;
-import domains.sell.CartItem;
-import domains.sell.Sell;
+import domains.sale.Cart;
+import domains.sale.CartItem;
+import domains.sale.Sale;
 import repositories.*;
 
 import java.time.LocalDate;
@@ -27,7 +26,7 @@ public class ComicService {
     private static final int COST_PRICE = 6;
     private static final int PRICE = 7;
     private static final int IS_CONTINUE = 8;
-    private static final int STRING_PARAM = 9;
+    private static final int DATE_OF_CREATION = 9;
     private static final int NAME_OF_DISCOUNTS = 10;
     private static final int DATE_BEGIN = 11;
     private static final int DATE_END = 12;
@@ -35,25 +34,25 @@ public class ComicService {
 
     public static ComicService INSTANCE = new ComicService();
     private final FileDAOImpl COMIC_DAO = FileDAOImpl.INSTANCE;
-    private final SellDAO SELL_DAO = SellDAO.INSTANCE;
+    private final SaleDAO SALE_DAO = SaleDAO.INSTANCE;
     private final WriteOffDAO WRITE_OFF_DAO = WriteOffDAO.INSTANCE;
     private final ReservationDAO RESERVATION_DAO = ReservationDAO.INSTANCE;
-    private final DiscountDAO DISCOUNT = DiscountDAO.INSTANCE;
+    private final DiscountDAO DISCOUNT_DAO = DiscountDAO.INSTANCE;
 
     private final DomainsClientDAO DOMAIN_DAO = new DomainsClientDAO();
 
     private final List<Comic> COMICS = new ArrayList<>();
-    private final List<Sell> SELLS = new ArrayList<>();
+    private final List<Sale> SALES = new ArrayList<>();
     private final List<Reservation> RESERVATIONS = new ArrayList<>();
     private final List<Discount> DISCOUNTS = new ArrayList<>();
-    private final List<String> SELLS_IN_FILE = SELL_DAO.readFromFile();
+    private final List<String> SALES_ON_FILE = SALE_DAO.readFromFile();
     private final List<String> RESERVATIONS_IN_FILE = RESERVATION_DAO.readFromFile();
-    private final List<String> DISCOUNTS_IN_FILE = DISCOUNT.readFromFile();
+    private final List<String> DISCOUNTS_IN_FILE = DISCOUNT_DAO.readFromFile();
     private List<String> comicsInFile = COMIC_DAO.readFromFile();
 
     private ComicService() {
         createComicsFromFile();
-        createComicsFromSoldFile();
+        createComicsFromSalesFile();
         createComicsFromReservationsFile();
         createDiscountsFromDiscountsFile();
     }
@@ -62,8 +61,8 @@ public class ComicService {
         return COMICS;
     }
 
-    public List<Sell> getSells() {
-        return SELLS;
+    public List<Sale> getSells() {
+        return SALES;
     }
 
     public List<Discount> getDiscounts() {
@@ -146,13 +145,13 @@ public class ComicService {
      */
     public void makePurchase(LocalDateTime date, Cart cart) {
         deleteComicsFromFile(cart);
-        Sell sell = new Sell(date, cart);
+        Sale sale = new Sale(date, cart);
         for (CartItem cartItem : cart.getCartItems()) {
-            DOMAIN_DAO.setFileDao(SELL_DAO);
-            DOMAIN_DAO.saveToFile(formComicForFile(cartItem) + LocalDateTime.now());
+            DOMAIN_DAO.setFileDao(SALE_DAO);
+            DOMAIN_DAO.saveToFile(reformattingComicForSalesFile(cartItem) + LocalDateTime.now());
         }
-        sell.makePurchase();
-        SELLS.add(sell);
+        sale.makePurchase();
+        SALES.add(sale);
     }
 
     /**
@@ -169,7 +168,7 @@ public class ComicService {
         deleteComicsFromFile(cart);
         for (CartItem cartItem : cart.getCartItems()) {
             DOMAIN_DAO.setFileDao(WRITE_OFF_DAO);
-            DOMAIN_DAO.saveToFile(formComicForFile(cartItem));
+            DOMAIN_DAO.saveToFile(reformattingComicForSalesFile(cartItem));
         }
         cart.clear();
     }
@@ -184,7 +183,7 @@ public class ComicService {
         Reservation reservation = new Reservation(new Customer(customerName), cart);
         for (CartItem cartItem : cart.getCartItems()) {
             DOMAIN_DAO.setFileDao(RESERVATION_DAO);
-            DOMAIN_DAO.saveToFile(formComicForFile(cartItem) + customerName);
+            DOMAIN_DAO.saveToFile(reformattingComicForSalesFile(cartItem) + customerName);
         }
         RESERVATIONS.add(reservation);
         reservation.makeReserve();
@@ -212,7 +211,7 @@ public class ComicService {
             DOMAIN_DAO.deleteFile();
             for (Reservation reservation : RESERVATIONS) {
                 for (CartItem cartItem : reservation.getCart().getCartItems()) {
-                    DOMAIN_DAO.saveToFile(formComicForFile(cartItem) + reservation.getCustomer().getName());
+                    DOMAIN_DAO.saveToFile(reformattingComicForSalesFile(cartItem) + reservation.getCustomer().getName());
                 }
             }
         }
@@ -238,8 +237,8 @@ public class ComicService {
         discount.calculateDiscounts(percent);
         DISCOUNTS.add(discount);
         for (CartItem cartItem : discount.getCart().getCartItems()) {
-            DOMAIN_DAO.setFileDao(DISCOUNT);
-            DISCOUNT.saveToFile(formComicForFile(cartItem) +
+            DOMAIN_DAO.setFileDao(DISCOUNT_DAO);
+            DISCOUNT_DAO.saveToFile(reformattingComicForSalesFile(cartItem) +
                     dateTime + DELIMITER + name + DELIMITER + dateBegin + DELIMITER + dateEnd);
         }
     }
@@ -251,66 +250,61 @@ public class ComicService {
         }
     }
 
-    private void createComicsFromSoldFile() {
-        Map<String, List<CartItem>> structure = new HashMap<>();
-        for (String comicElements : SELLS_IN_FILE) {
-            String[] elementsOfComic = comicElements.split(DELIMITER);
-            String param = elementsOfComic[STRING_PARAM];
-            List<CartItem> comics;
-            if (structure.containsKey(param)) {
-                comics = structure.get(param);
-            } else {
-                comics = new ArrayList<>();
-                structure.put(param, comics);
-            }
-            comics.add(new CartItem(formComicFromElements(comicElements), Double.parseDouble(elementsOfComic[PRICE]), elementsOfComic[NAME]));
-        }
-        for (Map.Entry<String, List<CartItem>> entry : structure.entrySet()) {
-            Cart cart = new Cart();
-            cart.setCartItems(entry.getValue());
-            Sell sell = new Sell(LocalDateTime.parse(entry.getKey()), cart);
-            SELLS.add(sell);
-        }
+    private void createComicsFromSalesFile() {
+        fillCollectionFromFile(true);
     }
 
     private void createComicsFromReservationsFile() {
-        Map<String, List<CartItem>> structure = new HashMap<>();
-        for (String comicElements : RESERVATIONS_IN_FILE) {
-            String[] elementsOfComic = comicElements.split(DELIMITER);
-            String param = elementsOfComic[STRING_PARAM];
-            List<CartItem> comics;
-            if (structure.containsKey(param)) {
-                comics = structure.get(param);
-            } else {
-                comics = new ArrayList<>();
-                structure.put(param, comics);
-            }
-            comics.add(new CartItem(formComicFromElements(comicElements), Double.parseDouble(elementsOfComic[PRICE]), elementsOfComic[NAME]));
+        fillCollectionFromFile(false);
+    }
+
+    private void fillCollectionFromFile(boolean isSales) {
+        List<String> comicsAsElements;
+        if (isSales) {
+            comicsAsElements = SALES_ON_FILE;
+        } else {
+            comicsAsElements = RESERVATIONS_IN_FILE;
         }
-        for (Map.Entry<String, List<CartItem>> entry : structure.entrySet()) {
+        Map<String, List<CartItem>> comics = new HashMap<>();
+        for (String comicElements : comicsAsElements) {
+            String[] elementsOfComic = comicElements.split(DELIMITER);
+            String dateOfCreation = elementsOfComic[DATE_OF_CREATION];
+            List<CartItem> cartItems;
+            if (comics.containsKey(dateOfCreation)) {
+                cartItems = comics.get(dateOfCreation);
+            } else {
+                cartItems = new ArrayList<>();
+                comics.put(dateOfCreation, cartItems);
+            }
+            cartItems.add(new CartItem(formComicFromElements(comicElements), Double.parseDouble(elementsOfComic[PRICE]), elementsOfComic[NAME]));
+        }
+        for (Map.Entry<String, List<CartItem>> cartItems : comics.entrySet()) {
             Cart cart = new Cart();
-            cart.setCartItems(entry.getValue());
-            Reservation reservation = new Reservation(new Customer(entry.getKey()), cart);
-            RESERVATIONS.add(reservation);
+            cart.setCartItems(cartItems.getValue());
+            if (isSales) {
+                SALES.add(new Sale(LocalDateTime.parse(cartItems.getKey()), cart));
+            } else {
+                RESERVATIONS.add(new Reservation(new Customer(cartItems.getKey()), cart));
+            }
         }
     }
 
     private void createDiscountsFromDiscountsFile() {
-        Map<String, List<String>> structure = new HashMap<>();
+        Map<String, List<String>> comicsWithDates = new HashMap<>();
         for (String comicElements : DISCOUNTS_IN_FILE) {
             String[] elementsOfComic = comicElements.split(DELIMITER);
-            String param = elementsOfComic[STRING_PARAM];
+            String dateOfCreation = elementsOfComic[DATE_OF_CREATION];
             List<String> comics;
-            if (structure.containsKey(param)) {
-                comics = structure.get(param);
+            if (comicsWithDates.containsKey(dateOfCreation)) {
+                comics = comicsWithDates.get(dateOfCreation);
             } else {
                 comics = new ArrayList<>();
-                structure.put(param, comics);
+                comicsWithDates.put(dateOfCreation, comics);
             }
             comics.add(comicElements);
         }
 
-        for (Map.Entry<String, List<String>> entry : structure.entrySet()) {
+        for (Map.Entry<String, List<String>> entry : comicsWithDates.entrySet()) {
             Cart cart = new Cart();
             for (String discountComics : entry.getValue()) {
                 String[] elementsOfComic = discountComics.split(DELIMITER);
@@ -339,33 +333,11 @@ public class ComicService {
 
     private Comic formComicFromElements(String comicElements) {
         String[] elementsOfComic = comicElements.split(DELIMITER);
-        ReportingComic reportingComic = new ReportingComic(
-                elementsOfComic[NAME], // наименование
-                new Author(elementsOfComic[AUTHOR]), // автор
-                new Publishing(elementsOfComic[PUBLISHING]), // издательство
-                Integer.parseInt(elementsOfComic[NUMBER_OF_PAGES]), // количество страниц
-                new Genre(elementsOfComic[GENRE]), // жанр
-                Integer.parseInt(elementsOfComic[YEAR]), // год издательства
-                Double.parseDouble(elementsOfComic[COST_PRICE]), // себестоимость
-                Double.parseDouble(elementsOfComic[PRICE]), // цена продажи
-                Boolean.parseBoolean(elementsOfComic[IS_CONTINUE]));  // является продолжением
-        reportingComic.setReceiptDate(LocalDateTime.parse(elementsOfComic[STRING_PARAM])); // дата
-        return reportingComic;
+        return getReportingComic(elementsOfComic);
     }
 
     private Comic formComicFromElements(String[] elementsOfComic) {
-        ReportingComic reportingComic = new ReportingComic(
-                elementsOfComic[NAME], // наименование
-                new Author(elementsOfComic[AUTHOR]), // автор
-                new Publishing(elementsOfComic[PUBLISHING]), // издательство
-                Integer.parseInt(elementsOfComic[NUMBER_OF_PAGES]), // количество страниц
-                new Genre(elementsOfComic[GENRE]), // жанр
-                Integer.parseInt(elementsOfComic[YEAR]), // год издательства
-                Double.parseDouble(elementsOfComic[COST_PRICE]), // себестоимость
-                Double.parseDouble(elementsOfComic[PRICE]), // цена продажи
-                Boolean.parseBoolean(elementsOfComic[IS_CONTINUE])); // является продолжением
-        reportingComic.setReceiptDate(LocalDateTime.parse(elementsOfComic[STRING_PARAM])); // дата
-        return reportingComic;
+        return getReportingComic(elementsOfComic);
     }
 
     private String formComicForFile(String[] comic) {
@@ -382,7 +354,7 @@ public class ComicService {
 
     }
 
-    private String formComicForFile(CartItem cartItem) {
+    private String reformattingComicForSalesFile(CartItem cartItem) {
         return cartItem.getComic().getName() + DELIMITER + // наименование
                 cartItem.getComic().getAuthor().getName() + DELIMITER + // автор
                 cartItem.getComic().getPublishing().getName() + DELIMITER + // издательство
@@ -435,5 +407,20 @@ public class ComicService {
             }
         }
         return false;
+    }
+
+    private ReportingComic getReportingComic(String[] elementsOfComic) {
+        ReportingComic reportingComic = new ReportingComic(
+                elementsOfComic[NAME], // наименование
+                new Author(elementsOfComic[AUTHOR]), // автор
+                new Publishing(elementsOfComic[PUBLISHING]), // издательство
+                Integer.parseInt(elementsOfComic[NUMBER_OF_PAGES]), // количество страниц
+                new Genre(elementsOfComic[GENRE]), // жанр
+                Integer.parseInt(elementsOfComic[YEAR]), // год издательства
+                Double.parseDouble(elementsOfComic[COST_PRICE]), // себестоимость
+                Double.parseDouble(elementsOfComic[PRICE]), // цена продажи
+                Boolean.parseBoolean(elementsOfComic[IS_CONTINUE])); // является продолжением
+        reportingComic.setReceiptDate(LocalDateTime.parse(elementsOfComic[DATE_OF_CREATION])); // дата
+        return reportingComic;
     }
 }

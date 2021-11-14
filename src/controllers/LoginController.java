@@ -57,7 +57,7 @@ public class LoginController {
                 textFieldLogin.getText().trim(),
                 textFieldPassword.getText().trim());
 
-        if (!userService.userInTheSystem()) {
+        if (!userService.userInSystem()) {
             FXMLLoader loader = new FXMLLoader();
             loader.setLocation(getClass().getResource("/ui/message.fxml"));
             try {

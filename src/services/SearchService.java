@@ -16,6 +16,7 @@ public class SearchService {
     private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
 
     private SearchService() {
+        // do nothing
     }
 
     /**

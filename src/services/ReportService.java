@@ -21,6 +21,7 @@ public class ReportService {
     private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
 
     private ReportService() {
+        // do nothing
     }
 
     /**

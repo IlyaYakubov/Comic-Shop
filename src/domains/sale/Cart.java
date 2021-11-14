@@ -48,7 +48,9 @@ public class Cart {
      * @param comic комикс
      */
     public void addComic(Comic comic) {
-        add(comic);
+        Price price = comic.getComicPrice();
+        cartItems.add(new CartItem(comic, price.getSellingPrice(), comic.getName()));
+        updateAmount();
     }
 
     /**
@@ -57,17 +59,6 @@ public class Cart {
     public void clear() {
         cartItems.clear();
         amount = 0;
-    }
-
-    /**
-     * Добавление
-     *
-     * @param comic комикс
-     */
-    private void add(Comic comic) {
-        Price price = comic.getComicPrice();
-        cartItems.add(new CartItem(comic, price.getSellingPrice(), comic.getName()));
-        updateAmount();
     }
 
     /**

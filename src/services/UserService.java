@@ -30,7 +30,7 @@ public class UserService {
      *
      * @return true - в случае если пользователь найден
      */
-    public boolean userInTheSystem() {
+    public boolean userInSystem() {
         List<String> users = USER_DAO.readFromFile();
         for (int i = 0; i < users.size() - 1; i++) {
             if (users.get(i).equals(NAME) && users.get(i + 1).equals(PASSWORD)) {

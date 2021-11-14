@@ -129,18 +129,18 @@ public class ReportService {
     private Map<String, Long> getCountAuthors(LocalDateTime dateBegin,
                                               LocalDateTime dateEnd,
                                               List<ReportingComic> allComics) {
-        return allComics.stream().
-                filter(comic -> comic.getReceiptDate().isAfter(dateBegin)).
-                filter(comic -> comic.getReceiptDate().isBefore(dateEnd)).
-                collect(Collectors.groupingBy(comic -> comic.getAuthor().getName(), Collectors.counting()));
+        return allComics.stream()
+                .filter(comic -> comic.getReceiptDate().isAfter(dateBegin))
+                .filter(comic -> comic.getReceiptDate().isBefore(dateEnd))
+                .collect(Collectors.groupingBy(comic -> comic.getAuthor().getName(), Collectors.counting()));
     }
 
     private Map<String, Long> getCountGenres(LocalDateTime dateBegin,
                                              LocalDateTime dateEnd,
                                              List<ReportingComic> allComics) {
-        return allComics.stream().
-                filter(comic -> comic.getReceiptDate().isAfter(dateBegin)).
-                filter(comic -> comic.getReceiptDate().isBefore(dateEnd)).
-                collect(Collectors.groupingBy(comic -> comic.getGenre().getName(), Collectors.counting()));
+        return allComics.stream()
+                .filter(comic -> comic.getReceiptDate().isAfter(dateBegin))
+                .filter(comic -> comic.getReceiptDate().isBefore(dateEnd))
+                .collect(Collectors.groupingBy(comic -> comic.getGenre().getName(), Collectors.counting()));
     }
 }

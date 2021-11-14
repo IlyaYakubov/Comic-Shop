@@ -1,6 +1,6 @@
 package controllers;
 
-import domain.discounts.Discount;
+import domains.Discount;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

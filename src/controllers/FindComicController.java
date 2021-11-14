@@ -1,6 +1,6 @@
 package controllers;
 
-import domain.Comic;
+import domains.Comic;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;

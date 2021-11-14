@@ -1,11 +1,11 @@
-package repository;
+package repositories;
 
 import java.util.List;
 
 /**
  * Сущность реализующая контракт действия
  */
-public interface IFileDao {
+public interface FileDAO {
 
     /**
      * Сохранение данных в файл

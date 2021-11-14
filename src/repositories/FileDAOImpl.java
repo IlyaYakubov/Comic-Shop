@@ -1,4 +1,4 @@
-package repository;
+package repositories;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -8,12 +8,12 @@ import java.util.stream.Collectors;
 /**
  * Работа с файлом
  */
-public class FileDao implements IFileDao {
+public class FileDAOImpl implements FileDAO {
 
-    public static FileDao INSTANCE = new FileDao("comics.txt");
+    public static FileDAOImpl INSTANCE = new FileDAOImpl("comics.txt");
     private final String FILE_NAME;
 
-    protected FileDao(String fileName) {
+    protected FileDAOImpl(String fileName) {
         FILE_NAME = fileName;
     }
 

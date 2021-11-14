@@ -1,13 +1,13 @@
 package services;
 
-import domain.*;
-import domain.discounts.Discount;
-import domain.reservation.Customer;
-import domain.reservation.Reservation;
-import domain.sell.Cart;
-import domain.sell.CartItem;
-import domain.sell.Sell;
-import repository.*;
+import domains.*;
+import domains.Discount;
+import domains.reservation.Customer;
+import domains.reservation.Reservation;
+import domains.sell.Cart;
+import domains.sell.CartItem;
+import domains.sell.Sell;
+import repositories.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -34,13 +34,13 @@ public class ComicService {
     private static final String DELIMITER = ";";
 
     public static ComicService INSTANCE = new ComicService();
-    private final FileDao COMIC_DAO = FileDao.INSTANCE;
-    private final SellDao SELL_DAO = SellDao.INSTANCE;
-    private final WriteOffDao WRITE_OFF_DAO = WriteOffDao.INSTANCE;
-    private final ReservationDao RESERVATION_DAO = ReservationDao.INSTANCE;
-    private final DiscountDao DISCOUNT = DiscountDao.INSTANCE;
+    private final FileDAOImpl COMIC_DAO = FileDAOImpl.INSTANCE;
+    private final SellDAO SELL_DAO = SellDAO.INSTANCE;
+    private final WriteOffDAO WRITE_OFF_DAO = WriteOffDAO.INSTANCE;
+    private final ReservationDAO RESERVATION_DAO = ReservationDAO.INSTANCE;
+    private final DiscountDAO DISCOUNT = DiscountDAO.INSTANCE;
 
-    private final DomainsDaoClient DOMAIN_DAO = new DomainsDaoClient();
+    private final DomainsClientDAO DOMAIN_DAO = new DomainsClientDAO();
 
     private final List<Comic> COMICS = new ArrayList<>();
     private final List<Sell> SELLS = new ArrayList<>();

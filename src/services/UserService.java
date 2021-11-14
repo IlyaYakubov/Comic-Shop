@@ -1,6 +1,6 @@
 package services;
 
-import repository.UserDao;
+import repositories.UserDAO;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class UserService {
 
-    private final UserDao USER_DAO = UserDao.INSTANCE;
+    private final UserDAO USER_DAO = UserDAO.INSTANCE;
     private final String NAME;
     private final String PASSWORD;
 

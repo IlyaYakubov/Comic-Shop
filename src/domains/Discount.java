@@ -1,8 +1,7 @@
-package domain.discounts;
+package domains;
 
-import domain.Comic;
-import domain.sell.Cart;
-import domain.sell.CartItem;
+import domains.sell.Cart;
+import domains.sell.CartItem;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

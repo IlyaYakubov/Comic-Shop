@@ -1,4 +1,4 @@
-package domain.sell;
+package domains.sell;
 
 /**
  * Цены комикса

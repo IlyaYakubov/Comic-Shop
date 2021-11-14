@@ -1,15 +1,15 @@
-package repository;
+package repositories;
 
 import java.util.List;
 
 /**
  * Контекст выполнения стратегий с файлами
  */
-public class DomainsDaoClient {
+public class DomainsClientDAO {
 
-    private IFileDao domainDao;
+    private FileDAO domainDao;
 
-    public void setFileDao(IFileDao domainDao) {
+    public void setFileDao(FileDAO domainDao) {
         this.domainDao = domainDao;
     }
 

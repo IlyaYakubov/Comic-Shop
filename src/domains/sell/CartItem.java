@@ -1,6 +1,6 @@
-package domain.sell;
+package domains.sell;
 
-import domain.Comic;
+import domains.Comic;
 
 /**
  * Элемент корзины

@@ -1,6 +1,6 @@
-package domain.sell;
+package domains.sell;
 
-import domain.Comic;
+import domains.Comic;
 
 import java.util.ArrayList;
 import java.util.List;

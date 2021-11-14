@@ -1,6 +1,6 @@
-package domain;
+package domains;
 
-import domain.sell.ComicPrice;
+import domains.sell.ComicPrice;
 
 import java.util.Objects;
 

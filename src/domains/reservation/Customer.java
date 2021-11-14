@@ -1,4 +1,4 @@
-package domain.reservation;
+package domains.reservation;
 
 /**
  * Клиент

@@ -1,13 +1,13 @@
-package domain;
+package domains;
 
 /**
- * Издатель
+ * Жанр комикса
  */
-public class Publishing {
+public class Genre {
 
     private String name;
 
-    public Publishing(String name) {
+    public Genre(String name) {
         this.name = name;
     }
 

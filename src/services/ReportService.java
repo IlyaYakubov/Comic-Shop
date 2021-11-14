@@ -1,8 +1,8 @@
 package services;
 
-import domain.Comic;
-import domain.ReportingComic;
-import domain.sell.Sell;
+import domains.Comic;
+import domains.ReportingComic;
+import domains.sell.Sell;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

@@ -75,7 +75,7 @@ public class ComicService {
      * @param comic элементы комикса
      */
     public void addComic(String[] comic) {
-        COMICS.add(formComicFromElements(comic));
+        COMICS.add(formComicFromElements(formComicForFile(comic)));
         DOMAIN_DAO.setFileDao(COMIC_DAO);
         DOMAIN_DAO.saveToFile(formComicForFile(comic));
         comicsInFile = DOMAIN_DAO.readFromFile();
@@ -334,7 +334,7 @@ public class ComicService {
         Cart cart = new Cart();
         for (String discountComics : discounts.getValue()) {
             String[] elementsOfComic = discountComics.split(DELIMITER);
-            cart.addItem(new CartItem(formComicFromElements(elementsOfComic)
+            cart.addItem(new CartItem(formComicFromElements(discountComics)
                     , Double.parseDouble(elementsOfComic[PRICE]), elementsOfComic[NAME]));
         }
         String[] elementsOfComic = discounts.getValue().get(0).split(DELIMITER);
@@ -348,10 +348,6 @@ public class ComicService {
 
     private Comic formComicFromElements(String comicElements) {
         String[] elementsOfComic = comicElements.split(DELIMITER);
-        return getReportingComic(elementsOfComic);
-    }
-
-    private Comic formComicFromElements(String[] elementsOfComic) {
         return getReportingComic(elementsOfComic);
     }
 

@@ -62,6 +62,13 @@ public class Cart {
     }
 
     /**
+     * @return размер корзины
+     */
+    public int size() {
+        return cartItems.size();
+    }
+
+    /**
      * Обновление скидок
      */
     private void updateAmount() {

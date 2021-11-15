@@ -7,22 +7,22 @@ import domains.Comic;
  */
 public class CartItem implements Comparable<CartItem> {
 
-    private String name;
+    private String nameOfComic;
     private double price;
     private Comic comic;
 
-    public CartItem(Comic comic, double price, String name) {
+    public CartItem(Comic comic, double price, String nameOfComic) {
         this.comic = comic;
         this.price = price;
-        this.name = name;
+        this.nameOfComic = nameOfComic;
     }
 
-    public String getName() {
-        return name;
+    public String getNameOfComic() {
+        return nameOfComic;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameOfComic(String nameOfComic) {
+        this.nameOfComic = nameOfComic;
     }
 
     public double getPrice() {
@@ -43,6 +43,6 @@ public class CartItem implements Comparable<CartItem> {
 
     @Override
     public int compareTo(CartItem cartItem) {
-        return this.name.compareTo(cartItem.name);
+        return this.nameOfComic.compareTo(cartItem.nameOfComic);
     }
 }

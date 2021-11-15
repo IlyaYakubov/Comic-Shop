@@ -140,11 +140,11 @@ public class ReportController {
             case FOR_SALE -> tableComics.setItems(FXCollections.observableList(
                     REPORT_SERVICE.getTopSold(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
             case NEW_COMICS -> tableComics.setItems(FXCollections.observableList(
-                    REPORT_SERVICE.getTopNew(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
+                    REPORT_SERVICE.getTopNews(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
             case TOP_AUTHORS -> tableComics.setItems(FXCollections.observableList(
-                    REPORT_SERVICE.getTopAuthor(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
+                    REPORT_SERVICE.getTopAuthors(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
             case TOP_GENRES -> tableComics.setItems(FXCollections.observableList(
-                    REPORT_SERVICE.getTopGenre(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
+                    REPORT_SERVICE.getTopGenres(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
         }
         tableComics.refresh();
     }

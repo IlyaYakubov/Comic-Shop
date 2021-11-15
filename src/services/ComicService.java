@@ -64,7 +64,7 @@ public class ComicService {
         return COMICS;
     }
 
-    public List<Sale> getSells() {
+    public List<Sale> getSales() {
         return SALES;
     }
 

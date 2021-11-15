@@ -81,8 +81,8 @@ public class Discount {
      */
     public void calculateDiscounts(int percent) {
         for (CartItem cartItem : cart.getCartItems()) {
-            double amount = cartItem.getComic().getComicPrice().getSellingPrice() -
-                    (cartItem.getComic().getComicPrice().getSellingPrice() * percent / 100);
+            double amount = cartItem.getComic().getComicPrice().getSellingPrice()
+                    - (cartItem.getComic().getComicPrice().getSellingPrice() * percent / 100);
             cartItem.getComic().getComicPrice().setSellingPrice(amount);
         }
     }

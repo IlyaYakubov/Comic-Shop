@@ -17,6 +17,10 @@ import java.util.stream.Collectors;
  */
 public class ReportService {
 
+    private static final int ZERO = 0;
+    private static final int LAST_HOUR = 23;
+    private static final int LAST_MINUTE = 59;
+
     public static ReportService INSTANCE = new ReportService();
     private final ComicService COMIC_SERVICE = ComicService.INSTANCE;
 
@@ -29,24 +33,20 @@ public class ReportService {
      *
      * @return сформированный список
      */
-    public List<String> getTopSold(String dateBeginString, String dateEndString) {
-        LocalDateTime dateBegin = getDateBegin(dateBeginString);
-        LocalDateTime dateEnd = getDateEnd(dateEndString);
+    public List<String> getTopSold(String startDateText, String endDateText) {
+        LocalDateTime startDate = getStartDate(startDateText);
+        LocalDateTime endDate = getEndDate(endDateText);
 
         List<ReportingComic> comics = new ArrayList<>();
-        List<Sale> allSales = COMIC_SERVICE.getSells();
-        allSales.stream()
-                .filter(sale -> sale.getDate().isAfter(dateBegin)).filter(sale -> sale.getDate().isBefore(dateEnd))
+        List<Sale> sales = COMIC_SERVICE.getSales();
+        sales.stream()
+                .filter(sale -> sale.getDate().isAfter(startDate)).filter(sale -> sale.getDate().isBefore(endDate))
                 .forEach(sale -> sale.getCart().getCartItems().forEach(cartItem ->
                         comics.add((ReportingComic) cartItem.getComic())));
         Map<String, Long> countCartItems = comics.stream().collect(
                 Collectors.groupingBy(Comic::getName, Collectors.counting()));
 
-        List<String> newComics = new ArrayList<>();
-        countCartItems.entrySet().stream().sorted((o1, o2) -> (int) -(o1.getValue() - o2.getValue())).forEach(
-                cartItemLongEntry -> newComics.add(cartItemLongEntry.getKey())
-        );
-        return newComics;
+        return getSortedComics(countCartItems);
     }
 
     /**
@@ -54,21 +54,20 @@ public class ReportService {
      *
      * @return сформированный список
      */
-    public List<String> getTopNew(String dateBeginString, String dateEndString) {
-        LocalDateTime dateBegin = getDateBegin(dateBeginString);
-        LocalDateTime dateEnd = getDateEnd(dateEndString);
+    public List<String> getTopNews(String startDateText, String endDateText) {
+        LocalDateTime startDate = getStartDate(startDateText);
+        LocalDateTime endDate = getEndDate(endDateText);
         if (COMIC_SERVICE.getComics().size() == 0) {
             return new ArrayList<>();
         }
-        List<ReportingComic> allComics = getReportingComics();
-        List<String> newComics = new ArrayList<>();
-        allComics.stream().sorted(Comparator.comparingInt(Comic::getYearOfPublishing)).
+        List<String> comics = new ArrayList<>();
+        getReportingComics().stream().sorted(Comparator.comparingInt(Comic::getYearOfPublishing)).
                 sorted((o1, o2) -> -o1.getYearOfPublishing() - o2.getYearOfPublishing()).
-                filter(comic -> comic.getReceiptDate().isAfter(dateBegin)).
-                filter(comic -> comic.getReceiptDate().isBefore(dateEnd)).
-                forEach(comic -> newComics.add(comic.getName())
+                filter(comic -> comic.getReceiptDate().isAfter(startDate)).
+                filter(comic -> comic.getReceiptDate().isBefore(endDate)).
+                forEach(comic -> comics.add(comic.getName())
                 );
-        return newComics.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
+        return comics.stream().distinct().collect(Collectors.toCollection(ArrayList::new));
     }
 
     /**
@@ -76,19 +75,14 @@ public class ReportService {
      *
      * @return сформированный список
      */
-    public List<String> getTopAuthor(String dateBeginString, String dateEndString) {
-        LocalDateTime dateBegin = LocalDateTime.parse(dateBeginString);
-        LocalDateTime dateEnd = LocalDateTime.parse(dateEndString);
+    public List<String> getTopAuthors(String startDateText, String endDateText) {
+        LocalDateTime startDate = LocalDateTime.parse(startDateText);
+        LocalDateTime endDate = LocalDateTime.parse(endDateText);
         if (COMIC_SERVICE.getComics().size() == 0) {
             return new ArrayList<>();
         }
-        List<ReportingComic> allComics = getReportingComics();
-        Map<String, Long> countAuthors = getCountAuthors(dateBegin, dateEnd, allComics);
-        List<String> newComics = new ArrayList<>();
-        countAuthors.entrySet().stream().sorted((o1, o2) -> (int) -(o1.getValue() - o2.getValue())).forEach(
-                authorLongEntry -> newComics.add(authorLongEntry.getKey())
-        );
-        return newComics;
+        Map<String, Long> countAuthors = getCountAuthors(startDate, endDate, getReportingComics());
+        return getSortedComics(countAuthors);
     }
 
     /**
@@ -96,52 +90,55 @@ public class ReportService {
      *
      * @return сформированный список
      */
-    public List<String> getTopGenre(String dateBeginString, String dateEndString) {
-        LocalDateTime dateBegin = getDateBegin(dateBeginString);
-        LocalDateTime dateEnd = getDateEnd(dateEndString);
+    public List<String> getTopGenres(String startDateText, String endDateText) {
+        LocalDateTime startDate = getStartDate(startDateText);
+        LocalDateTime endDate = getEndDate(endDateText);
         if (COMIC_SERVICE.getComics().size() == 0) {
             return new ArrayList<>();
         }
-        List<ReportingComic> allComics = getReportingComics();
-        Map<String, Long> countGenres = getCountGenres(dateBegin, dateEnd, allComics);
-        List<String> newComics = new ArrayList<>();
-        countGenres.entrySet().stream().sorted((o1, o2) -> (int) -(o1.getValue() - o2.getValue())).forEach(
-                genreLongEntry -> newComics.add(genreLongEntry.getKey())
+        List<ReportingComic> comics = getReportingComics();
+        return getSortedComics(getCountGenres(startDate, endDate, comics));
+    }
+
+    private List<String> getSortedComics(Map<String, Long> countCartItems) {
+        List<String> comics = new ArrayList<>();
+        countCartItems.entrySet().stream().sorted((o1, o2) -> (int) -(o1.getValue() - o2.getValue())).forEach(
+                cartItemLongEntry -> comics.add(cartItemLongEntry.getKey())
         );
-        return newComics;
+        return comics;
     }
 
-    private LocalDateTime getDateBegin(String dateBeginString) {
-        return LocalDate.parse(dateBeginString).atTime(0, 0, 0);
+    private LocalDateTime getStartDate(String startDateText) {
+        return LocalDate.parse(startDateText).atTime(ZERO, ZERO, ZERO);
     }
 
-    private LocalDateTime getDateEnd(String dateEndString) {
-        return LocalDate.parse(dateEndString).atTime(23, 59, 59);
+    private LocalDateTime getEndDate(String endDateText) {
+        return LocalDate.parse(endDateText).atTime(LAST_HOUR, LAST_MINUTE, LAST_MINUTE);
     }
 
     private List<ReportingComic> getReportingComics() {
-        List<ReportingComic> allComics = new ArrayList<>();
+        List<ReportingComic> comics = new ArrayList<>();
         for (Comic comic : COMIC_SERVICE.getComics()) {
-            allComics.add((ReportingComic) comic);
+            comics.add((ReportingComic) comic);
         }
-        return allComics;
+        return comics;
     }
 
-    private Map<String, Long> getCountAuthors(LocalDateTime dateBegin,
-                                              LocalDateTime dateEnd,
-                                              List<ReportingComic> allComics) {
-        return allComics.stream()
-                .filter(comic -> comic.getReceiptDate().isAfter(dateBegin))
-                .filter(comic -> comic.getReceiptDate().isBefore(dateEnd))
+    private Map<String, Long> getCountAuthors(LocalDateTime startDate,
+                                              LocalDateTime endDate,
+                                              List<ReportingComic> comics) {
+        return comics.stream()
+                .filter(comic -> comic.getReceiptDate().isAfter(startDate))
+                .filter(comic -> comic.getReceiptDate().isBefore(endDate))
                 .collect(Collectors.groupingBy(comic -> comic.getAuthor().getName(), Collectors.counting()));
     }
 
-    private Map<String, Long> getCountGenres(LocalDateTime dateBegin,
-                                             LocalDateTime dateEnd,
-                                             List<ReportingComic> allComics) {
-        return allComics.stream()
-                .filter(comic -> comic.getReceiptDate().isAfter(dateBegin))
-                .filter(comic -> comic.getReceiptDate().isBefore(dateEnd))
+    private Map<String, Long> getCountGenres(LocalDateTime startDate,
+                                             LocalDateTime endDate,
+                                             List<ReportingComic> comics) {
+        return comics.stream()
+                .filter(comic -> comic.getReceiptDate().isAfter(startDate))
+                .filter(comic -> comic.getReceiptDate().isBefore(endDate))
                 .collect(Collectors.groupingBy(comic -> comic.getGenre().getName(), Collectors.counting()));
     }
 }

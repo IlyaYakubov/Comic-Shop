@@ -37,7 +37,7 @@ public class DeleteController {
 
     @FXML
     void onClickSell() {
-        openWindow("/ui/sell.fxml");
+        openWindow("/ui/sale.fxml");
     }
 
     @FXML

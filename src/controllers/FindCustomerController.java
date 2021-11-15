@@ -16,7 +16,7 @@ public class FindCustomerController {
     private final int MIN_WIDTH = 700;
     private final int MIN_HEIGHT = 500;
 
-    private SellController sellController;
+    private SaleController saleController;
 
     @FXML
     private TextField editTextCustomerName;
@@ -50,13 +50,13 @@ public class FindCustomerController {
             return;
         }
 
-        if (sellController != null) {
-            sellController.onClickReserve(editTextCustomerName.getText().trim());
+        if (saleController != null) {
+            saleController.onClickReserve(editTextCustomerName.getText().trim());
             editTextCustomerName.getScene().getWindow().hide();
         }
     }
 
-    public void setPresenter(SellController sellController) {
-        this.sellController = sellController;
+    public void setPresenter(SaleController saleController) {
+        this.saleController = saleController;
     }
 }

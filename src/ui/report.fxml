@@ -117,7 +117,7 @@
                             <Insets left="10.0" right="20.0"/>
                         </HBox.margin>
                     </Label>
-                    <DatePicker fx:id="dateBegin" style="-fx-background-color: #FFFFFF; -fx-border-style: solid; -fx-font-size: 18px"
+                    <DatePicker fx:id="startDate" style="-fx-background-color: #FFFFFF; -fx-border-style: solid; -fx-font-size: 18px"
                                 prefHeight="50.0" prefWidth="200.0">
                         <HBox.margin>
                             <Insets right="20.0"/>
@@ -131,7 +131,7 @@
                             <Insets right="20.0"/>
                         </HBox.margin>
                     </Label>
-                    <DatePicker fx:id="dateEnd" style="-fx-background-color: #FFFFFF; -fx-border-style: solid; -fx-font-size: 18px"
+                    <DatePicker fx:id="endDate" style="-fx-background-color: #FFFFFF; -fx-border-style: solid; -fx-font-size: 18px"
                                 prefHeight="50.0" prefWidth="200.0"/>
                 </HBox>
                 <HBox alignment="CENTER_LEFT" prefHeight="97.0" prefWidth="782.0">

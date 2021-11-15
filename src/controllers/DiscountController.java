@@ -59,7 +59,7 @@ public class DiscountController {
 
     @FXML
     void onClickSell() {
-        openWindow("/ui/sell.fxml");
+        openWindow("/ui/sale.fxml");
     }
 
     @FXML

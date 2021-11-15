@@ -36,10 +36,10 @@ public class ReportController {
     private TableView<String> tableComics;
 
     @FXML
-    private DatePicker dateBegin;
+    private DatePicker startDate;
 
     @FXML
-    private DatePicker dateEnd;
+    private DatePicker endDate;
 
     @FXML
     void onClickAdd() {
@@ -58,7 +58,7 @@ public class ReportController {
 
     @FXML
     void onClickSell() {
-        openWindow("/ui/sell.fxml");
+        openWindow("/ui/sale.fxml");
     }
 
     @FXML
@@ -83,7 +83,7 @@ public class ReportController {
 
     @FXML
     void onClickOk() {
-        if (dateBegin.getValue() == null || dateEnd.getValue() == null) {
+        if (startDate.getValue() == null || endDate.getValue() == null) {
             if (Stage.getWindows().size() > 1) {
                 ObservableList<Window> windows = Stage.getWindows();
                 windows.get(1).requestFocus();
@@ -109,7 +109,7 @@ public class ReportController {
             stage.show();
             return;
         }
-        if (dateBegin.getValue().isAfter(dateEnd.getValue())) {
+        if (startDate.getValue().isAfter(endDate.getValue())) {
             if (Stage.getWindows().size() > 1) {
                 ObservableList<Window> windows = Stage.getWindows();
                 windows.get(1).requestFocus();
@@ -138,13 +138,13 @@ public class ReportController {
 
         switch (choiceBoxType.getValue()) {
             case FOR_SALE -> tableComics.setItems(FXCollections.observableList(
-                    REPORT_SERVICE.getTopSold(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
+                    REPORT_SERVICE.getTopSold(startDate.getValue().toString(), endDate.getValue().toString())));
             case NEW_COMICS -> tableComics.setItems(FXCollections.observableList(
-                    REPORT_SERVICE.getTopNews(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
+                    REPORT_SERVICE.getTopNews(startDate.getValue().toString(), endDate.getValue().toString())));
             case TOP_AUTHORS -> tableComics.setItems(FXCollections.observableList(
-                    REPORT_SERVICE.getTopAuthors(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
+                    REPORT_SERVICE.getTopAuthors(startDate.getValue().toString(), endDate.getValue().toString())));
             case TOP_GENRES -> tableComics.setItems(FXCollections.observableList(
-                    REPORT_SERVICE.getTopGenres(dateBegin.getValue().toString(), dateEnd.getValue().toString())));
+                    REPORT_SERVICE.getTopGenres(startDate.getValue().toString(), endDate.getValue().toString())));
         }
         tableComics.refresh();
     }

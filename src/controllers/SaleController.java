@@ -26,7 +26,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SellController {
+public class SaleController {
 
     private final int MIN_WIDTH = 700;
     private final int MIN_HEIGHT = 500;

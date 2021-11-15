@@ -65,7 +65,7 @@ public class EditController {
 
     @FXML
     void onClickSell() {
-        openWindow("/ui/sell.fxml");
+        openWindow("/ui/sale.fxml");
     }
 
     @FXML

@@ -53,7 +53,7 @@ public class MainController {
 
     @FXML
     void onClickSell() {
-        openWindow("/ui/sell.fxml");
+        openWindow("/ui/sale.fxml");
     }
 
     @FXML
@@ -96,7 +96,7 @@ public class MainController {
 
     @FXML
     void initialize() {
-        tableResult.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("name"));
+        tableResult.getColumns().get(0).setCellValueFactory(new PropertyValueFactory<>("nameOfComic"));
     }
 
     private void refreshTable() {

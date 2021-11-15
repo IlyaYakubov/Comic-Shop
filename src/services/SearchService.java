@@ -30,6 +30,17 @@ public class SearchService {
     }
 
     /**
+     * Получить элементы комикса корзины определенного наименования
+     *
+     * @return элементы корзины
+     */
+    public List<CartItem> getAllCartItems(String comicName) {
+        updateComicsFromFile();
+        CART.getCartItems().removeIf(cartItem -> !cartItem.getComic().getName().equals(comicName));
+        return CART.getCartItems();
+    }
+
+    /**
      * Получить отфильтрованные элементы комикса корзины
      *
      * @return элементы корзины

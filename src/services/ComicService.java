@@ -267,28 +267,41 @@ public class ComicService {
     }
 
     private void fillCollectionFromFile(boolean isSales) {
-        List<String> comicsAsElements;
+        List<String> inFile;
         if (isSales) {
-            comicsAsElements = SALES_IN_FILE;
+            inFile = SALES_IN_FILE;
         } else {
-            comicsAsElements = RESERVATIONS_IN_FILE;
+            inFile = RESERVATIONS_IN_FILE;
         }
-        Map<String, List<CartItem>> comics = new HashMap<>();
-        for (String comicElements : comicsAsElements) {
-            create(comics, comicElements);
+
+        Map<String, Cart> documents = new HashMap<>();
+        Cart cart = new Cart();
+        for (String comic : inFile) {
+            createDocuments(documents, cart, comic);
         }
-        for (Map.Entry<String, List<CartItem>> cartItems : comics.entrySet()) {
-            addInCollectionSalesOrReservations(isSales, cartItems);
+
+        for (Map.Entry<String, Cart> document : documents.entrySet()) {
+            addInCollectionSalesOrReservations(isSales, document);
         }
     }
 
-    private void addInCollectionSalesOrReservations(boolean isSales, Map.Entry<String, List<CartItem>> cartItems) {
-        Cart cart = new Cart();
-        cart.setCartItems(cartItems.getValue());
+    private void createDocuments(Map<String, Cart> documents, Cart cart, String comic) {
+        String[] elementsOfComic = comic.split(DELIMITER);
+        CartItem cartItem = new CartItem(formComicFromElements(comic)
+                , Double.parseDouble(elementsOfComic[PRICE]), elementsOfComic[NAME]);
+        String dateOfCreation = elementsOfComic[DATE_OF_CREATION];
+        if (!documents.containsKey(dateOfCreation)) {
+            cart = new Cart();
+        }
+        cart.addItem(cartItem);
+        documents.put(dateOfCreation, cart);
+    }
+
+    private void addInCollectionSalesOrReservations(boolean isSales, Map.Entry<String, Cart> document) {
         if (isSales) {
-            SALES.add(new Sale(LocalDateTime.parse(cartItems.getKey()), cart));
+            SALES.add(new Sale(LocalDateTime.parse(document.getKey()), document.getValue()));
         } else {
-            RESERVATIONS.add(new Reservation(new Customer(cartItems.getKey()), cart));
+            RESERVATIONS.add(new Reservation(new Customer(document.getKey()), document.getValue()));
         }
     }
 
@@ -392,19 +405,6 @@ public class ComicService {
                 Boolean.parseBoolean(elementsOfComic[IS_CONTINUE])); // является продолжением
         reportingComic.setReceiptDate(LocalDateTime.parse(elementsOfComic[DATE_OF_CREATION])); // дата
         return reportingComic;
-    }
-
-    private void create(Map<String, List<CartItem>> comics, String comicElements) {
-        String[] elementsOfComic = comicElements.split(DELIMITER);
-        String dateOfCreation = elementsOfComic[DATE_OF_CREATION];
-        List<CartItem> cartItems;
-        if (comics.containsKey(dateOfCreation)) {
-            cartItems = comics.get(dateOfCreation);
-        } else {
-            cartItems = new ArrayList<>();
-            comics.put(dateOfCreation, cartItems);
-        }
-        cartItems.add(new CartItem(formComicFromElements(comicElements), Double.parseDouble(elementsOfComic[PRICE]), elementsOfComic[NAME]));
     }
 
     private boolean checkComics(Cart cart) {
